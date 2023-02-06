@@ -57,6 +57,7 @@ sysinfo.txt
 
 # Crashlytics generated file
 Assets/Props&Assets
-Assets/DevScene
+Assets/Scenes/DevScene
+Assets/Scenes/DevScene.meta
 crashlytics-build.properties
 
