@@ -56,8 +56,10 @@ sysinfo.txt
 *.unitypackage
 
 # Crashlytics generated file
-Assets/Props&Assets
-Assets/Scenes/DevScene
-Assets/Plugins/Zenject/Source/Zenject.csproj.meta
 crashlytics-build.properties
+
+Assets/Props&Assets/
+Assets/Scenes/DevScene/
+Assets/Scenes/DevScene.meta
+Assets/Plugins/Zenject/Source/Zenject.csproj.meta
 
