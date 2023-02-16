@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Client
 {
     public class EnemyIdleState : BaseEnemyState
     {
-        public EnemyIdleState(IEnemySwitchState enemySwitchState) : base(enemySwitchState)
+        public EnemyIdleState(Animator animator, IEnemySwitchState enemySwitchState) : base(animator, enemySwitchState)
         {
         }
 

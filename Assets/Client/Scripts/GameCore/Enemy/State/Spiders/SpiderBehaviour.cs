@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Scripts.Data.Enemy;
@@ -17,16 +16,24 @@ namespace Client
         public float Health { get; private set; }
 
         private EnemyPlayerDetector _playerDetector;
+        private EnemyAttackDetector _enemyAttackDetector;
+        private PlayerBehaviour _target;
+        private Animator _animator;
 
         private NavMeshAgent _navMeshAgent;
+        private Rigidbody _rigidbody;
         private List<BaseEnemyState> _states;
         public BaseEnemyState CurrentState { get; private set; }
+        public PlayerBehaviour Target => _target;
 
         public EnemyData Data => _enemyData;
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
+            _rigidbody = GetComponent<Rigidbody>();
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
+            _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
@@ -34,8 +41,9 @@ namespace Client
         {
             _states = new List<BaseEnemyState>
             {
-                new EnemyIdleState(this),
-                new EnemyFollowState(this, _navMeshAgent, _playerDetector, _enemyData)
+                new EnemyIdleState(_animator, this),
+                new EnemyFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
+                new SpiderAttackState(_animator, this, _enemyAttackDetector, _enemyData)
             };
 
             CurrentState = _states[0];
@@ -49,12 +57,18 @@ namespace Client
         {
             _playerDetector.Entered += OnEntered;
             _playerDetector.DetectExited += OnDetectExited;
+            
+            _enemyAttackDetector.Entered += OnSpiderAttackDetect;
+            _enemyAttackDetector.DetectExited += OnAttackDetectExited;
         }
 
         private void OnDisable()
         {
             _playerDetector.Entered -= OnEntered;
             _playerDetector.DetectExited -= OnDetectExited;
+
+            _enemyAttackDetector.Entered -= OnSpiderAttackDetect;
+            _enemyAttackDetector.DetectExited -= OnAttackDetectExited;
         }
 
         private void OnDestroy() => CurrentState.Stop();
@@ -68,7 +82,18 @@ namespace Client
         {
             SwitchState<EnemyIdleState>();
         }
-        
+
+        private void OnSpiderAttackDetect()
+        {
+            SwitchState<SpiderAttackState>();
+            Debug.Log("Attack");
+        }
+
+        private void OnAttackDetectExited()
+        {
+            SwitchState<EnemyFollowState>();
+        }
+
         private void Update()
         {
             switch (CurrentState)

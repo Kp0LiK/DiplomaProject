@@ -3,12 +3,14 @@ using UnityEngine;
 
 namespace Client
 {
-    public abstract class BaseEnemyState : MonoBehaviour
+    public abstract class BaseEnemyState
     {
+        protected readonly Animator Animation;
         public readonly IEnemySwitchState EnemySwitchState;
 
-        protected BaseEnemyState(IEnemySwitchState enemySwitchState)
+        protected BaseEnemyState(Animator animation, IEnemySwitchState enemySwitchState)
         {
+            Animation = animation;
             EnemySwitchState = enemySwitchState;
         }
 
