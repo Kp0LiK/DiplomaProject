@@ -7,10 +7,10 @@ namespace Client.Scripts.Data.Enemy
     {
         [field: SerializeField] public float Speed { get; private set; }
         [field: SerializeField] public float StopDistance { get; private set; }
-        
+
         [field: SerializeField] public float Health { get; set; }
         [field: SerializeField] public float Damage { get; private set; }
-        
+
         [field: SerializeField] public bool IsDied { get; set; }
     }
 }

@@ -43,7 +43,8 @@ namespace Client
             {
                 new EnemyIdleState(_animator, this),
                 new EnemyFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
-                new SpiderAttackState(_animator, this, _enemyAttackDetector, _enemyData)
+                new SpiderAttackState(_animator, this, _enemyAttackDetector, _enemyData),
+                new SpiderDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent)
             };
 
             CurrentState = _states[0];
@@ -101,6 +102,11 @@ namespace Client
                 case EnemyIdleState _:
                     CurrentState.Action();
                     break;
+            }
+
+            if (Input.GetKey(KeyCode.F))
+            {
+                SwitchState<SpiderDeathState>();
             }
         }
 

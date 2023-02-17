@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: TrollData
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 0
+  <StopDistance>k__BackingField: 0
   <Health>k__BackingField: 0
-  <Damage>k__BackingField: 0
+  <Damage>k__BackingField: 15
+  <IsDied>k__BackingField: 0
