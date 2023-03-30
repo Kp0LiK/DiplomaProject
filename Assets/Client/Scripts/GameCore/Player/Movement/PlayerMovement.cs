@@ -34,8 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
         _trueSpeed = _walkSpeed;
         
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
 
         _isGroundedHash = Animator.StringToHash("isGrounded");
         _speedHash = Animator.StringToHash("Speed");
