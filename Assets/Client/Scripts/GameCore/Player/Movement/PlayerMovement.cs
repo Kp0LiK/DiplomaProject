@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using TreeEditor;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,9 +13,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _sprintSpeed;
     private Vector2 _movement;
-    private bool _sprinting;
+    public bool Sprinting { get; private set; }
     private float _trueSpeed;
-    
+    private StaminaController _staminaController;
+
     [Header("Jumping")]
     [SerializeField] private float _jumpHeight;
     [SerializeField] private float _gravity;
@@ -33,8 +29,9 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _staminaController = GetComponent<StaminaController>();
         _animator = GetComponentInChildren<Animator>();
-        
+
         _trueSpeed = _walkSpeed;
         
         Cursor.lockState = CursorLockMode.Locked;
@@ -54,15 +51,24 @@ public class PlayerMovement : MonoBehaviour
             _velocity.y = -1;
         }
         
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            _trueSpeed = _sprintSpeed;
-            _sprinting = true;
+            if (_staminaController.HasRegenerated)
+            {
+                _trueSpeed = _sprintSpeed;
+                Sprinting = true;
+                _staminaController.Sprinting();
+            }
+            else
+            {
+                _trueSpeed = _walkSpeed;
+                Sprinting = false;
+            }
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _trueSpeed = _walkSpeed;
-            _sprinting = false;
+            Sprinting = false;
         }
 
         _animator.transform.localPosition = Vector3.zero;
@@ -81,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             _characterController.Move(moveDirection.normalized * (_trueSpeed * Time.deltaTime));
 
-            float speedValue = _sprinting ? 2 : 1;
+            float speedValue = Sprinting ? 2 : 1;
             
             _animator.SetFloat(_speedHash, speedValue);
         }
