@@ -51,20 +51,20 @@ public class PlayerMovement : MonoBehaviour
             _velocity.y = -1;
         }
         
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            if (_staminaController.HasRegenerated)
-            {
-                _trueSpeed = _sprintSpeed;
-                Sprinting = true;
-                _staminaController.Sprinting();
-            }
-            else
-            {
-                _trueSpeed = _walkSpeed;
-                Sprinting = false;
-            }
-        }
+        // if (Input.GetKey(KeyCode.LeftShift))
+        // {
+        //     if (_staminaController.HasRegenerated)
+        //     {
+        //         _trueSpeed = _sprintSpeed;
+        //         Sprinting = true;
+        //         _staminaController.Sprinting();
+        //     }
+        //     else
+        //     {
+        //         _trueSpeed = _walkSpeed;
+        //         Sprinting = false;
+        //     }
+        // }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _trueSpeed = _walkSpeed;
