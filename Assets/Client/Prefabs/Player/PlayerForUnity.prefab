@@ -1879,7 +1879,7 @@ GameObject:
   - component: {fileID: 2666568697298789680}
   - component: {fileID: 2666568697298789679}
   - component: {fileID: 2666568697298789678}
-  - component: {fileID: 2666568697298789681}
+  - component: {fileID: 5932098353986279432}
   m_Layer: 0
   m_Name: PlayerForUnity
   m_TagString: Untagged
@@ -1945,6 +1945,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: f6b18cf6a4bd805468a13fca8bf52267, type: 2}
+  _gravity: 0
+  _smoothTime: 0
+  _groundCheck: {fileID: 0}
+  _groundDistance: 0
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _audioData:
+    OnAttack: {fileID: 0}
+    OnDetect: {fileID: 0}
+    OnUnDetect: {fileID: 0}
+    OnMove: {fileID: 0}
+    OnHeal: {fileID: 0}
+    OnCast: {fileID: 0}
+    OnDie: {fileID: 0}
 --- !u!143 &2666568697298789679
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1979,7 +1994,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2666568697298789681
+--- !u!114 &5932098353986279432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1988,17 +2003,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2666568697298789682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2642709e87ad59b4fa9d43404143a327, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ff7640a7f1819740a443cced5e6f59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  _gravity: -9.18
-  _smoothTime: 0.3
-  _groundCheck: {fileID: 0}
-  _groundDistance: 1
-  _groundMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _restoreDelay: 0
+  _multiplayer: 0
 --- !u!1 &2686669897643466235
 GameObject:
   m_ObjectHideFlags: 0
