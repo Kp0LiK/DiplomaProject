@@ -91,7 +91,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (_questManager.CurrentQuests.Contains(quest)) return;
         
-        _questManager.CurrentQuests.Add(quest);
         _questManager.AddQuest(quest);
     }
 

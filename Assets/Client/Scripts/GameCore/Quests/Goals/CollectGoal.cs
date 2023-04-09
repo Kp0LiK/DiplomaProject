@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class CollectGoal : Quest.QuestGoal
 {
-    [SerializeField] private string Collectible;
-    
+    [SerializeField] private string _collectible;
+
+    public string Collectible => _collectible;
+
     public override string GetDescription()
     {
-        return "Collect " + Collectible + " !";
+        return "Collect " + _collectible + "!";
     }
 
     public override void Initialize()
     {
         base.Initialize();
+        _name = "Collect";
         EventManager.Instance.AddListener<CollectingGameEvent>(OnCollect);
     }
 
     private void OnCollect(CollectingGameEvent eventInfo)
     {
-        if (eventInfo.CollectibleName == Collectible)
+        if (eventInfo.CollectibleName == _collectible)
         {
             CurrentAmount++;
             Evaluate();

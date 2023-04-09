@@ -11,6 +11,7 @@ namespace Client
     public class SpiderBehaviour : MonoBehaviour, IEnemySwitchState
     {
         [SerializeField] private EnemyData _enemyData;
+        private Target _selfTarget;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -35,6 +36,7 @@ namespace Client
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _selfTarget = GetComponent<Target>();
         }
 
         private void Start()
@@ -106,6 +108,7 @@ namespace Client
 
             if (Input.GetKey(KeyCode.F))
             {
+                _selfTarget.Die();
                 SwitchState<SpiderDeathState>();
             }
         }

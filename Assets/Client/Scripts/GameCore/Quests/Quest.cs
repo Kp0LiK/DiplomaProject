@@ -31,6 +31,7 @@ public class Quest : ScriptableObject
 
     public abstract class QuestGoal : ScriptableObject
     {
+        protected string _name;
         protected string Description;
         public float CurrentAmount { get; protected set; }
         public float RequiredAmount = 1f;
@@ -43,13 +44,19 @@ public class Quest : ScriptableObject
             return Description;
         }
 
+        public virtual string GetName()
+        {
+            return _name;
+        }
+
         public virtual void Initialize()
         {
+            CurrentAmount = 0;
             Completed = false;
             GoalCompleted = new UnityEvent();
         }
 
-        protected void Evaluate()
+        public void Evaluate()
         {
             if (CurrentAmount >= RequiredAmount)
             {
@@ -76,6 +83,14 @@ public class Quest : ScriptableObject
         {
             goal.Initialize();
             goal.GoalCompleted.AddListener(delegate { CheckGoals(); });
+        }
+    }
+
+    public void Evaluate()
+    {
+        foreach (var goal in Goals)
+        {
+            goal.Evaluate();
         }
     }
 

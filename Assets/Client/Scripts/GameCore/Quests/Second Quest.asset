@@ -1,22 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3645437188700637732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9446dc9274518146884b252b5c83d49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RequiredAmount: 1
-  GoalCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  Collectible: Diamond
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,9 +19,8 @@ MonoBehaviour:
   Reward:
     XP: 50
   Goals:
-  - {fileID: 3907905515602682546}
-  - {fileID: -3645437188700637732}
---- !u!114 &3907905515602682546
+  - {fileID: 2033335151754424788}
+--- !u!114 &2033335151754424788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,11 +29,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9446dc9274518146884b252b5c83d49, type: 3}
+  m_Script: {fileID: 11500000, guid: c86ad0a232f9f264a8e6ca38d693706e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RequiredAmount: 1
   GoalCompleted:
     m_PersistentCalls:
       m_Calls: []
-  Collectible: Rock
+  _talker: Grandma

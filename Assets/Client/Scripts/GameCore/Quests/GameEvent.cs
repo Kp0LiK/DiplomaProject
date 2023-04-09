@@ -16,3 +16,33 @@ public class CollectingGameEvent : GameEvent
         CollectibleName = name;
     }
 }
+
+public class KillingGameEvent : GameEvent
+{
+    public string TargetName;
+
+    public KillingGameEvent(string name)
+    {
+        TargetName = name;
+    }
+}
+
+public class TalkingGameEvent : GameEvent
+{
+    public string TalkerName;
+
+    public TalkingGameEvent(string name)
+    {
+        TalkerName = name;
+    }
+}
+
+public class ReachingGameEvent : GameEvent
+{
+    public string DestinationName;
+
+    public ReachingGameEvent(string name)
+    {
+        DestinationName = name;
+    }
+}
