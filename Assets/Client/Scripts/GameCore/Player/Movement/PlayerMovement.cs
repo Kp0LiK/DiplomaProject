@@ -51,25 +51,18 @@ public class PlayerMovement : MonoBehaviour
             _velocity.y = -1;
         }
         
-        // if (Input.GetKey(KeyCode.LeftShift))
-        // {
-        //     if (_staminaController.HasRegenerated)
-        //     {
-        //         _trueSpeed = _sprintSpeed;
-        //         Sprinting = true;
-        //         _staminaController.Sprinting();
-        //     }
-        //     else
-        //     {
-        //         _trueSpeed = _walkSpeed;
-        //         Sprinting = false;
-        //     }
-        // }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            _trueSpeed = _walkSpeed;
-            Sprinting = false;
+            _animator.SetFloat("Run", 1);
+            _walkSpeed = _sprintSpeed;
         }
+        else
+        {
+            _animator.SetFloat("Run", 0);
+            _walkSpeed = 4;
+        }
+
+        Debug.Log(_walkSpeed);
 
         _animator.transform.localPosition = Vector3.zero;
         _animator.transform.localEulerAngles = Vector3.zero;
