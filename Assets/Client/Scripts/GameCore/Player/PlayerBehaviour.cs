@@ -6,9 +6,13 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    /// Attach a quest to NPC done!
+    /// After talking to the NPC, add quest to the list (maybe with Action smth like OnConvoFinished) done!
+    /// Pray it appears done!
+    /// Complete it
     [SerializeField] private PlayerData _playerData;
+    [SerializeField] private QuestManager _questManager;
     private NPC _currentNPC;
-    private Quest _currentQuest;
 
     private Animator _animator;
     public event Action<int> HealthChanged;
@@ -19,6 +23,16 @@ public class PlayerBehaviour : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    private void OnEnable()
+    {
+        QuestGiver.OnQuestGiven += AddQuest;
+    }
+
+    private void OnDisable()
+    {
+        QuestGiver.OnQuestGiven -= AddQuest;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && _currentNPC)
@@ -26,18 +40,6 @@ public class PlayerBehaviour : MonoBehaviour
             if (_currentNPC.Interactable)
             {
                 _currentNPC.Interacted?.Invoke();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.F) && _currentQuest != null)
-        {
-            if (_currentQuest.IsActive)
-            {
-                _currentQuest.QuestGoal.EnemyKilled();
-                if (_currentQuest.QuestGoal.IsReached())
-                {
-                    _currentQuest.CompleteQuest();
-                }
             }
         }
     }
@@ -85,9 +87,12 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void SetActiveQuest(Quest quest)
+    private void AddQuest(Quest quest)
     {
-        _currentQuest = quest;
+        if (_questManager.CurrentQuests.Contains(quest)) return;
+        
+        _questManager.CurrentQuests.Add(quest);
+        _questManager.AddQuest(quest);
     }
 
     [Serializable]

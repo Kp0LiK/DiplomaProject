@@ -1,13 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestGiver : NPC
 {
-    [SerializeField] private Quest _quest;
-    [SerializeField] private PlayerBehaviour _playerBehaviour;
-    
-    public Quest Quest => _quest;
+    [SerializeField] private Quest quest;
+
+    public static Action<Quest> OnQuestGiven;
 
     protected override void Talk()
     {
@@ -17,15 +17,6 @@ public class QuestGiver : NPC
 
     private void GiveQuest()
     {
-        QuestWindow.Activated?.Invoke(_quest.Title, _quest.Description, _quest.ExperienceReward, _quest.GoldReward);
-        QuestWindow.QuestAccepted += AssignQuest;
+        OnQuestGiven?.Invoke(quest);
     }
-
-    private void AssignQuest()
-    {
-        _quest.ActivateQuest();
-        _playerBehaviour.SetActiveQuest(_quest);
-        QuestWindow.QuestAccepted -= AssignQuest;
-    }
-
 }
