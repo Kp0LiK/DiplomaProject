@@ -4,38 +4,44 @@ using UnityEngine;
 
 namespace Client
 {
+    [RequireComponent(typeof(PlayerInventory))]
     public class PlayerBehaviour : MonoBehaviour
     {
         [Header("Controller")]
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private float _gravity;
         [SerializeField] private float _smoothTime;
-        [SerializeField] private Transform _groundCheck;
         [SerializeField] private float _groundDistance;
+        [SerializeField] private Transform _groundCheck;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
 
         [Header("Weapons")] 
-        [SerializeField] private GameObject _bow;
+        [SerializeField] private BowWeapon _bow;
 
-        private Animator _animator;
+        private PlayerInventory _playerInventory;
+
         private CharacterController _characterController;
         private AudioSource _audioSource;
-
-
+        
         private float _speed;
         private float _health;
         private float _stamina;
         private float _smooth;
+        
         private bool _isGrounded;
         private bool _isAim;
         private float _timerToAim;
         private float _timeBetweenChangeAnimation;
+        
         private Vector3 _velocity;
+        
         private static readonly int IsAttack = Animator.StringToHash("isAttack");
         private static readonly int Speed = Animator.StringToHash("Run");
         private static readonly int IsDie = Animator.StringToHash("isDie");
         private static readonly int IsAim = Animator.StringToHash("isAim");
+
+        public Animator Animator { get; set; }
 
         public float Health
         {
@@ -79,34 +85,50 @@ namespace Client
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            _animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
+            _playerInventory = GetComponent<PlayerInventory>();
+
+        }
+
+        private void Start()
+        {
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
             _stamina = _playerData.Stamina;
             _timerToAim = 3f;
         }
 
+        private void OnEnable()
+        {
+            _playerInventory.WeaponChanged += OnWeaponChanged;
+        }
+
+        private void OnDisable()
+        {
+            _playerInventory.WeaponChanged -= OnWeaponChanged;
+        }
+
         private void Update()
         {
             Debug.Log(_stamina);
-            _animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
+            Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
             if (Input.GetKey(KeyCode.F))
             {
                 Health = 0f;
-                _animator.SetBool(IsDie, true);
+                Animator.SetBool(IsDie, true);
                 Destroy(gameObject, 5);
             }
 
             Move();
 
-            if (_isAim == true)
+            if (_isAim)
             {
                 _timeBetweenChangeAnimation -= Time.deltaTime;
                 if (_timeBetweenChangeAnimation <= 0)
                 {
                     _isAim = false;
-                    //_bow.gameObject.SetActive(false);
-                    _animator.SetBool(IsAim, false);
+                    _bow.gameObject.SetActive(false);
+                    Animator.SetBool(IsAim, false);
                 }
             }
 
@@ -114,16 +136,15 @@ namespace Client
             {
                 _timeBetweenChangeAnimation = _timerToAim;
                 _isAim = true;
-                _animator.SetTrigger("AimAttack");
-                _animator.SetBool(IsAim, true);
+                Animator.SetTrigger("AimAttack");
+                Animator.SetBool(IsAim, true);
+                _bow.Shoot();
             }
 
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Alpha2))
             {
                 _bow.gameObject.SetActive(true);
             }
-
-            Debug.Log(_timeBetweenChangeAnimation);
         }
 
         public void ApplyDamage(float damage)
@@ -136,7 +157,7 @@ namespace Client
 
             if (_playerData.IsDied)
             {
-                _animator.SetBool(IsDie, true);
+                Animator.SetBool(IsDie, true);
             }
             else
             {
@@ -147,6 +168,14 @@ namespace Client
             UpdateHealth();
         }
 
+        private void OnWeaponChanged(BaseWeapon weapon)
+        {
+            if (weapon is BowWeapon)
+            {
+                Debug.Log("[PLAYER] Changed to Bow");
+            }
+        }
+        
         private void UpdateHealth()
         {
             HealthChanged?.Invoke(Mathf.RoundToInt(_playerData.Health));
@@ -251,25 +280,25 @@ namespace Client
         private void Idle()
         {
             _speed = 0f;
-            _animator.SetFloat(Speed, 0f);
+            Animator.SetFloat(Speed, 0f);
         }
 
         private void Walk()
         {
             _speed = _playerData.WalkSpeed;
-            _animator.SetFloat(Speed, 0.4f);
+            Animator.SetFloat(Speed, 0.4f);
         }
 
         private void Run()
         {
             _speed = _playerData.RunSpeed;
-            _animator.SetFloat(Speed, 1f);
+            Animator.SetFloat(Speed, 1f);
         }
 
         private void AimIlde()
         {
             _speed = 0f;
-            _animator.SetFloat(Speed, 0f);
+            Animator.SetFloat(Speed, 0f);
         }
 
         private void AimWalk()
@@ -279,8 +308,8 @@ namespace Client
             var InputX = Input.GetAxis("Horizontal");
             var InputZ = Input.GetAxis("Vertical");
             _speed = 2f;
-            _animator.SetFloat("InputZ", InputZ, verticalAnimTime, Time.deltaTime *2f);
-            _animator.SetFloat("InputX", InputX, horizontalAnimTime, Time.deltaTime * 2f);
+            Animator.SetFloat("InputZ", InputZ, verticalAnimTime, Time.deltaTime *2f);
+            Animator.SetFloat("InputX", InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
 
         [Serializable]

@@ -1,0 +1,54 @@
+{
+    "name": "InventoryActionMap",
+    "maps": [
+        {
+            "name": "Inventory",
+            "id": "13501f51-a7be-43cb-8720-e162f218d9ff",
+            "actions": [
+                {
+                    "name": "Alpha1",
+                    "type": "Button",
+                    "id": "ebda186e-b31e-4527-aad6-bf4e95d145df",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Alpha2",
+                    "type": "Button",
+                    "id": "abae566c-d92f-42c5-a970-5e3d9330c144",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "579aeb2e-b1f4-4d5e-a5d8-2f222b836a22",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Alpha1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e02fe656-e282-4dc7-b685-6f8047f4cd89",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Alpha2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
