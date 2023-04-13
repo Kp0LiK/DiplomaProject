@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Client.Scripts.Data.Player;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace Client
 
         private bool _isGrounded;
         private bool _isAim;
+        private bool _isBow;
         private float _timerToAim;
         private float _timeBetweenChangeAnimation;
 
@@ -40,10 +42,14 @@ namespace Client
         private static readonly int Speed = Animator.StringToHash("Run");
         private static readonly int IsDie = Animator.StringToHash("isDie");
         private static readonly int IsAim = Animator.StringToHash("isAim");
+        private static readonly int AimAttack = Animator.StringToHash("AimAttack");
+        private static readonly int Z = Animator.StringToHash("InputZ");
+        private static readonly int X = Animator.StringToHash("InputX");
 
         public Animator Animator { get; set; }
 
-        
+        public bool IsStanding { get; set; }
+
 
         public float Stamina
         {
@@ -83,7 +89,7 @@ namespace Client
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
             _stamina = _playerData.Stamina;
-            _timerToAim = 3f;
+            _timerToAim = 1f;
         }
 
         private void OnEnable()
@@ -108,24 +114,43 @@ namespace Client
                 if (_timeBetweenChangeAnimation <= 0)
                 {
                     _isAim = false;
-                    _bow.gameObject.SetActive(false);
                     Animator.SetBool(IsAim, false);
                 }
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && _isBow)
             {
                 _timeBetweenChangeAnimation = _timerToAim;
                 _isAim = true;
-                Animator.SetTrigger("AimAttack");
+                Animator.SetTrigger(AimAttack);
                 Animator.SetBool(IsAim, true);
                 _bow.Shoot();
             }
 
             if (Input.GetKey(KeyCode.Alpha2))
             {
+                _isBow = true;
                 _bow.gameObject.SetActive(true);
             }
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                _isBow = false;
+                _bow.gameObject.SetActive(false);   
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
+            {
+                Standing();
+            }
+        }
+
+        private async void Standing()
+        {
+            IsStanding = true;
+            Animator.SetBool("isStanding", true);
+            await Task.Delay(700);
+            IsStanding = false;
+            Animator.SetBool("isStanding", false);
         }
 
         public void ApplyDamage(float damage)
@@ -217,9 +242,10 @@ namespace Client
                 {
                     if (_isAim == true)
                     {
+                        var eulerAngles = Camera.main.transform.eulerAngles;
                         var targetAngleforAim = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
-                                                Camera.main.transform.eulerAngles.y;
-                        transform.rotation = Quaternion.Euler(0f, Camera.main.transform.eulerAngles.y, 0f);
+                                                eulerAngles.y;
+                        transform.rotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
 
                         var moveDirForAim = Quaternion.Euler(0f, targetAngleforAim, 0f) * Vector3.forward;
                         _characterController.Move(moveDirForAim.normalized * _speed * Time.deltaTime);
@@ -275,8 +301,8 @@ namespace Client
             var InputX = Input.GetAxis("Horizontal");
             var InputZ = Input.GetAxis("Vertical");
             _speed = 2f;
-            Animator.SetFloat("InputZ", InputZ, verticalAnimTime, Time.deltaTime * 2f);
-            Animator.SetFloat("InputX", InputX, horizontalAnimTime, Time.deltaTime * 2f);
+            Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
+            Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
 
         [Serializable]
