@@ -2,15 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Scripts.Data.Enemy;
+using ModestTree;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Client
 {
     [SelectionBase]
-    public class SpiderBehaviour : MonoBehaviour, IEnemySwitchState
+    public class SpiderBehaviour : MonoBehaviour, IEnemySwitchState, IDamageable
     {
-        [SerializeField] private EnemyData _enemyData;
+        [SerializeField, Required] private EnemyData _enemyData;
+        [SerializeField] private float _deathDuration = 2f;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -39,6 +42,9 @@ namespace Client
 
         private void Start()
         {
+            Health = _enemyData.Health;
+            _enemyData.IsDied = false;
+
             _states = new List<BaseEnemyState>
             {
                 new EnemyIdleState(_animator, this),
@@ -51,14 +57,14 @@ namespace Client
             CurrentState.Start();
             CurrentState.Action();
 
-            Health = _enemyData.Health;
+            Debug.Log(Health);
         }
 
         private void OnEnable()
         {
             _playerDetector.Entered += OnEntered;
             _playerDetector.DetectExited += OnDetectExited;
-            
+
             _enemyAttackDetector.Entered += OnSpiderAttackDetect;
             _enemyAttackDetector.DetectExited += OnAttackDetectExited;
         }
@@ -103,11 +109,6 @@ namespace Client
                     CurrentState.Action();
                     break;
             }
-
-            if (Input.GetKey(KeyCode.F))
-            {
-                SwitchState<SpiderDeathState>();
-            }
         }
 
         public void SwitchState<T>() where T : BaseEnemyState
@@ -115,18 +116,16 @@ namespace Client
             var state = _states.FirstOrDefault(p => p is T);
             CurrentState.Stop();
             CurrentState = state;
-            
+
             if (ReferenceEquals(CurrentState, null))
                 return;
-            
+
             CurrentState.Start();
             CurrentState.Action();
         }
 
         public void ApplyDamage(float damage)
         {
-            Health -= damage;
-
             if (Health <= 0)
             {
                 Health = 0;
@@ -135,10 +134,23 @@ namespace Client
 
             if (_enemyData.IsDied)
             {
-                //todo DeathSpiderState
+                SwitchState<SpiderDeathState>();
+                Destroy(gameObject, _deathDuration);
             }
-            
-            HealthChanged?.Invoke(_enemyData.Health);
+            else
+            {
+                Health -= damage;
+                //SpiderDamageAnimation();
+            }
+
+            HealthChanged?.Invoke(Health);
+        }
+
+        private void SpiderDamageAnimation()
+        {
+            if (ReferenceEquals(gameObject, null))
+                return;
+            //todo DamageAnimation
         }
     }
 }

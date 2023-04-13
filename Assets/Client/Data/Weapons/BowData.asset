@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0aa7384cdd48f29f98d88b1a2a7c0c, type: 3}
   m_Name: BowData
   m_EditorClassIdentifier: 
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 1
   <Stamina>k__BackingField: 20

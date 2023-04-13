@@ -16,4 +16,4 @@ MonoBehaviour:
   <StopDistance>k__BackingField: 1.8
   <Health>k__BackingField: 10
   <Damage>k__BackingField: 1
-  <IsDied>k__BackingField: 0
+  <IsDied>k__BackingField: 1

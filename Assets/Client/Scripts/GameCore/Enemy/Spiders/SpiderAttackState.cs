@@ -33,14 +33,17 @@ namespace Client
         {
             while (true)
             {
-                await Task.Delay(1500);
+                await Task.Delay(1000);
                 
                 if (_enemyData.IsDied)
                     return;
 
                 if (!ReferenceEquals(_enemyAttackDetector.PlayerTarget, null))
                 {
-                    _enemyAttackDetector.PlayerTarget.ApplyDamage(_enemyData.Damage);
+                    if (_enemyAttackDetector.PlayerTarget.gameObject.TryGetComponent(out PlayerBehaviour playerBehaviour))
+                    {
+                        _enemyAttackDetector.PlayerTarget.ApplyDamage(_enemyData.Damage);
+                    }
                 }
                 else
                 {

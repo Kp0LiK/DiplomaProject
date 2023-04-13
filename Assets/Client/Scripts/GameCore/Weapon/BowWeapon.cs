@@ -6,7 +6,6 @@ namespace Client
 {
     public class BowWeapon : MonoBehaviour
     {
-        [SerializeField] private WeaponsData _weaponsData;
         [SerializeField] private GameObject _arrowPrefab;
         [SerializeField] private float _arrowSpeed = 10f;
         [field: SerializeField] public Transform ShootPoint { get; private set; }
@@ -18,6 +17,7 @@ namespace Client
         {
             _isCanShoot = true;
         }
+        
 
         public void Shoot()
         {
@@ -37,15 +37,12 @@ namespace Client
             {
                 if (hit.transform.TryGetComponent(out PlayerBehaviour _))
                     return;
-
-                if (hit.transform.TryGetComponent(out IDamageable damageable))
-                    damageable.ApplyDamage(_weaponsData.Damage);
             }
             
             var arrow = Instantiate(_arrowPrefab, ShootPoint.position, ShootPoint.transform.rotation);
             var velocity = (hit.point - ShootPoint.position).normalized * _arrowSpeed;
             arrow.GetComponent<Rigidbody>().velocity = velocity;
-            Destroy(arrow.gameObject, 3);
+            Destroy(arrow.gameObject, 2);
         }
     }
 }

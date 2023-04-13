@@ -4780,7 +4780,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 35f5e6dc715494f44b17248eee5426bd, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14592,6 +14591,8 @@ GameObject:
   - component: {fileID: 199141032775583568}
   - component: {fileID: 82005666325718090}
   - component: {fileID: 5083485051712762309}
+  - component: {fileID: 5773905658033617689}
+  - component: {fileID: 8808066382831984863}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -19430,7 +19431,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 25be0a59d5eccd94ab6136b4eb8304fe, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19624,3 +19624,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &5773905658033617689
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931392525181976}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.17
+  m_Height: 1.34
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.65}
+--- !u!114 &8808066382831984863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931392525181976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d2afb313a07c5741801e4fae769ac4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponsData: {fileID: 11400000, guid: 13bd677d0b5383c41a8cc117ecab6530, type: 2}
