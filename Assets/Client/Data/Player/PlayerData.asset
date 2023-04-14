@@ -17,4 +17,4 @@ MonoBehaviour:
   <Health>k__BackingField: 100
   <Stamina>k__BackingField: 100
   <Damage>k__BackingField: 10
-  <IsDied>k__BackingField: 1
+  <IsDied>k__BackingField: 0
