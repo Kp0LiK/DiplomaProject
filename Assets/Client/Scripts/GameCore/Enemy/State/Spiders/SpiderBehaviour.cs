@@ -126,6 +126,7 @@ namespace Client
         public void ApplyDamage(float damage)
         {
             Health -= damage;
+            Debug.Log(damage);
 
             if (Health <= 0)
             {

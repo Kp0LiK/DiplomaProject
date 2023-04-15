@@ -17,6 +17,7 @@ namespace Client
         [SerializeField] private PlayerAudioData _audioData;
 
         [Header("Weapons")] 
+        [SerializeField] private Transform _weaponHolder;
         [SerializeField] private BowWeapon _bow;
 
         private PlayerInventory _playerInventory;
@@ -33,6 +34,10 @@ namespace Client
         private bool _isAim;
         private float _timerToAim;
         private float _timeBetweenChangeAnimation;
+        
+        private BoxCollider _colliderWeapon;
+        private GameObject _objWeapon;
+        private WeaponBehaviour _weaponBehaviour;
         
         private Vector3 _velocity;
         
@@ -85,9 +90,16 @@ namespace Client
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            Animator = GetComponent<Animator>();
+            // Animator = GetComponent<Animator>();
+            Animator = GetComponentInChildren<Animator>();
             _playerInventory = GetComponent<PlayerInventory>();
+            
+            _objWeapon = _weaponHolder.GetChild(1).gameObject;
+            _colliderWeapon = _objWeapon.GetComponent<BoxCollider>();
 
+            _weaponBehaviour = _objWeapon.GetComponent<WeaponBehaviour>();
+        
+            Physics.IgnoreCollision(_colliderWeapon, GetComponent<Collider>());
         }
 
         private void Start()
@@ -111,7 +123,21 @@ namespace Client
         private void Update()
         {
             Debug.Log(_stamina);
-            Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Attack();
+            }
+            
+            if (!AnimatorIsPlaying("Standing Melee Attack Downward"))
+            {
+                _weaponBehaviour.Collidable = false;
+            }
+            else
+            {
+                _weaponBehaviour.Collidable = true;
+            }
+            
+            // Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
             if (Input.GetKey(KeyCode.F))
             {
                 Health = 0f;
@@ -310,6 +336,36 @@ namespace Client
             _speed = 2f;
             Animator.SetFloat("InputZ", InputZ, verticalAnimTime, Time.deltaTime *2f);
             Animator.SetFloat("InputX", InputX, horizontalAnimTime, Time.deltaTime * 2f);
+        }
+        
+        private void Attack()
+        {
+            Animator.SetTrigger(IsAttack);
+        }
+        
+        private bool AnimatorIsPlaying(){
+            return Animator.GetCurrentAnimatorStateInfo(0).length >
+                   Animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        }
+    
+        private bool AnimatorIsPlaying(string stateName){
+            return AnimatorIsPlaying() && Animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (Animator.GetBool(IsAttack))
+            {
+                _weaponBehaviour.Collidable = true;
+                if (_weaponBehaviour.Collided)
+                {
+                    _weaponBehaviour.SpiderBehaviour.ApplyDamage(5);
+                }
+            }
+            else
+            {
+                _weaponBehaviour.Collidable = false;
+            }
         }
 
         [Serializable]
