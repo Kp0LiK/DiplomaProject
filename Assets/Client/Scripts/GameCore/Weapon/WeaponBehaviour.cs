@@ -8,29 +8,30 @@ public class WeaponBehaviour : MonoBehaviour
 {
     public bool Collidable;
     private bool _collided;
-    private SpiderBehaviour _spiderBehaviour;
+    private IDamageable _enemy;
 
     public bool Collided => _collided;
-    public SpiderBehaviour SpiderBehaviour => _spiderBehaviour;
+    public IDamageable Enemy => _enemy;
     
     private void OnTriggerEnter(Collider other)
     {
         if (Collidable)
         {
-            if (_collided == false && other.TryGetComponent(out SpiderBehaviour spiderBehaviour))
+            if (_collided == false && other.TryGetComponent(out IDamageable enemy))
             {
-                _spiderBehaviour = spiderBehaviour;
+                _enemy = enemy;
                 _collided = true;
-                SpiderBehaviour.ApplyDamage(5);
+                Debug.Log("A");
+                Enemy.ApplyDamage(5);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out SpiderBehaviour spiderBehaviour))
+        if (other.TryGetComponent(out IDamageable enemy))
         {
-            _spiderBehaviour = null;
+            _enemy = null;
             _collided = false;
             Collidable = false;
         }
