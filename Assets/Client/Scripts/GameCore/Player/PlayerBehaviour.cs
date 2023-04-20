@@ -17,6 +17,8 @@ namespace Client
         [SerializeField] private Transform _groundCheck;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
+        [SerializeField] private QuestManager _questManager;
+        private NPC _currentNPC;
 
         [Header("Weapons")] [SerializeField] private BowWeapon _bow;
 
@@ -95,17 +97,28 @@ namespace Client
         private void OnEnable()
         {
             _playerInventory.WeaponChanged += OnWeaponChanged;
+            QuestGiver.OnQuestGiven += AddQuest;
         }
 
         private void OnDisable()
         {
             _playerInventory.WeaponChanged -= OnWeaponChanged;
+            QuestGiver.OnQuestGiven -= AddQuest;
         }
 
         private void Update()
         {
             //Debug.Log(_stamina);
-            Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
+            // Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
+
+            if (Input.GetKeyDown(KeyCode.E) && _currentNPC)
+            {
+                if (_currentNPC.Interactable)
+                {
+                    _currentNPC.Interacted?.Invoke();
+                }
+            }
+            
             Move();
 
             if (_isAim)
@@ -303,6 +316,31 @@ namespace Client
             _speed = 2f;
             Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.TryGetComponent(out NPC npc))
+            {
+                npc.Approached?.Invoke(true);
+                _currentNPC = npc;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.TryGetComponent(out NPC npc))
+            {
+                npc.Approached?.Invoke(false);
+                _currentNPC = null;
+            }
+        }
+
+        private void AddQuest(Quest quest)
+        {
+            if (_questManager.CurrentQuests.Contains(quest)) return;
+            
+            _questManager.AddQuest(quest);
         }
 
         [Serializable]

@@ -30,6 +30,7 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("hello");
         Initialize();
     }
 
