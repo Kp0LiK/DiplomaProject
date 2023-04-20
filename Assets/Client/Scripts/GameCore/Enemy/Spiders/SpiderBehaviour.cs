@@ -126,22 +126,42 @@ namespace Client
 
         public void ApplyDamage(float damage)
         {
+            Health -= damage;
+                
             if (Health <= 0)
             {
                 Health = 0;
                 _enemyData.IsDied = true;
             }
-
+            
             if (_enemyData.IsDied)
             {
                 SwitchState<SpiderDeathState>();
                 Destroy(gameObject, _deathDuration);
             }
-            else
-            {
-                Health -= damage;
-                //SpiderDamageAnimation();
-            }
+            
+            // if (Health <= 0)
+            // {
+            //     Health = 0;
+            //     _enemyData.IsDied = true;
+            // }
+            //
+            // if (_enemyData.IsDied)
+            // {
+            //     SwitchState<SpiderDeathState>();
+            //     Destroy(gameObject, _deathDuration);
+            // }
+            // else
+            // {
+            //     Health -= damage;
+            //     
+            //     if (Health <= 0)
+            //     {
+            //         Health = 0;
+            //         _enemyData.IsDied = true;
+            //     }
+            //     //SpiderDamageAnimation();
+            // }
 
             HealthChanged?.Invoke(Health);
         }

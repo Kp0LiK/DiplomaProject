@@ -18,7 +18,11 @@ namespace Client
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
 
-        [Header("Weapons")] [SerializeField] private BowWeapon _bow;
+        [Header("Weapons")] 
+        [SerializeField] private BowWeapon _bow;
+        [SerializeField] private WeaponBehaviour _sword;
+
+        private Collider _swordCollider;
 
         private PlayerInventory _playerInventory;
 
@@ -39,6 +43,7 @@ namespace Client
         private Vector3 _velocity;
 
         private static readonly int IsAttack = Animator.StringToHash("isAttack");
+        private static readonly int IsSwordAttack = Animator.StringToHash("isSwordAttack");
         private static readonly int Speed = Animator.StringToHash("Run");
         private static readonly int IsDie = Animator.StringToHash("isDie");
         private static readonly int IsAim = Animator.StringToHash("isAim");
@@ -81,6 +86,9 @@ namespace Client
             _characterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
             _playerInventory = GetComponent<PlayerInventory>();
+            _swordCollider = _sword.gameObject.GetComponent<Collider>();
+            
+            Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
 
         private void Start()
@@ -105,7 +113,20 @@ namespace Client
         private void Update()
         {
             //Debug.Log(_stamina);
-            Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
+            // Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
+            // Animator.SetBool(IsSwordAttack, Input.GetKey(KeyCode.E));
+            
+            if (Input.GetKeyDown(KeyCode.E)) Attack();
+            
+            if (!AnimatorIsPlaying("Standing Melee Attack Downward"))
+            {
+                _sword.Collidable = false;
+            }
+            else
+            {
+                _sword.Collidable = true;
+            }
+            
             Move();
 
             if (_isAim)
@@ -303,6 +324,32 @@ namespace Client
             _speed = 2f;
             Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
+        }
+        
+        private void Attack()
+        {
+            Animator.SetTrigger(IsSwordAttack);
+        }
+        
+        private bool AnimatorIsPlaying(){
+            return Animator.GetCurrentAnimatorStateInfo(0).length >
+                   Animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        }
+    
+        private bool AnimatorIsPlaying(string stateName){
+            return AnimatorIsPlaying() && Animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (Animator.GetBool(IsSwordAttack))
+            {
+                _sword.Collidable = true;
+            }
+            else
+            {
+                _sword.Collidable = false;
+            }
         }
 
         [Serializable]
