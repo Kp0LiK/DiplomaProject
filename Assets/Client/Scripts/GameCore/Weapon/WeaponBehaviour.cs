@@ -21,7 +21,6 @@ public class WeaponBehaviour : MonoBehaviour
             {
                 _enemy = enemy;
                 _collided = true;
-                Debug.Log("A");
                 Enemy.ApplyDamage(5);
             }
         }
