@@ -89,9 +89,9 @@ namespace Client
             _characterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
             _playerInventory = GetComponent<PlayerInventory>();
-//            _swordCollider = _sword.gameObject.GetComponent<Collider>();
+            _swordCollider = _sword.gameObject.GetComponent<Collider>();
             
-           // Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
+            Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
 
         private void Start()
@@ -131,6 +131,8 @@ namespace Client
             // Animator.SetBool(IsSwordAttack, Input.GetKey(KeyCode.E));
             
             if (Input.GetKeyDown(KeyCode.E)) Attack();
+            
+            _sword.Collidable = AnimatorIsPlaying("Standing Melee Attack Downward");
             
             
             Move();
@@ -352,6 +354,15 @@ namespace Client
             {
                 npc.Approached?.Invoke(true);
                 _currentNPC = npc;
+            }
+            
+            if (Animator.GetBool(IsSwordAttack))
+            {
+                _sword.Collidable = true;
+            }
+            else
+            {
+                _sword.Collidable = false;
             }
         }
 
