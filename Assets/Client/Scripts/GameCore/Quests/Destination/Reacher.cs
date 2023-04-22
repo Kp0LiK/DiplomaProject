@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Reacher : MonoBehaviour
+{
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Destination destination))
+        {
+            destination.Reach();
+        }
+    }
+}
