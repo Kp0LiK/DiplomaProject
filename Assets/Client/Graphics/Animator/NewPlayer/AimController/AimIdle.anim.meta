@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Client/Scripts/GameCore/Quests/Second Quest.asset.meta
+guid: 13849748c6730834dbebbf5d7153354f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
+guid: 387c3bc6c7988794997a2ed8aaca1fd0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+>>>>>>>> 479907fa174259521a0c0ca152058142a173c76f:Assets/Client/Graphics/Animator/NewPlayer/AimController/AimIdle.anim.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

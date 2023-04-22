@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Client/Scripts/GameCore/Quests/First Quest.asset.meta
+guid: abf5538ae9c6f4a4ab1e28452507372f
+========
+guid: 4c53ea9c11670fc4595772d396bd8491
+>>>>>>>> 479907fa174259521a0c0ca152058142a173c76f:Assets/Client/Graphics/Animator/NewPlayer/AimController/AimAttack.anim.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

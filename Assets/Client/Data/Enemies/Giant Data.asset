@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Giant Data
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 3
-  <StopDistance>k__BackingField: 1.8
+  <StopDistance>k__BackingField: 2.2
   <Health>k__BackingField: 20
   <Damage>k__BackingField: 5
   <IsDied>k__BackingField: 0

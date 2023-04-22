@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Client/Scripts/GameCore/Quests/Quest.prefab.meta
 guid: e8d51ceb0d0fc1d44a98940b4ef64f37
+========
+guid: b5135d67c8b4f9f4d9c70c5090a740c2
+>>>>>>>> 479907fa174259521a0c0ca152058142a173c76f:Assets/Client/Prefabs/Player/PlayerForUnity.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

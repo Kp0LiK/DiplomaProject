@@ -2,7 +2,7 @@
 
 namespace Client.Scripts.Data.Player
 {
-    [CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData/Create Data", order = 0)]
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData/Create Player Data", order = 0)]
     public class PlayerData : ScriptableObject
     {
         [field: SerializeField] public float WalkSpeed { get; private set; }

@@ -18,7 +18,8 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "DOTween.dll",
-        "Zenject-usage.dll"
+        "Zenject-usage.dll",
+        "Sirenix.OdinInspector.Attributes.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

@@ -2,7 +2,7 @@
 
 namespace Client.Scripts.Data.Enemy
 {
-    [CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyData/Create Data", order = 0)]
+    [CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyData/Create Enemy Data", order = 0)]
     public class EnemyData : ScriptableObject
     {
         [field: SerializeField] public float Speed { get; private set; }

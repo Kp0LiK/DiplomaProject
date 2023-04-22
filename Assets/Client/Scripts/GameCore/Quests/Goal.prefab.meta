@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Client/Scripts/GameCore/Quests/Goal.prefab.meta
 guid: d82ef3d844e01db40a65ed52d78d065d
+========
+guid: fb623439b879f1e47913a9c36f623d56
+>>>>>>>> 479907fa174259521a0c0ca152058142a173c76f:Assets/Client/Prefabs/Enemies/GiantDummy.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
