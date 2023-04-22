@@ -8,6 +8,9 @@ namespace Client
     [RequireComponent(typeof(PlayerInventory))]
     public class PlayerBehaviour : MonoBehaviour
     {
+        [SerializeField] private QuestManager _questManager;
+        private NPC _currentNPC;
+        
         [Header("Controller")] [SerializeField]
         private PlayerData _playerData;
 
@@ -86,9 +89,9 @@ namespace Client
             _characterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
             _playerInventory = GetComponent<PlayerInventory>();
-            _swordCollider = _sword.gameObject.GetComponent<Collider>();
+//            _swordCollider = _sword.gameObject.GetComponent<Collider>();
             
-            Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
+           // Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
 
         private void Start()
@@ -102,30 +105,33 @@ namespace Client
 
         private void OnEnable()
         {
+            QuestGiver.OnQuestGiven += AddQuest;
             _playerInventory.WeaponChanged += OnWeaponChanged;
         }
 
         private void OnDisable()
         {
+            QuestGiver.OnQuestGiven -= AddQuest;
             _playerInventory.WeaponChanged -= OnWeaponChanged;
         }
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.G) && _currentNPC)
+            {
+                if (_currentNPC.Interactable)
+                {
+                    _currentNPC.Interacted?.Invoke();
+                }
+            }
+            
+            
             //Debug.Log(_stamina);
             // Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
             // Animator.SetBool(IsSwordAttack, Input.GetKey(KeyCode.E));
             
             if (Input.GetKeyDown(KeyCode.E)) Attack();
             
-            if (!AnimatorIsPlaying("Standing Melee Attack Downward"))
-            {
-                _sword.Collidable = false;
-            }
-            else
-            {
-                _sword.Collidable = true;
-            }
             
             Move();
 
@@ -342,14 +348,26 @@ namespace Client
         
         private void OnTriggerEnter(Collider other)
         {
-            if (Animator.GetBool(IsSwordAttack))
+            if (other.gameObject.TryGetComponent(out NPC npc))
             {
-                _sword.Collidable = true;
+                npc.Approached?.Invoke(true);
+                _currentNPC = npc;
             }
-            else
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.TryGetComponent(out NPC npc))
             {
-                _sword.Collidable = false;
+                npc.Approached?.Invoke(false);
+                _currentNPC = null;
             }
+        }
+
+        private void AddQuest(Quest quest)
+        {
+            if (_questManager.CurrentQuests.Contains(quest)) return;
+            _questManager.AddQuest(quest);
         }
 
         [Serializable]
