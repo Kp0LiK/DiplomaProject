@@ -4,6 +4,7 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     [SerializeField] private string[] _lines;
+    private Animator _animator;
     
     public Action Interacted;
     public Action<bool> Approached;
@@ -13,6 +14,8 @@ public class NPC : MonoBehaviour
     public bool Interactable => _interactable;
 
     private bool _talking;
+    
+    private int IsTalking = Animator.StringToHash("isTalking");
 
     protected virtual void OnEnable()
     {
@@ -28,12 +31,18 @@ public class NPC : MonoBehaviour
         DialogueSystem.DialogueEnded -= StopTalking;
     }
 
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     protected virtual void Talk()
     {
         if (!_talking)
         {
             DialogueStarted?.Invoke(_lines);
             _talking = true;
+            if (_animator) _animator.SetTrigger(IsTalking);
         }
     }
 
