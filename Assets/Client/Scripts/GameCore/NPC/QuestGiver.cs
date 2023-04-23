@@ -8,11 +8,17 @@ public class QuestGiver : NPC
     [SerializeField] private Quest quest;
 
     public static Action<Quest> OnQuestGiven;
+    
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        DialogueSystem.DialogueEnded -= GiveQuest;
+    }
 
     protected override void Talk()
     {
         base.Talk();
-        GiveQuest();
+        DialogueSystem.DialogueEnded += GiveQuest;
     }
 
     private void GiveQuest()
