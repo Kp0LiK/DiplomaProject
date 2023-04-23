@@ -10,35 +10,41 @@ public class QuestWindow : MonoBehaviour
     [SerializeField] private GameObject _goalPrefab;
     [SerializeField] private Transform _goalsContent;
     [SerializeField] private Text _xpText;
+    private bool _isInitialized;
 
     public void Initialize(Quest quest)
     {
-        _titleText.text = quest.Information.Name;
-        _descriptionText.text = quest.Information.Description;
-
-        foreach (var goal in quest.Goals)
+        if (!_isInitialized)
         {
-            GameObject goalObj = Instantiate(_goalPrefab, _goalsContent);
-            goalObj.transform.Find("Text").GetComponent<Text>().text = goal.GetDescription();
+            _titleText.text = quest.Information.Name;
+            _descriptionText.text = quest.Information.Description;
 
-            GameObject countObj = goalObj.transform.Find("Count").gameObject;
+            foreach (var goal in quest.Goals)
+            {
+                GameObject goalObj = Instantiate(_goalPrefab, _goalsContent);
+                goalObj.transform.Find("Text").GetComponent<Text>().text = goal.GetDescription();
 
-            if (goal.Completed)
-            {
-                countObj.SetActive(false);
-                goalObj.transform.Find("Done").gameObject.SetActive(true);
+                GameObject countObj = goalObj.transform.Find("Count").gameObject;
+
+                if (goal.Completed)
+                {
+                    countObj.SetActive(false);
+                    goalObj.transform.Find("Done").gameObject.SetActive(true);
+                }
+                else
+                {
+                    countObj.GetComponent<Text>().text = goal.CurrentAmount + "/" + goal.RequiredAmount;
+                }
             }
-            else
-            {
-                countObj.GetComponent<Text>().text = goal.CurrentAmount + "/" + goal.RequiredAmount;
-            }
+
+            _xpText.text = quest.Reward.XP.ToString();
+            _isInitialized = true;
         }
-
-        _xpText.text = quest.Reward.XP.ToString();
     }
 
     public void CloseWindow()
     {
+        _isInitialized = false;
         gameObject.SetActive(false);
 
         for (int i = 0; i < _goalsContent.childCount; i++)
