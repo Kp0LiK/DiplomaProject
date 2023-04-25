@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Information:
     Name: First Quest
-    Icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    Icon: {fileID: 21300000, guid: 8f4e44c701fc24e0aa0b15876fbed4c4, type: 3}
     Description: This is your first quest!
   Reward:
     XP: 10
