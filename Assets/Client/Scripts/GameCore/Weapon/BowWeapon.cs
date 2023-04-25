@@ -6,7 +6,7 @@ namespace Client
 {
     public class BowWeapon : MonoBehaviour
     {
-        [SerializeField] private GameObject _arrowPrefab;
+        [SerializeField] private Arrow _arrowPrefab;
         [SerializeField] private float _arrowSpeed = 10f;
         [field: SerializeField] public Transform ShootPoint { get; private set; }
         [field: SerializeField] public ParticleSystem ShootParticlePrefab { get; private set; }
@@ -40,8 +40,8 @@ namespace Client
             }
             
             var arrow = Instantiate(_arrowPrefab, ShootPoint.position, ShootPoint.transform.rotation);
-            var velocity = (hit.point - ShootPoint.position).normalized * _arrowSpeed;
-            arrow.GetComponent<Rigidbody>().velocity = velocity;
+            var velocity = (hit.point);
+            arrow.Rigidbody.velocity = ShootPoint.forward * _arrowSpeed;
             Destroy(arrow.gameObject, 2);
         }
     }
