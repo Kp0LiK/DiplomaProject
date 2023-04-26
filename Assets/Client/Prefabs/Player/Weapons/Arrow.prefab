@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4458615684526810}
   - component: {fileID: 198008685761294228}
   - component: {fileID: 199206643513336576}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4836,7 +4836,7 @@ GameObject:
   - component: {fileID: 4025630633325790}
   - component: {fileID: 198241242387542330}
   - component: {fileID: 199639574486123834}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9713,7 +9713,7 @@ GameObject:
   - component: {fileID: 4694311412925954}
   - component: {fileID: 198276327324938726}
   - component: {fileID: 199046945776260518}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Distortion(Delete for HD and LW)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14587,13 +14587,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4314351572029568}
   - component: {fileID: 198811284836901134}
-  - component: {fileID: 114589898556726046}
   - component: {fileID: 199141032775583568}
   - component: {fileID: 82005666325718090}
   - component: {fileID: 5083485051712762309}
   - component: {fileID: 5773905658033617689}
   - component: {fileID: 8808066382831984863}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14609,7 +14608,7 @@ Transform:
   m_GameObject: {fileID: 1931392525181976}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4025630633325790}
   m_Father: {fileID: 0}
@@ -19391,25 +19390,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &114589898556726046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931392525181976}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e24cfb966f425fa47bfec1667489bb42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 55
-  hit: {fileID: 1043475371332336, guid: 35f3713c549f2d14ab413cfe57588a6d, type: 3}
-  flash: {fileID: 0}
-  Detached: []
-  LocalRotation: 0
-  sideAngle: 1
-  upAngle: 7
 --- !u!199 &199141032775583568
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -19650,4 +19630,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2afb313a07c5741801e4fae769ac4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 5083485051712762309}
   _weaponsData: {fileID: 11400000, guid: 13bd677d0b5383c41a8cc117ecab6530, type: 2}

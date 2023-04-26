@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Client.Scripts.Data.Player;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Client
     {
         [SerializeField] private QuestManager _questManager;
         private NPC _currentNPC;
-        
+
         [Header("Controller")] [SerializeField]
         private PlayerData _playerData;
 
@@ -21,9 +22,9 @@ namespace Client
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
 
-        [Header("Weapons")] 
-        [SerializeField] private BowWeapon _bow;
-        [SerializeField] private WeaponBehaviour _sword;
+        [Header("Weapons")] [SerializeField] private BowWeapon _bow;
+        [SerializeField] private SwordBehaviour _sword;
+        [SerializeField] private List<WeaponsData> _combo;
 
         private Collider _swordCollider;
 
@@ -40,6 +41,7 @@ namespace Client
         private bool _isGrounded;
         private bool _isAim;
         private bool _isBow;
+        private bool _isSword;
         private float _timerToAim;
         private float _timeBetweenChangeAnimation;
 
@@ -57,6 +59,12 @@ namespace Client
         public Animator Animator { get; set; }
 
         public bool IsStanding { get; set; }
+
+        public List<WeaponsData> Combo
+        {
+            get => _combo;
+            set => _combo = value;
+        }
 
 
         public float Stamina
@@ -90,7 +98,7 @@ namespace Client
             Animator = GetComponent<Animator>();
             _playerInventory = GetComponent<PlayerInventory>();
             _swordCollider = _sword.gameObject.GetComponent<Collider>();
-            
+
             Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
 
@@ -100,7 +108,7 @@ namespace Client
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
             _stamina = _playerData.Stamina;
-            _timerToAim = 1f;
+            _timerToAim = 5f;
         }
 
         private void OnEnable()
@@ -117,24 +125,14 @@ namespace Client
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G) && _currentNPC)
+            if (Input.GetKeyDown(KeyCode.E) && _currentNPC)
             {
                 if (_currentNPC.Interactable)
                 {
                     _currentNPC.Interacted?.Invoke();
                 }
             }
-            
-            
-            //Debug.Log(_stamina);
-            // Animator.SetBool(IsAttack, Input.GetKey(KeyCode.E));
-            // Animator.SetBool(IsSwordAttack, Input.GetKey(KeyCode.E));
-            
-            if (Input.GetKeyDown(KeyCode.E)) Attack();
-            
-            _sword.Collidable = AnimatorIsPlaying("Standing Melee Attack Downward");
-            
-            
+
             Move();
 
             if (_isAim)
@@ -155,25 +153,40 @@ namespace Client
                 Animator.SetBool(IsAim, true);
                 _bow.Shoot();
             }
+            
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                _isSword = true;
+                _isBow = false;
+                _sword.gameObject.SetActive(true);
+                _bow.gameObject.SetActive(false);
+            }
 
             if (Input.GetKey(KeyCode.Alpha2))
             {
                 _isBow = true;
+                _isSword = false;
                 _bow.gameObject.SetActive(true);
-            }
-            if (Input.GetKey(KeyCode.Alpha1))
-            {
-                _isBow = false;
-                _bow.gameObject.SetActive(false);   
+                _sword.gameObject.SetActive(false);
             }
 
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
             {
-                Standing();
+                StartStanding();
+            }
+
+            if (Input.GetMouseButtonDown(0) && _isSword)
+            {
+                _sword.Collidable = true;
+                _sword.StartCombo();
+            }
+            else
+            {
+                _sword.EndAttack();
             }
         }
 
-        private async void Standing()
+        private async void StartStanding()
         {
             IsStanding = true;
             Animator.SetBool("isStanding", true);
@@ -248,20 +261,11 @@ namespace Client
                     }
                     else
                     {
-                        AimIlde();
+                        AimIdle();
                     }
                 }
             }
-
-            /*if (direction.magnitude >= 0.1f)
-            {
-                var rotationAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationAngle,
-                    ref _smooth, _smoothTime);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-                var move = Quaternion.Euler(0f, rotationAngle, 0f) * Vector3.forward;
-                _characterController.Move(move.normalized * _speed * Time.deltaTime);
-            }*/
+            
             direction = (Vector3.right * horizontal + Vector3.forward * vertical).normalized;
 
 
@@ -269,7 +273,7 @@ namespace Client
             {
                 if (Camera.main is { })
                 {
-                    if (_isAim == true)
+                    if (_isAim)
                     {
                         var eulerAngles = Camera.main.transform.eulerAngles;
                         var targetAngleforAim = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
@@ -317,7 +321,7 @@ namespace Client
             Animator.SetFloat(Speed, 1f);
         }
 
-        private void AimIlde()
+        private void AimIdle()
         {
             _speed = 0f;
             Animator.SetFloat(Speed, 0f);
@@ -334,35 +338,12 @@ namespace Client
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
         
-        private void Attack()
-        {
-            Animator.SetTrigger(IsSwordAttack);
-        }
-        
-        private bool AnimatorIsPlaying(){
-            return Animator.GetCurrentAnimatorStateInfo(0).length >
-                   Animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-        }
-    
-        private bool AnimatorIsPlaying(string stateName){
-            return AnimatorIsPlaying() && Animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
-        }
-        
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent(out NPC npc))
             {
                 npc.Approached?.Invoke(true);
                 _currentNPC = npc;
-            }
-            
-            if (Animator.GetBool(IsSwordAttack))
-            {
-                _sword.Collidable = true;
-            }
-            else
-            {
-                _sword.Collidable = false;
             }
         }
 
@@ -379,6 +360,17 @@ namespace Client
         {
             if (_questManager.CurrentQuests.Contains(quest)) return;
             _questManager.AddQuest(quest);
+        }
+
+        private void OnDrawGizmos()
+        {
+            var ray = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity))
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(transform.position, hit.point);
+            }
+          
         }
 
         [Serializable]

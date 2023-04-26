@@ -7,5 +7,7 @@ namespace Client.Scripts.Data.Player
     {
         [field: SerializeField] public float Damage { get; private set; }
         [field: SerializeField] public float Stamina { get; private set; }
+        
+        [field: SerializeField] public AnimatorOverrideController AnimatorOv { get; private set; }
     }
 }
