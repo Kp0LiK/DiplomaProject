@@ -153,7 +153,7 @@ namespace Client
                 Animator.SetBool(IsAim, true);
                 _bow.Shoot();
             }
-            
+
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 _isSword = true;
@@ -265,14 +265,16 @@ namespace Client
                     }
                 }
             }
-            
+
             direction = (Vector3.right * horizontal + Vector3.forward * vertical).normalized;
 
 
-            if (direction.magnitude >= 0.1f)
+            
+            if (direction.magnitude >= 0.1f || _characterController.velocity.magnitude > 0.1f)
             {
-                if (Camera.main is { })
+                if (Camera.main != null)
                 {
+                    //Player Movement with AimState
                     if (_isAim)
                     {
                         var eulerAngles = Camera.main.transform.eulerAngles;
@@ -283,6 +285,7 @@ namespace Client
                         var moveDirForAim = Quaternion.Euler(0f, targetAngleforAim, 0f) * Vector3.forward;
                         _characterController.Move(moveDirForAim.normalized * _speed * Time.deltaTime);
                     }
+                    //Player Movement without AimState
                     else
                     {
                         var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
@@ -293,6 +296,20 @@ namespace Client
 
                         var moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                         _characterController.Move(moveDir.normalized * _speed * Time.deltaTime);
+                    }
+                }
+            }
+            else
+            {
+                //Look for camera, when Player AimIdle
+                if (_isAim)
+                {
+                    if (Camera.main != null)
+                    {
+                        var lookPos = Camera.main.transform.position - transform.position;
+                        lookPos.y = 0; // не поворачиваться по оси y
+                        var rotation = Quaternion.LookRotation(-lookPos);
+                        transform.rotation = rotation;
                     }
                 }
             }
@@ -337,7 +354,7 @@ namespace Client
             Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent(out NPC npc))
@@ -362,16 +379,6 @@ namespace Client
             _questManager.AddQuest(quest);
         }
 
-        private void OnDrawGizmos()
-        {
-            var ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity))
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(transform.position, hit.point);
-            }
-          
-        }
 
         [Serializable]
         public class PlayerAudioData

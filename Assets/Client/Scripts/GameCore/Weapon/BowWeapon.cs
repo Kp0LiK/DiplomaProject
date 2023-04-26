@@ -7,7 +7,7 @@ namespace Client
     public class BowWeapon : MonoBehaviour
     {
         [SerializeField] private Arrow _arrowPrefab;
-        [SerializeField] private float _arrowSpeed = 10f;
+        [SerializeField] private float _arrowSpeed;
         [field: SerializeField] public Transform ShootPoint { get; private set; }
         [field: SerializeField] public ParticleSystem ShootParticlePrefab { get; private set; }
 
