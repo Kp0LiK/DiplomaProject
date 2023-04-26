@@ -14,11 +14,13 @@ namespace Client
     {
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
+        [SerializeField] private PatrolPoint[] _patrolPoints;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
 
         private EnemyPlayerDetector _playerDetector;
+        private EnemyPatrolPointDetector _patrolPointDetector;
         private EnemyAttackDetector _enemyAttackDetector;
         private PlayerBehaviour _target;
         private Animator _animator;
@@ -36,6 +38,7 @@ namespace Client
             _animator = GetComponent<Animator>();
             _rigidbody = GetComponent<Rigidbody>();
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
+            _patrolPointDetector = GetComponentInChildren<EnemyPatrolPointDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
@@ -50,10 +53,11 @@ namespace Client
                 new EnemyIdleState(_animator, this),
                 new EnemyFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
                 new SpiderAttackState(_animator, this, _enemyAttackDetector, _enemyData),
-                new SpiderDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent)
+                new SpiderDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent),
+                new EnemyPatrolState(_animator, this, _patrolPointDetector, _navMeshAgent, _enemyData, _patrolPoints)
             };
 
-            CurrentState = _states[0];
+            CurrentState = _states[4];
             CurrentState.Start();
             CurrentState.Action();
 
@@ -64,6 +68,8 @@ namespace Client
         {
             _playerDetector.Entered += OnEntered;
             _playerDetector.DetectExited += OnDetectExited;
+            
+            _patrolPointDetector.Entered += OnPatrolPointEntered;
 
             _enemyAttackDetector.Entered += OnSpiderAttackDetect;
             _enemyAttackDetector.DetectExited += OnAttackDetectExited;
@@ -73,6 +79,8 @@ namespace Client
         {
             _playerDetector.Entered -= OnEntered;
             _playerDetector.DetectExited -= OnDetectExited;
+            
+            _patrolPointDetector.Entered -= OnPatrolPointEntered;
 
             _enemyAttackDetector.Entered -= OnSpiderAttackDetect;
             _enemyAttackDetector.DetectExited -= OnAttackDetectExited;
@@ -87,7 +95,17 @@ namespace Client
 
         private void OnDetectExited(PlayerBehaviour arg0)
         {
-            SwitchState<EnemyIdleState>();
+            SwitchState<EnemyPatrolState>();
+        }
+
+        private void OnPatrolPointEntered(PatrolPoint patrolPoint)
+        {
+            switch (CurrentState)
+            {
+                case EnemyPatrolState _:
+                    CurrentState.Action();
+                    break;
+            }
         }
 
         private void OnSpiderAttackDetect()
@@ -103,12 +121,12 @@ namespace Client
 
         private void Update()
         {
-            switch (CurrentState)
-            {
-                case EnemyIdleState _:
-                    CurrentState.Action();
-                    break;
-            }
+            // switch (CurrentState)
+            // {
+            //     case EnemyIdleState _:
+            //         CurrentState.Action();
+            //         break;
+            // }
         }
 
         public void SwitchState<T>() where T : BaseEnemyState
