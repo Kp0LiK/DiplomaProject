@@ -25,6 +25,8 @@ namespace Client
         [Header("Weapons")] [SerializeField] private BowWeapon _bow;
         [SerializeField] private SwordBehaviour _sword;
         [SerializeField] private List<WeaponsData> _combo;
+        [SerializeField] private Camera _aimCamera;
+        [SerializeField] private GameObject _aimTarget;
 
         private Collider _swordCollider;
 
@@ -42,8 +44,6 @@ namespace Client
         private bool _isAim;
         private bool _isBow;
         private bool _isSword;
-        private float _timerToAim;
-        private float _timeBetweenChangeAnimation;
 
         private Vector3 _velocity;
 
@@ -108,7 +108,6 @@ namespace Client
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
             _stamina = _playerData.Stamina;
-            _timerToAim = 5f;
         }
 
         private void OnEnable()
@@ -135,29 +134,46 @@ namespace Client
 
             Move();
 
-            if (_isAim)
+            // if (_isAim)
+            // {
+            //     _timeBetweenChangeAnimation -= Time.deltaTime;
+            //     if (_timeBetweenChangeAnimation <= 0)
+            //     {
+            //         _isAim = false;
+            //         Animator.SetBool(IsAim, false);
+            //     }
+            // }
+
+            if (Input.GetMouseButtonDown(0) && _isAim)
             {
-                _timeBetweenChangeAnimation -= Time.deltaTime;
-                if (_timeBetweenChangeAnimation <= 0)
-                {
-                    _isAim = false;
-                    Animator.SetBool(IsAim, false);
-                }
+                Animator.SetTrigger(AimAttack);
+                _bow.Shoot();
             }
 
-            if (Input.GetMouseButtonDown(0) && _isBow)
+            if (Input.GetMouseButtonDown(1) && _isBow)
             {
-                _timeBetweenChangeAnimation = _timerToAim;
                 _isAim = true;
-                Animator.SetTrigger(AimAttack);
                 Animator.SetBool(IsAim, true);
-                _bow.Shoot();
+                _aimCamera.gameObject.SetActive(true);
+                _aimTarget.gameObject.SetActive(true);
+            }
+            
+            if (Input.GetMouseButtonUp(1) && _isBow)
+            {
+                _isAim = false;
+                Animator.SetBool(IsAim, false);
+                _aimCamera.gameObject.SetActive(false);
+                _aimTarget.gameObject.SetActive(false);
             }
 
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 _isSword = true;
                 _isBow = false;
+                _isAim = false;
+                Animator.SetBool(IsAim, false);
+                _aimCamera.gameObject.SetActive(false);
+                _aimTarget.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(true);
                 _bow.gameObject.SetActive(false);
             }
@@ -190,6 +206,7 @@ namespace Client
         {
             IsStanding = true;
             Animator.SetBool("isStanding", true);
+            
             await Task.Delay(700);
             IsStanding = false;
             Animator.SetBool("isStanding", false);
@@ -307,9 +324,10 @@ namespace Client
                     if (Camera.main != null)
                     {
                         var lookPos = Camera.main.transform.position - transform.position;
-                        lookPos.y = 0; // не поворачиваться по оси y
+                        lookPos.y = 0;
                         var rotation = Quaternion.LookRotation(-lookPos);
-                        transform.rotation = rotation;
+                        // поворачиваем по оси Y
+                        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                     }
                 }
             }
