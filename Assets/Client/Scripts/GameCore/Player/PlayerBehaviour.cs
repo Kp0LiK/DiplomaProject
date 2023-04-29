@@ -25,6 +25,8 @@ namespace Client
         [Header("Weapons")] [SerializeField] private BowWeapon _bow;
         [SerializeField] private SwordBehaviour _sword;
         [SerializeField] private List<WeaponsData> _combo;
+        [SerializeField] private Camera _aimCamera;
+        [SerializeField] private GameObject _aimTarget;
 
         private Collider _swordCollider;
 
@@ -42,8 +44,6 @@ namespace Client
         private bool _isAim;
         private bool _isBow;
         private bool _isSword;
-        private float _timerToAim;
-        private float _timeBetweenChangeAnimation;
 
         private Vector3 _velocity;
 
@@ -108,7 +108,6 @@ namespace Client
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
             _stamina = _playerData.Stamina;
-            _timerToAim = 5f;
         }
 
         private void OnEnable()
@@ -135,29 +134,46 @@ namespace Client
 
             Move();
 
-            if (_isAim)
-            {
-                _timeBetweenChangeAnimation -= Time.deltaTime;
-                if (_timeBetweenChangeAnimation <= 0)
-                {
-                    _isAim = false;
-                    Animator.SetBool(IsAim, false);
-                }
-            }
+            // if (_isAim)
+            // {
+            //     _timeBetweenChangeAnimation -= Time.deltaTime;
+            //     if (_timeBetweenChangeAnimation <= 0)
+            //     {
+            //         _isAim = false;
+            //         Animator.SetBool(IsAim, false);
+            //     }
+            // }
 
-            if (Input.GetMouseButtonDown(0) && _isBow)
+            if (Input.GetMouseButtonDown(0) && _isAim)
             {
-                _timeBetweenChangeAnimation = _timerToAim;
-                _isAim = true;
                 Animator.SetTrigger(AimAttack);
-                Animator.SetBool(IsAim, true);
                 _bow.Shoot();
             }
+
+            if (Input.GetMouseButtonDown(1) && _isBow)
+            {
+                _isAim = true;
+                Animator.SetBool(IsAim, true);
+                _aimCamera.gameObject.SetActive(true);
+                _aimTarget.gameObject.SetActive(true);
+            }
             
+            if (Input.GetMouseButtonUp(1) && _isBow)
+            {
+                _isAim = false;
+                Animator.SetBool(IsAim, false);
+                _aimCamera.gameObject.SetActive(false);
+                _aimTarget.gameObject.SetActive(false);
+            }
+
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 _isSword = true;
                 _isBow = false;
+                _isAim = false;
+                Animator.SetBool(IsAim, false);
+                _aimCamera.gameObject.SetActive(false);
+                _aimTarget.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(true);
                 _bow.gameObject.SetActive(false);
             }
@@ -190,6 +206,7 @@ namespace Client
         {
             IsStanding = true;
             Animator.SetBool("isStanding", true);
+            
             await Task.Delay(700);
             IsStanding = false;
             Animator.SetBool("isStanding", false);
@@ -265,14 +282,16 @@ namespace Client
                     }
                 }
             }
-            
+
             direction = (Vector3.right * horizontal + Vector3.forward * vertical).normalized;
 
 
-            if (direction.magnitude >= 0.1f)
+            
+            if (direction.magnitude >= 0.1f || _characterController.velocity.magnitude > 0.1f)
             {
-                if (Camera.main is { })
+                if (Camera.main != null)
                 {
+                    //Player Movement with AimState
                     if (_isAim)
                     {
                         var eulerAngles = Camera.main.transform.eulerAngles;
@@ -283,6 +302,7 @@ namespace Client
                         var moveDirForAim = Quaternion.Euler(0f, targetAngleforAim, 0f) * Vector3.forward;
                         _characterController.Move(moveDirForAim.normalized * _speed * Time.deltaTime);
                     }
+                    //Player Movement without AimState
                     else
                     {
                         var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
@@ -293,6 +313,21 @@ namespace Client
 
                         var moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                         _characterController.Move(moveDir.normalized * _speed * Time.deltaTime);
+                    }
+                }
+            }
+            else
+            {
+                //Look for camera, when Player AimIdle
+                if (_isAim)
+                {
+                    if (Camera.main != null)
+                    {
+                        var lookPos = Camera.main.transform.position - transform.position;
+                        lookPos.y = 0;
+                        var rotation = Quaternion.LookRotation(-lookPos);
+                        // поворачиваем по оси Y
+                        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                     }
                 }
             }
@@ -337,7 +372,7 @@ namespace Client
             Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent(out NPC npc))
@@ -362,16 +397,6 @@ namespace Client
             _questManager.AddQuest(quest);
         }
 
-        private void OnDrawGizmos()
-        {
-            var ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out var hit, Mathf.Infinity))
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(transform.position, hit.point);
-            }
-          
-        }
 
         [Serializable]
         public class PlayerAudioData
