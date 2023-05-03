@@ -18,11 +18,13 @@ public class DialogueSystem : MonoBehaviour
     private void OnEnable()
     {
         NPC.DialogueStarted += StartDialogue;
+        TutorialSystem.DialogueStarted += StartDialogue;
     }
 
     private void OnDisable()
     {
         NPC.DialogueStarted -= StartDialogue;
+        TutorialSystem.DialogueStarted -= StartDialogue;
     }
 
     private void Awake()
