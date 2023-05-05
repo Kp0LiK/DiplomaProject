@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialNPC : NPC
+public class TutorialQuestGiver : QuestGiver
 {
     [SerializeField] private TutorialSystem _tutorialSystem;
 
@@ -18,6 +18,7 @@ public class TutorialNPC : NPC
             DialogueStarted?.Invoke(_lines);
             _talking = true;
             _stoppedTalking = true;
+            DialogueSystem.DialogueEnded += GiveQuest;
         }
     }
     
@@ -30,6 +31,6 @@ public class TutorialNPC : NPC
     protected override void StopTalking()
     {
         base.StopTalking();
-        if (_stoppedTalking) _tutorialSystem.AfterNPCInteraction();
+        if (_stoppedTalking) _tutorialSystem.AfterQuestGiverInteraction();
     }
 }

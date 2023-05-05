@@ -71,13 +71,17 @@ public class QuestManager : MonoBehaviour
         quest.Evaluate();
     }
 
-    public void Collect(string collectibleName)
+    protected virtual void Collect(string collectibleName, GameObject collectibleObject)
     {
         List<Quest.QuestGoal> collectGoals = GetCollectGoals();
 
         foreach (CollectGoal collectGoal in collectGoals)
         {
-            if (collectGoal.Collectible == collectibleName) EventManager.Instance.QueueEvent(new CollectingGameEvent(collectibleName));
+            if (collectGoal.Collectible == collectibleName)
+            {
+                EventManager.Instance.QueueEvent(new CollectingGameEvent(collectibleName));
+                Destroy(collectibleObject);
+            }
         }
     }
 
@@ -111,7 +115,7 @@ public class QuestManager : MonoBehaviour
         }
     }
     
-    private List<Quest.QuestGoal> GetCollectGoals()
+    protected List<Quest.QuestGoal> GetCollectGoals()
     {
         List<Quest.QuestGoal> collectGoals = new List<Quest.QuestGoal>();
         
@@ -159,7 +163,7 @@ public class QuestManager : MonoBehaviour
         return reachGoals;
     }
 
-    private void OnQuestCompleted(Quest quest)
+    protected virtual void OnQuestCompleted(Quest quest)
     {
         // Destroy(_questsContent.GetChild(CurrentQuests.IndexOf(quest)).gameObject);
         _questsContent.GetChild(CurrentQuests.IndexOf(quest)).Find("Checkmark").gameObject.SetActive(true);

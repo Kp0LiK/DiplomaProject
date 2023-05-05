@@ -6,12 +6,26 @@ using UnityEngine;
 public class TutorialSystem : MonoBehaviour
 {
     [SerializeField] private string[] _greetingLines;
-    [SerializeField] private string[] _interactionLines;
-    [SerializeField] private string[] _postInteractionLines;
+    
+    [SerializeField] private string[] _npcInteractionLines;
+    [SerializeField] private string[] _postNpcInteractionLines;
+    
+    [SerializeField] private string[] _questGiverInteractionLines;
+    [SerializeField] private string[] _postQuestGiverInteractionLines;
+
+    [SerializeField] private string[] _itemCollectedLines;
+    [SerializeField] private string[] _questCompleteLines;
 
     private bool _hasGreeted;
-    private bool _hasInteracted;
-    private bool _hasPostInteracted;
+    
+    private bool _hasNPCInteracted;
+    private bool _hasPostNPCInteracted;
+
+    private bool _hasQuestGiverInteracted;
+    private bool _hasPostQuestGiverInteracted;
+
+    private bool _hasCollectedItem;
+    private bool _hasCompletedQuest;
     
     public static Action<string[]> DialogueStarted;
     
@@ -19,13 +33,15 @@ public class TutorialSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        TutorialNPC.OnInteractable += StartInteractionTutorial;
+        TutorialNPC.OnInteractable += StartNPCInteractionTutorial;
+        TutorialQuestGiver.OnInteractable += StartQuestGiverTutorial;
         DialogueSystem.DialogueEnded += StopExplaining;
     }
 
     private void OnDisable()
     {
-        TutorialNPC.OnInteractable -= StartInteractionTutorial;
+        TutorialNPC.OnInteractable -= StartNPCInteractionTutorial;
+        TutorialQuestGiver.OnInteractable -= StartQuestGiverTutorial;
         DialogueSystem.DialogueEnded -= StopExplaining;
     }
 
@@ -37,20 +53,52 @@ public class TutorialSystem : MonoBehaviour
         }
     }
 
-    private void StartInteractionTutorial()
+    private void StartNPCInteractionTutorial()
     {
-        if (_hasInteracted) return;
+        if (_hasNPCInteracted) return;
         
-        StartCoroutine(BeginTutorial(1f, _interactionLines));
-        _hasInteracted = true;
+        StartCoroutine(BeginTutorial(1f, _npcInteractionLines));
+        _hasNPCInteracted = true;
     }
 
-    public void AfterInteraction()
+    public void AfterNPCInteraction()
     {
-        if (_hasPostInteracted) return;
+        if (_hasPostNPCInteracted) return;
         
-        StartCoroutine(BeginTutorial(1f, _postInteractionLines));
-        _hasPostInteracted = true;
+        StartCoroutine(BeginTutorial(1f, _postNpcInteractionLines));
+        _hasPostNPCInteracted = true;
+    }
+
+    private void StartQuestGiverTutorial()
+    {
+        if (_hasQuestGiverInteracted) return;
+
+        StartCoroutine(BeginTutorial(1f, _questGiverInteractionLines));
+        _hasQuestGiverInteracted = true;
+    }
+
+    public void AfterQuestGiverInteraction()
+    {
+        if (_hasPostQuestGiverInteracted) return;
+        
+        StartCoroutine(BeginTutorial(1f, _postQuestGiverInteractionLines));
+        _hasPostQuestGiverInteracted = true;
+    }
+
+    public void AfterItemCollected()
+    {
+        if (_hasCollectedItem) return;
+
+        StartCoroutine(BeginTutorial(1f, _itemCollectedLines));
+        _hasCollectedItem = true;
+    }
+
+    public void AfterQuestCompleted()
+    {
+        if (_hasCompletedQuest) return;
+
+        StartCoroutine(BeginTutorial(1f, _questCompleteLines));
+        _hasCompletedQuest = true;
     }
 
     // Этот метод можно переиспользовать, чтобы включить туториал при надобности
