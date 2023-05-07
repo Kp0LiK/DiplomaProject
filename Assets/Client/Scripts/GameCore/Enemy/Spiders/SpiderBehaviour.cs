@@ -12,12 +12,13 @@ namespace Client
     [SelectionBase]
     public class SpiderBehaviour : MonoBehaviour, IEnemySwitchState, IDamageable
     {
-        [SerializeField, Required] private EnemyData _enemyData;
-        [SerializeField] private float _deathDuration = 2f;
+        [SerializeField, Required] protected EnemyData _enemyData;
+        [SerializeField] protected float _deathDuration = 2f;
         [SerializeField] private PatrolPoint[] _patrolPoints;
 
         public event Action<float> HealthChanged;
-        public float Health { get; private set; }
+        public static Action OnDeath;
+        public float Health { get; protected set; }
 
         private EnemyPlayerDetector _playerDetector;
         private EnemyPatrolPointDetector _patrolPointDetector;
@@ -142,7 +143,7 @@ namespace Client
             CurrentState.Action();
         }
 
-        public void ApplyDamage(float damage)
+        public virtual void ApplyDamage(float damage)
         {
             Health -= damage;
                 
@@ -155,6 +156,7 @@ namespace Client
             if (_enemyData.IsDied)
             {
                 SwitchState<SpiderDeathState>();
+                OnDeath?.Invoke();
                 Destroy(gameObject, _deathDuration);
             }
             

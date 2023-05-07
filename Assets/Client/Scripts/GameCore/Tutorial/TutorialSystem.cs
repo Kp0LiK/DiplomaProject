@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Client;
 using UnityEngine;
 
 public class TutorialSystem : MonoBehaviour
@@ -16,6 +17,13 @@ public class TutorialSystem : MonoBehaviour
     [SerializeField] private string[] _itemCollectedLines;
     [SerializeField] private string[] _questCompleteLines;
 
+    [SerializeField] private string[] _weaponLines;
+    [SerializeField] private string[] _swordLines;
+    [SerializeField] private string[] _bowLines;
+
+    [SerializeField] private string[] _enemyLines;
+    [SerializeField] private string[] _afterKillingEnemyLines;
+
     private bool _hasGreeted;
     
     private bool _hasNPCInteracted;
@@ -26,8 +34,17 @@ public class TutorialSystem : MonoBehaviour
 
     private bool _hasCollectedItem;
     private bool _hasCompletedQuest;
+
+    private bool _hasWeapon;
+    private bool _hasSword;
+    private bool _hasBow;
+
+    private bool _hasEnemy;
+    private bool _killedEnemy;
     
     public static Action<string[]> DialogueStarted;
+    
+    private int index;
     
     public bool IsExplaining;
 
@@ -36,6 +53,7 @@ public class TutorialSystem : MonoBehaviour
         TutorialNPC.OnInteractable += StartNPCInteractionTutorial;
         TutorialQuestGiver.OnInteractable += StartQuestGiverTutorial;
         DialogueSystem.DialogueEnded += StopExplaining;
+        SpiderBehaviour.OnDeath += AfterEnemyKilled;
     }
 
     private void OnDisable()
@@ -43,6 +61,7 @@ public class TutorialSystem : MonoBehaviour
         TutorialNPC.OnInteractable -= StartNPCInteractionTutorial;
         TutorialQuestGiver.OnInteractable -= StartQuestGiverTutorial;
         DialogueSystem.DialogueEnded -= StopExplaining;
+        SpiderBehaviour.OnDeath -= AfterEnemyKilled;
     }
 
     private void Start()
@@ -89,7 +108,7 @@ public class TutorialSystem : MonoBehaviour
     {
         if (_hasCollectedItem) return;
 
-        StartCoroutine(BeginTutorial(1f, _itemCollectedLines));
+        StartCoroutine(BeginTutorial(0.5f, _itemCollectedLines));
         _hasCollectedItem = true;
     }
 
@@ -99,6 +118,54 @@ public class TutorialSystem : MonoBehaviour
 
         StartCoroutine(BeginTutorial(1f, _questCompleteLines));
         _hasCompletedQuest = true;
+
+        index = 1;
+    }
+
+    public void ExplainingWeapon()
+    {
+        if (_hasWeapon) return;
+
+        StartCoroutine(BeginTutorial(1f, _weaponLines));
+        _hasWeapon = true;
+
+        index = 2;
+    }
+
+    public void ExplainingSword()
+    {
+        if (_hasSword) return;
+
+        StartCoroutine(BeginTutorial(1f, _swordLines));
+        _hasSword = true;
+
+        index = 3;
+    }
+
+    public void ExplainingBow()
+    {
+        if (_hasBow) return;
+
+        StartCoroutine(BeginTutorial(1f, _bowLines));
+        _hasBow = true;
+
+        index = 4;
+    }
+
+    public void ExplainingEnemy()
+    {
+        if (_hasEnemy) return;
+
+        StartCoroutine(BeginTutorial(1f, _enemyLines));
+        _hasEnemy = true;
+    }
+
+    public void AfterEnemyKilled()
+    {
+        if (_killedEnemy) return;
+
+        StartCoroutine(BeginTutorial(1f, _afterKillingEnemyLines));
+        _killedEnemy = true;
     }
 
     // Этот метод можно переиспользовать, чтобы включить туториал при надобности
@@ -112,5 +179,19 @@ public class TutorialSystem : MonoBehaviour
     private void StopExplaining()
     {
         IsExplaining = false;
+        
+        Debug.Log(index);
+        
+        switch (index)
+        {
+            case 1: ExplainingWeapon();
+                break;
+            case 2: ExplainingSword();
+                break;
+            case 3: ExplainingBow();
+                break;
+            case 4: ExplainingEnemy();
+                break;
+        }
     }
 }
