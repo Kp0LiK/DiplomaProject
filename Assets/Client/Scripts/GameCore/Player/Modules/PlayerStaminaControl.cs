@@ -35,9 +35,8 @@ namespace Client
 
         private void OnStaminaChange(float value)
         {
-            if (value < 0 || Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || value < 0)
             {
-                Debug.Log("Start Restore");
                 _restoreRoutine = StartCoroutine(Restore(value));
             }
             else

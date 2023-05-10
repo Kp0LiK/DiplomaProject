@@ -47,6 +47,7 @@ namespace Client
         {
             Health = _enemyData.Health;
             _enemyData.IsDied = false;
+            Debug.Log(Health);
 
             _states = new List<BaseEnemyState>
             {
@@ -60,8 +61,6 @@ namespace Client
             CurrentState = _states[4];
             CurrentState.Start();
             CurrentState.Action();
-
-            Debug.Log(Health);
         }
 
         private void OnEnable()
@@ -111,22 +110,11 @@ namespace Client
         private void OnSpiderAttackDetect()
         {
             SwitchState<SpiderAttackState>();
-            Debug.Log("Attack");
         }
 
         private void OnAttackDetectExited()
         {
             SwitchState<EnemyFollowState>();
-        }
-
-        private void Update()
-        {
-            // switch (CurrentState)
-            // {
-            //     case EnemyIdleState _:
-            //         CurrentState.Action();
-            //         break;
-            // }
         }
 
         public void SwitchState<T>() where T : BaseEnemyState
@@ -149,37 +137,15 @@ namespace Client
             if (Health <= 0)
             {
                 Health = 0;
-                _enemyData.IsDied = true;
+                SwitchState<SpiderDeathState>();
+                Destroy(gameObject, _deathDuration);
+                //_enemyData.IsDied = true;
             }
             
             if (_enemyData.IsDied)
             {
-                SwitchState<SpiderDeathState>();
-                Destroy(gameObject, _deathDuration);
+                
             }
-            
-            // if (Health <= 0)
-            // {
-            //     Health = 0;
-            //     _enemyData.IsDied = true;
-            // }
-            //
-            // if (_enemyData.IsDied)
-            // {
-            //     SwitchState<SpiderDeathState>();
-            //     Destroy(gameObject, _deathDuration);
-            // }
-            // else
-            // {
-            //     Health -= damage;
-            //     
-            //     if (Health <= 0)
-            //     {
-            //         Health = 0;
-            //         _enemyData.IsDied = true;
-            //     }
-            //     //SpiderDamageAnimation();
-            // }
 
             HealthChanged?.Invoke(Health);
         }

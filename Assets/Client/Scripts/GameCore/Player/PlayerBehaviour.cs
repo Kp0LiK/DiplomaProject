@@ -104,6 +104,8 @@ namespace Client
 
         private void Start()
         {
+            _sword.gameObject.SetActive(false);
+            _bow.gameObject.SetActive(false);
             _playerData.IsDied = false;
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
