@@ -9,6 +9,8 @@ namespace Client
         [SerializeField] private float _projectileSpeed;
         [field: SerializeField] public Transform CastPoint { get; private set; }
 
+        private AudioSource _audioSource;
+
         [Header("Projectiles")]
         [SerializeField] private Projectile _fireballPrefab;
         [SerializeField] private Projectile _iceballPrefab;
@@ -18,12 +20,14 @@ namespace Client
         private void Start()
         {
             _isCanCast = true;
+            _audioSource = GetComponent<AudioSource>();
         }
 
         public void Shoot(ProjectileType projectileType)
         {
             if (!_isCanCast) return;
             
+            _audioSource.Play();
             var ray = new Ray(CastPoint.position, CastPoint.forward);
             if (Physics.Raycast(ray, out var hit, Mathf.Infinity))
             {

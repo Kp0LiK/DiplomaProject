@@ -113,6 +113,8 @@ MonoBehaviour:
   _rigidbody: {fileID: -2760762346815148971}
   _weaponsData: {fileID: 11400000, guid: 67b8e33b7df568e458bf754fafc4aeb0, type: 2}
   _collisionPrefab: {fileID: 2504214343621411456, guid: 3ed0d324122d7b24eaec75c55c74aafc, type: 3}
+  _tuneSound: {fileID: 8300000, guid: 6c877ac850425104795406627d731c34, type: 3}
+  _collisionSound: {fileID: 8300000, guid: 24448205873db1e498d94515ee2fabd0, type: 3}
 --- !u!54 &-2760762346815148971
 Rigidbody:
   m_ObjectHideFlags: 0

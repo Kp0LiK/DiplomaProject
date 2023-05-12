@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Client.Scripts.Data.Player;
@@ -10,20 +11,23 @@ namespace Client
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private WeaponsData _weaponsData;
         [SerializeField] private ParticleSystem _collisionPrefab;
+        [SerializeField] private AudioClip _collisionSound;
 
         public Rigidbody Rigidbody => _rigidbody;
-        
+
         private void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.TryGetComponent(out IDamageable damageable))
             {
                 damageable.ApplyDamage(_weaponsData.Damage);
                 Instantiate(_collisionPrefab, transform.position, transform.rotation);
+                AudioSource.PlayClipAtPoint(_collisionSound, gameObject.transform.position);
                 Destroy(gameObject);
             }
             else
             {
                 Instantiate(_collisionPrefab, transform.position, transform.rotation);
+                AudioSource.PlayClipAtPoint(_collisionSound, gameObject.transform.position);
                 Destroy(gameObject, 3);
             }
 
