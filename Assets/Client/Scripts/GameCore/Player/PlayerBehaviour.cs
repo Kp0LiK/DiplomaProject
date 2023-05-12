@@ -168,9 +168,18 @@ namespace Client
                 _aimTarget.gameObject.SetActive(false);
             }
 
-            if (Input.GetMouseButtonDown(0) && _isAim && _isKobyz)
+            if (_isAim && _isKobyz)
             {
-                
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Animator.SetTrigger(AimAttack);
+                    _kobyz.Shoot(ProjectileType.FIREBALL);
+                }
+                else if (Input.GetKeyDown(KeyCode.R))
+                {
+                    Animator.SetTrigger(AimAttack);
+                    _kobyz.Shoot(ProjectileType.ICE);
+                }
             }
 
             if (Input.GetMouseButtonDown(1) && _isKobyz)
