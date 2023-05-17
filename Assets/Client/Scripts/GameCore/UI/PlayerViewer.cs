@@ -12,6 +12,7 @@ namespace Client
     {
         [SerializeField] private Slider _healthViewer;
         [SerializeField] private Slider _staminaViewer;
+        [SerializeField] private Slider _manaViewer;
         [SerializeField] private Image _fillHealthImage;
 
         private PlayerBehaviour _playerBehaviour;
@@ -26,12 +27,14 @@ namespace Client
         {
             _playerBehaviour.HealthChanged += OnHealthChanged;
             _playerBehaviour.StaminaChanged += OnStaminaChanged;
+            _playerBehaviour.ManaChanged += OnManaChanged;
         }
 
         private void OnDisable()
         {
             _playerBehaviour.HealthChanged -= OnHealthChanged;
             _playerBehaviour.StaminaChanged -= OnStaminaChanged;
+            _playerBehaviour.ManaChanged -= OnManaChanged;
         }
 
         private void OnHealthChanged(float health)
@@ -47,6 +50,15 @@ namespace Client
         {
             _staminaViewer.DOValue(energy, 0.5f);
             if (energy <= 0)
+            {
+                //todo HealSystem
+            }
+        }
+        
+        private void OnManaChanged(float mana)
+        {
+            _manaViewer.DOValue(mana, 0.5f);
+            if (mana <= 0)
             {
                 //todo HealSystem
             }

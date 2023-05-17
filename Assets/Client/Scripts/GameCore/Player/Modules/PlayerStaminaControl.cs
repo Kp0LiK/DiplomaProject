@@ -12,6 +12,7 @@ namespace Client
         private PlayerBehaviour _player;
 
         private Coroutine _restoreRoutine;
+        private Coroutine _restoreManaRoutine;
         private WaitForSeconds _delay;
 
         private WaitForEndOfFrame _forEndOfFrame;
@@ -26,18 +27,20 @@ namespace Client
         private void OnEnable()
         {
             _player.StaminaChanged += OnStaminaChange;
+            _player.ManaChanged += OnManaChanged;
         }
 
         private void OnDisable()
         {
             _player.StaminaChanged -= OnStaminaChange;
+            _player.ManaChanged -= OnManaChanged;
         }
 
         private void OnStaminaChange(float value)
         {
             if (Input.GetKey(KeyCode.LeftShift) || value < 0)
             {
-                _restoreRoutine = StartCoroutine(Restore(value));
+                _restoreRoutine = StartCoroutine(StaminaRestore(value));
             }
             else
             {
@@ -48,8 +51,24 @@ namespace Client
                 _restoreRoutine = null;
             }
         }
+        
+        private void OnManaChanged(float value)
+        {
+            if (value < 100)
+                _restoreManaRoutine = StartCoroutine(ManaRestore(value));
+            else
+            {
+                if (ReferenceEquals(_restoreManaRoutine, null))
+                    return;
 
-        private IEnumerator Restore(float currentValue)
+                StopCoroutine(_restoreManaRoutine);
+                _restoreManaRoutine = null;
+            }
+        }
+
+
+
+        private IEnumerator StaminaRestore(float currentValue)
         {
             if (currentValue >= 100)
             {
@@ -60,5 +79,18 @@ namespace Client
             yield return _delay;
             _player.Stamina += _multiplayer;
         }
+        
+        private IEnumerator ManaRestore(float currentValue)
+        {
+            if (currentValue >= 100)
+            {
+                StopCoroutine(_restoreManaRoutine);
+                yield return _forEndOfFrame;
+            }
+            
+            yield return _delay;
+            _player.Mana += _multiplayer;
+        }
+        
     }
 }

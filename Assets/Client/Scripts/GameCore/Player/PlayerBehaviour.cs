@@ -40,6 +40,7 @@ namespace Client
         private float _speed;
         private float _health;
         private float _stamina;
+        private float _mana;
         private float _smooth;
 
         private bool _isGrounded;
@@ -89,9 +90,31 @@ namespace Client
                 }
             }
         }
+        
+        public float Mana
+        {
+            get => _mana;
+            set
+            {
+                ManaChanged?.Invoke(value);
+                _mana = value;
+                if (_mana >= _playerData.Mana)
+                {
+                    _mana = _playerData.Mana;
+                }
+
+                if (_mana <= 0)
+                {
+                    _mana = 0;
+                    Walk();
+                }
+            }
+        }
 
         public event Action<float> HealthChanged;
         public event Action<float> StaminaChanged;
+
+        public event Action<float> ManaChanged;
 
         public AudioSource AudioSource => _audioSource;
 
@@ -113,6 +136,7 @@ namespace Client
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
             _stamina = _playerData.Stamina;
+            _mana = _playerData.Mana;
         }
 
         private void OnEnable()
@@ -173,15 +197,17 @@ namespace Client
 
             if (_isAim && _isKobyz)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E) && Mana > 0)
                 {
                     Animator.SetTrigger(AimAttack);
                     _kobyz.Shoot(ProjectileType.FIREBALL);
+                    Mana -= 20f;
                 }
-                else if (Input.GetKeyDown(KeyCode.R))
+                else if (Input.GetKeyDown(KeyCode.R) && Mana > 0)
                 {
                     Animator.SetTrigger(AimAttack);
                     _kobyz.Shoot(ProjectileType.ICE);
+                    Mana -= 20f;
                 }
             }
 

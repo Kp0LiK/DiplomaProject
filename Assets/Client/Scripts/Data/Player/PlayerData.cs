@@ -9,6 +9,7 @@ namespace Client.Scripts.Data.Player
         [field: SerializeField] public float RunSpeed { get; private set; }
         [field: SerializeField] public float Health { get; set; }
         [field: SerializeField] public float Stamina { get; private set; }
+        [field: SerializeField] public float Mana { get; private set; }
         [field: SerializeField] public float Damage { get; private set; }
         
         [field: SerializeField] public bool IsDied { get; set; }
