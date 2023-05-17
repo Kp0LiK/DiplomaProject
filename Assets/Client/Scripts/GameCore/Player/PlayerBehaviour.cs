@@ -25,6 +25,7 @@ namespace Client
 
         [Header("Weapons")] [SerializeField] private BowWeapon _bow;
         [SerializeField] private SwordBehaviour _sword;
+        [SerializeField] private KobyzWeapon _kobyz;
         [SerializeField] private List<WeaponsData> _combo;
         [SerializeField] private Camera _aimCamera;
         [SerializeField] private GameObject _aimTarget;
@@ -45,6 +46,7 @@ namespace Client
         private bool _isAim;
         private bool _isBow;
         private bool _isSword;
+        private bool _isKobyz;
 
         private Vector3 _velocity;
 
@@ -147,7 +149,7 @@ namespace Client
             //     }
             // }
 
-            if (Input.GetMouseButtonDown(0) && _isAim)
+            if (Input.GetMouseButtonDown(0) && _isAim && _isBow)
             {
                 Animator.SetTrigger(AimAttack);
                 _bow.Shoot();
@@ -169,23 +171,67 @@ namespace Client
                 _aimTarget.gameObject.SetActive(false);
             }
 
+            if (_isAim && _isKobyz)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    Animator.SetTrigger(AimAttack);
+                    _kobyz.Shoot(ProjectileType.FIREBALL);
+                }
+                else if (Input.GetKeyDown(KeyCode.R))
+                {
+                    Animator.SetTrigger(AimAttack);
+                    _kobyz.Shoot(ProjectileType.ICE);
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1) && _isKobyz)
+            {
+                _isAim = true;
+                Animator.SetBool(IsAim, true);
+                _aimCamera.gameObject.SetActive(true);
+                _aimTarget.gameObject.SetActive(true);
+            }
+
+            if (Input.GetMouseButtonUp(1) && _isKobyz)
+            {
+                _isAim = false;
+                Animator.SetBool(IsAim, false);
+                _aimCamera.gameObject.SetActive(false);
+                _aimTarget.gameObject.SetActive(false);
+            }
+
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 _isSword = true;
                 _isBow = false;
                 _isAim = false;
+                _isKobyz = false;
                 Animator.SetBool(IsAim, false);
                 _aimCamera.gameObject.SetActive(false);
                 _aimTarget.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(true);
                 _bow.gameObject.SetActive(false);
+                _kobyz.gameObject.SetActive(false);
             }
 
             if (Input.GetKey(KeyCode.Alpha2))
             {
                 _isBow = true;
                 _isSword = false;
+                _isKobyz = false;
                 _bow.gameObject.SetActive(true);
+                _sword.gameObject.SetActive(false);
+                _kobyz.gameObject.SetActive(false);
+            }
+
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                _isKobyz = true;
+                _isBow = false;
+                _isSword = false;
+                _kobyz.gameObject.SetActive(true);
+                _bow.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(false);
             }
 
