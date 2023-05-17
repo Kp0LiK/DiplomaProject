@@ -20,8 +20,6 @@ namespace Client
         public bool Collidable;
         public bool Collided => _collided;
         
-        
-    
         private void OnTriggerEnter(Collider other)
         {
             if (Collidable)

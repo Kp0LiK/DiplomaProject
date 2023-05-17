@@ -21,6 +21,7 @@ namespace Client
         [SerializeField] private Transform _groundCheck;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
+        [SerializeField] private Camera _mainCamera;
 
         [Header("Weapons")] [SerializeField] private BowWeapon _bow;
         [SerializeField] private SwordBehaviour _sword;
@@ -104,6 +105,8 @@ namespace Client
 
         private void Start()
         {
+            _sword.gameObject.SetActive(false);
+            _bow.gameObject.SetActive(false);
             _playerData.IsDied = false;
             _speed = _playerData.WalkSpeed;
             _health = _playerData.Health;
@@ -154,7 +157,7 @@ namespace Client
             {
                 _isAim = true;
                 Animator.SetBool(IsAim, true);
-                _aimCamera.gameObject.SetActive(true);
+                //_aimCamera.gameObject.SetActive(true);
                 _aimTarget.gameObject.SetActive(true);
             }
             
@@ -162,7 +165,7 @@ namespace Client
             {
                 _isAim = false;
                 Animator.SetBool(IsAim, false);
-                _aimCamera.gameObject.SetActive(false);
+                //_aimCamera.gameObject.SetActive(false);
                 _aimTarget.gameObject.SetActive(false);
             }
 
@@ -289,16 +292,15 @@ namespace Client
             
             if (direction.magnitude >= 0.1f || _characterController.velocity.magnitude > 0.1f)
             {
-                if (Camera.main != null)
+                if (_mainCamera != null)
                 {
                     //Player Movement with AimState
                     if (_isAim)
                     {
-                        var eulerAngles = Camera.main.transform.eulerAngles;
+                        var eulerAngles = _mainCamera.transform.eulerAngles;
                         var targetAngleforAim = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
                                                 eulerAngles.y;
                         transform.rotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
-
                         var moveDirForAim = Quaternion.Euler(0f, targetAngleforAim, 0f) * Vector3.forward;
                         _characterController.Move(moveDirForAim.normalized * _speed * Time.deltaTime);
                     }
@@ -306,7 +308,7 @@ namespace Client
                     else
                     {
                         var targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
-                                          Camera.main.transform.eulerAngles.y;
+                                          _mainCamera.transform.eulerAngles.y;
                         var angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle,
                             ref _smooth, _smoothTime);
                         transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -321,9 +323,9 @@ namespace Client
                 //Look for camera, when Player AimIdle
                 if (_isAim)
                 {
-                    if (Camera.main != null)
+                    if (_mainCamera != null)
                     {
-                        var lookPos = Camera.main.transform.position - transform.position;
+                        var lookPos = _mainCamera.transform.position - transform.position;
                         lookPos.y = 0;
                         var rotation = Quaternion.LookRotation(-lookPos);
                         // поворачиваем по оси Y
@@ -368,7 +370,7 @@ namespace Client
             var verticalAnimTime = 0.2f;
             var InputX = Input.GetAxis("Horizontal");
             var InputZ = Input.GetAxis("Vertical");
-            _speed = 2f;
+            _speed = 0f;
             Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
