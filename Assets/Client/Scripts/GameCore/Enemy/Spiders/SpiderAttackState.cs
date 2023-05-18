@@ -38,10 +38,11 @@ namespace Client
                 if (_enemyData.IsDied)
                     return;
 
+                if (_enemyAttackDetector.enabled != true) continue;
                 if (!ReferenceEquals(_enemyAttackDetector.PlayerTarget, null))
                 {
                     if (_enemyAttackDetector.PlayerTarget.gameObject.TryGetComponent
-                        (out PlayerBehaviour playerBehaviour) && _enemyAttackDetector.PlayerTarget.IsStanding == false)
+                            (out PlayerBehaviour playerBehaviour) && _enemyAttackDetector.PlayerTarget.IsStanding == false)
                     {
                         _enemyAttackDetector.PlayerTarget.ApplyDamage(_enemyData.Damage);
                     }

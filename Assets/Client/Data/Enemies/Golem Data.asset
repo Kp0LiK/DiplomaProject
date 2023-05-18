@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60628ad4331464cafe2434e9061e589, type: 3}
   m_Name: Golem Data
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 7
-  <StopDistance>k__BackingField: 1.8
+  <Speed>k__BackingField: 5
+  <StopDistance>k__BackingField: 4
   <Health>k__BackingField: 100
   <Damage>k__BackingField: 10
   <IsDied>k__BackingField: 0

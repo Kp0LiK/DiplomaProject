@@ -54,7 +54,7 @@ namespace Client
                 new EnemyIdleState(_animator, this),
                 new EnemyFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
                 new SpiderAttackState(_animator, this, _enemyAttackDetector, _enemyData),
-                new SpiderDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent),
+                new EnemyDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent),
                 new EnemyPatrolState(_animator, this, _patrolPointDetector, _navMeshAgent, _enemyData, _patrolPoints)
             };
 
@@ -137,7 +137,7 @@ namespace Client
             if (Health <= 0)
             {
                 Health = 0;
-                SwitchState<SpiderDeathState>();
+                SwitchState<EnemyDeathState>();
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
