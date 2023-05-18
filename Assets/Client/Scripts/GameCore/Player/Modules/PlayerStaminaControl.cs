@@ -7,13 +7,16 @@ namespace Client
     public class PlayerStaminaControl : MonoBehaviour
     {
         [SerializeField] private float _restoreDelay;
+        [SerializeField] private float _restoreManaDelay;
         [SerializeField] private float _multiplayer;
+        [SerializeField] private float _manaMultiplayer;
         
         private PlayerBehaviour _player;
 
         private Coroutine _restoreRoutine;
         private Coroutine _restoreManaRoutine;
         private WaitForSeconds _delay;
+        private WaitForSeconds _manaDelay;
 
         private WaitForEndOfFrame _forEndOfFrame;
 
@@ -21,6 +24,7 @@ namespace Client
         {
             _forEndOfFrame = new WaitForEndOfFrame();
             _delay = new WaitForSeconds(_restoreDelay);
+            _manaDelay = new WaitForSeconds(_restoreManaDelay);
             _player = GetComponent<PlayerBehaviour>();
         }
 
@@ -38,7 +42,7 @@ namespace Client
 
         private void OnStaminaChange(float value)
         {
-            if (Input.GetKey(KeyCode.LeftShift) || value < 0)
+            if (value < 100)
             {
                 _restoreRoutine = StartCoroutine(StaminaRestore(value));
             }
@@ -88,8 +92,8 @@ namespace Client
                 yield return _forEndOfFrame;
             }
             
-            yield return _delay;
-            _player.Mana += _multiplayer;
+            yield return _manaDelay;
+            _player.Mana += _manaMultiplayer;
         }
         
     }

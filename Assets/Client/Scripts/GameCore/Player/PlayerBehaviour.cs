@@ -103,11 +103,9 @@ namespace Client
                     _mana = _playerData.Mana;
                 }
 
-                if (_mana <= 0)
-                {
-                    _mana = 0;
-                    Walk();
-                }
+                if (!(_mana <= 0)) return;
+                _mana = 0;
+                Walk();
             }
         }
 
@@ -197,13 +195,13 @@ namespace Client
 
             if (_isAim && _isKobyz)
             {
-                if (Input.GetKeyDown(KeyCode.E) && Mana > 0)
+                if (Input.GetKeyDown(KeyCode.E) && Mana >= 20f)
                 {
                     Animator.SetTrigger(AimAttack);
                     _kobyz.Shoot(ProjectileType.FIREBALL);
                     Mana -= 20f;
                 }
-                else if (Input.GetKeyDown(KeyCode.R) && Mana > 0)
+                else if (Input.GetKeyDown(KeyCode.R) && Mana >= 20f)
                 {
                     Animator.SetTrigger(AimAttack);
                     _kobyz.Shoot(ProjectileType.ICE);
@@ -442,7 +440,6 @@ namespace Client
             var verticalAnimTime = 0.2f;
             var InputX = Input.GetAxis("Horizontal");
             var InputZ = Input.GetAxis("Vertical");
-            _speed = 0f;
             Animator.SetFloat(Z, InputZ, verticalAnimTime, Time.deltaTime * 2f);
             Animator.SetFloat(X, InputX, horizontalAnimTime, Time.deltaTime * 2f);
         }
