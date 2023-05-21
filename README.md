@@ -32,7 +32,11 @@ A W S D - для передвижение персонажа
 ПКМ+E, ПКМ+R - для стрельбы льдом или огнем(ПКМ+E - лед, ПКМ+R - огонь)
 
 ## Authors
-Zhumekin Rakhat \\ Bakytzhanov Azamat \\ Adil Adambek \\ Ospanova Aigerim \\ Marte Stanislav
+Zhumekin Rakhat 
+Bakytzhanov Azamat 
+Adil Adambek 
+Ospanova Aigerim 
+Marte Stanislav
 
 ## Screnshoot
 ![TUyEnYI](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/65cd7625-4750-4b4e-a8b8-90341ac1730a) 
