@@ -202,7 +202,7 @@ namespace Client
             {
                 _isAim = true;
                 Animator.SetBool(IsAim, true);
-                //_aimCamera.gameObject.SetActive(true);
+                _aimCamera.gameObject.SetActive(true);
                 _aimTarget.gameObject.SetActive(true);
             }
             
@@ -210,7 +210,7 @@ namespace Client
             {
                 _isAim = false;
                 Animator.SetBool(IsAim, false);
-                //_aimCamera.gameObject.SetActive(false);
+                _aimCamera.gameObject.SetActive(false);
                 _aimTarget.gameObject.SetActive(false);
             }
 

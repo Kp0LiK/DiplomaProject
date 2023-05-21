@@ -17,6 +17,7 @@ namespace Client
         [SerializeField] private PatrolPoint[] _patrolPoints;
 
         public event Action<float> HealthChanged;
+        public static Action OnDeath;
         public float Health { get; private set; }
 
         private EnemyPlayerDetector _playerDetector;
@@ -138,6 +139,7 @@ namespace Client
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
+                OnDeath?.Invoke();
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
