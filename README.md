@@ -18,12 +18,12 @@ Battle trials: Musa can encounter various enemy creatures, such as demons, monst
 Magic: Musa can use magic to help him in his path, such as spells to summon rain or fire, or defend himself from hostile entities.
 
 ## Installation and Launch
-Чтобы запустить игру для начала вам нужно скачать или перейти на юнити 2020.3.44f1.  После этого запустите наш проект и откройте File->Build Settings. Выбираете в Scene in Build->Scenes/Tutorial, Scenes/StartLevel, Scenes/SecondLevel, Scenes/FinalLevel, Platform->PC, Mac & Linux Standalone и нажимаете Build. Ну или вы можете просто скачать и открыть наш билд.
+To launch the game you will first need to download or redirect to Unity 2020.3.44f1. Next, launch our project and open File -> Build Settings. Select Build->Scenes/Tutorial, Scenes/StartLevel, Scenes/SecondLevel, Scenes/FinalLevel in Scene folder; for Platform, select PC, Mac & Linux Standalone and click Build. Or you can simply download and open our build.
 
 ## How to Play
 W A S D - character movement
 
-1 2 3 - to toggle between different attack types (1 - меч, 2 - лук, 3 - магия)
+1 2 3 - to toggle between different attack types (1 - sword, 2 - bow, 3 - magic)
 
 Left Mouse Button - attack with sword/bow (depending on the equipped weapon)
 
