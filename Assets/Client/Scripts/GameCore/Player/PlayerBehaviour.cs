@@ -26,6 +26,7 @@ namespace Client
         [Header("Weapons")] [SerializeField] private BowWeapon _bow;
         [SerializeField] private SwordBehaviour _sword;
         [SerializeField] private KobyzWeapon _kobyz;
+        [SerializeField] private KobyzWeapon _kobyz2;
         [SerializeField] private List<WeaponsData> _combo;
         [SerializeField] private Camera _aimCamera;
         [SerializeField] private GameObject _aimTarget;
@@ -257,6 +258,7 @@ namespace Client
                 _sword.gameObject.SetActive(true);
                 _bow.gameObject.SetActive(false);
                 _kobyz.gameObject.SetActive(false);
+                _kobyz2.gameObject.SetActive(true);
             }
 
             if (Input.GetKey(KeyCode.Alpha2))
@@ -267,6 +269,7 @@ namespace Client
                 _bow.gameObject.SetActive(true);
                 _sword.gameObject.SetActive(false);
                 _kobyz.gameObject.SetActive(false);
+                _kobyz2.gameObject.SetActive(true);
             }
 
             if (Input.GetKey(KeyCode.Alpha3))
@@ -275,6 +278,8 @@ namespace Client
                 _isBow = false;
                 _isSword = false;
                 _kobyz.gameObject.SetActive(true);
+                _kobyz2.gameObject.SetActive(false);
+
                 _bow.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(false);
             }
