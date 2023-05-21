@@ -21,7 +21,7 @@ public class QuestGiver : NPC
         DialogueSystem.DialogueEnded += GiveQuest;
     }
 
-    private void GiveQuest()
+    protected void GiveQuest()
     {
         OnQuestGiven?.Invoke(quest);
     }

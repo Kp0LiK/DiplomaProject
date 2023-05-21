@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    [SerializeField] private string[] _lines;
+    [SerializeField] protected string[] _lines;
     private Animator _animator;
     
     public Action Interacted;
@@ -13,7 +13,7 @@ public class NPC : MonoBehaviour
     private bool _interactable;
     public bool Interactable => _interactable;
 
-    private bool _talking;
+    protected bool _talking;
     
     private int IsTalking = Animator.StringToHash("isTalking");
 
@@ -51,7 +51,7 @@ public class NPC : MonoBehaviour
         _interactable = interactable;
     }
 
-    private void StopTalking()
+    protected virtual void StopTalking()
     {
         _talking = false;
     }

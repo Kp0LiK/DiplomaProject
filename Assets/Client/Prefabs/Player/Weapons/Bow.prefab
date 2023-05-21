@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arrowPrefab: {fileID: 1931392525181976, guid: 89348af94fc3153448a3915127246169, type: 3}
-  _arrowSpeed: 10
+  _arrowSpeed: 20
   <ShootPoint>k__BackingField: {fileID: 0}
   <ShootParticlePrefab>k__BackingField: {fileID: 198411343574866708, guid: a121bb87e6018d44aa0b155f855fc31a, type: 3}
 --- !u!1001 &2963829550498293903
