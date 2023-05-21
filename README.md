@@ -9,7 +9,7 @@ Along the road, Musa is being assisted by various helpers and allies, each of th
 In the end, Musa finally reaches the lair of the malevolent creature, where he must face him in the final battle. If he succeeds, Musa can save his sister and reclaim freedom on Earth. If he fails, however, the creature will continue to sow chaos, and the planet will be lost forever.
 
 ## Screnshoot
-![TUyEnYI](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/65cd7625-4750-4b4e-a8b8-90341ac1730a) ![qE7CqSW](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/787cbc03-ccee-4910-b0f8-262e925ce625)
+|![TUyEnYI](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/65cd7625-4750-4b4e-a8b8-90341ac1730a) | ![qE7CqSW](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/787cbc03-ccee-4910-b0f8-262e925ce625)|
 ![Unity_5LWQBJLUHm](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/24231a2d-9895-422d-8f36-7b8691ff503e)
 ![Unity_EVKkObFnck](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/3a120479-109e-4908-8823-ee98ea35549e)
 ![Unity_OnzEmr469U](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/21df3b42-db16-41b7-805a-77120b99587e)
