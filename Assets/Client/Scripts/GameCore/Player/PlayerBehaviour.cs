@@ -63,6 +63,8 @@ namespace Client
         public Animator Animator { get; set; }
 
         public bool IsStanding { get; set; }
+        
+        
 
         public List<WeaponsData> Combo
         {
@@ -70,6 +72,25 @@ namespace Client
             set => _combo = value;
         }
 
+        
+        public float Health
+        {
+            get => _health;
+            set
+            {
+                HealthChanged?.Invoke(value);
+                _health = value;
+                if (_health >= _playerData.Health)
+                {
+                    _health = _playerData.Health;
+                }
+
+                if (_health <= 0)
+                {
+                    _health = 0;
+                }
+            }
+        }
 
         public float Stamina
         {
@@ -105,7 +126,6 @@ namespace Client
 
                 if (!(_mana <= 0)) return;
                 _mana = 0;
-                Walk();
             }
         }
 
