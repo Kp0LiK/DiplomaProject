@@ -43,7 +43,7 @@ Ospanova Aigerim
 
 Marte Stanislav
 
-## Screnshots
+## Screenshots
 ![TUyEnYI](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/65cd7625-4750-4b4e-a8b8-90341ac1730a) 
 ![qE7CqSW](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/787cbc03-ccee-4910-b0f8-262e925ce625)
 ![Unity_5LWQBJLUHm](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/24231a2d-9895-422d-8f36-7b8691ff503e)
