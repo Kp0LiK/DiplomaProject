@@ -33,9 +33,13 @@ A W S D - для передвижение персонажа
 
 ## Authors
 Zhumekin Rakhat 
+
 Bakytzhanov Azamat 
+
 Adil Adambek 
+
 Ospanova Aigerim 
+
 Marte Stanislav
 
 ## Screnshoot
