@@ -21,15 +21,15 @@ Magic: Musa can use magic to help him in his path, such as spells to summon rain
 Чтобы запустить игру для начала вам нужно скачать или перейти на юнити 2020.3.44f1.  После этого запустите наш проект и откройте File->Build Settings. Выбираете в Scene in Build->Scenes/Tutorial, Scenes/StartLevel, Scenes/SecondLevel, Scenes/FinalLevel, Platform->PC, Mac & Linux Standalone и нажимаете Build. Ну или вы можете просто скачать и открыть наш билд.
 
 ## How to Play
-W S A D - для передвижение персонажа
+W A S D - character movement
 
-1 2 3 - для переключение между мечом, луком и магией(1 - меч, 2 - лук, 3 - магия)
+1 2 3 - to toggle between different attack types (1 - меч, 2 - лук, 3 - магия)
 
-ЛКМ - для атаки мечом, луком(смотря от того что в руках)
+Left Mouse Button - attack with sword/bow (depending on the equipped weapon)
 
-ПКМ - для прицела лука или магии
+Right Mouse Button - aiming with the bow/magic
 
-ПКМ+E, ПКМ+R - для стрельбы льдом или огнем(ПКМ+E - лед, ПКМ+R - огонь)
+Right Mouse Button + E, Right Mouse Button + R - casting fire or ice, respectively
 
 There is also a tutorial in the game, it describes the mechanics of the game in more detail.
 ## Authors
