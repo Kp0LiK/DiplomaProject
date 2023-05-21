@@ -8,6 +8,15 @@ Along the road, Musa is being assisted by various helpers and allies, each of th
 
 In the end, Musa finally reaches the lair of the malevolent creature, where he must face him in the final battle. If he succeeds, Musa can save his sister and reclaim freedom on Earth. If he fails, however, the creature will continue to sow chaos, and the planet will be lost forever.
 
+## Features
+\item Exploration: Musa will explore different locations in Kazakhstan, meet NPCs and collect items, that can aid him in his adventure.
+
+Quests: Musa can get quests from NPCs, which can include collecting items, helping other characters, or fighting against enemy creatures.
+
+Battle trials: Musa can encounter various enemy creatures, such as demons, monsters or spirits, and must use skills and items in order to succeed.
+
+Magic: Musa can use magic to help him in his path, such as spells to summon rain or fire, or defend himself from hostile entities.
+
 ## Screnshoot
 ![TUyEnYI](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/65cd7625-4750-4b4e-a8b8-90341ac1730a) 
 ![qE7CqSW](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/787cbc03-ccee-4910-b0f8-262e925ce625)
