@@ -7,3 +7,5 @@ Musa sets off on an adventure to save his sister, traversing different mythical 
 Along the road, Musa is being assisted by various helpers and allies, each of them possessing their own unique abilities and powers, and he must use his wit and bravery in order to overcome unorthodox obstacles and challenges. Throughout the game, the player will partake in fights with mythical creatures and solve puzzles in order to progress in the game.
 
 In the end, Musa finally reaches the lair of the malevolent creature, where he must face him in the final battle. If he succeeds, Musa can save his sister and reclaim freedom on Earth. If he fails, however, the creature will continue to sow chaos, and the planet will be lost forever.
+
+## Screnshoot
