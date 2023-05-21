@@ -18,7 +18,7 @@ Battle trials: Musa can encounter various enemy creatures, such as demons, monst
 Magic: Musa can use magic to help him in his path, such as spells to summon rain or fire, or defend himself from hostile entities.
 
 ## Installation and Launch
-
+Чтобы запустить игру для начала вам нужно скачать или перейти на юнити 2020.3.44f1.  После этого запустите наш проект и откройте File->Build Settings. Выбираете в Scene in Build->Scenes/StartLevel, Scenes/SecondLevel, Scenes/FinalLevel, Platform->PC, Mac & Linux Standalone и нажимаете Build. Ну или вы можете просто скачать и открыть наш билд.
 
 ## How to Play
 A W S D - для передвижение персонажа
