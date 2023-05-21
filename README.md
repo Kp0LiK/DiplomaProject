@@ -31,7 +31,7 @@ A W S D - для передвижение персонажа
 
 ПКМ+E, ПКМ+R - для стрельбы льдом или огнем(ПКМ+E - лед, ПКМ+R - огонь)
 
-##Authors
+## Authors
 Zhumekin Rakhat \\ Bakytzhanov Azamat \\ Adil Adambek \\ Ospanova Aigerim \\ Marte Stanislav
 
 ## Screnshoot
