@@ -7,7 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SecondAttack
-  m_Controller: {fileID: 9100000, guid: da15dadbd1c038c418af1a5da1a2faca, type: 2}
+  m_Controller: {fileID: 9100000, guid: a7d275f7b1b717f428553c434583b899, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 24da985ec2521124290673c9205d3ab5, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: a7029406f5438c84f8c2480df64c3ccf, type: 2}
