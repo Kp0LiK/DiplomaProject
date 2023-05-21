@@ -9,7 +9,7 @@ Along the road, Musa is being assisted by various helpers and allies, each of th
 In the end, Musa finally reaches the lair of the malevolent creature, where he must face him in the final battle. If he succeeds, Musa can save his sister and reclaim freedom on Earth. If he fails, however, the creature will continue to sow chaos, and the planet will be lost forever.
 
 ## Features
-\item Exploration: Musa will explore different locations in Kazakhstan, meet NPCs and collect items, that can aid him in his adventure.
+Exploration: Musa will explore different locations in Kazakhstan, meet NPCs and collect items, that can aid him in his adventure.
 
 Quests: Musa can get quests from NPCs, which can include collecting items, helping other characters, or fighting against enemy creatures.
 
