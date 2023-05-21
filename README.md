@@ -17,6 +17,23 @@ Battle trials: Musa can encounter various enemy creatures, such as demons, monst
 
 Magic: Musa can use magic to help him in his path, such as spells to summon rain or fire, or defend himself from hostile entities.
 
+## Installation and Launch
+
+
+## How to Play
+A W S D - для передвижение персонажа
+
+1 2 3 - для переключение между мечом, луком и магией(1 - меч, 2 - лук, 3 - магия)
+
+ЛКМ - для атаки мечом, луком(смотря от того что в руках)
+
+ПКМ - для прицела лука или магии
+
+ПКМ+E, ПКМ+R - для стрельбы льдом или огнем(ПКМ+E - лед, ПКМ+R - огонь)
+
+##Authors
+Zhumekin Rakhat \\ Bakytzhanov Azamat \\ Adil Adambek \\ Ospanova Aigerim \\ Marte Stanislav
+
 ## Screnshoot
 ![TUyEnYI](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/65cd7625-4750-4b4e-a8b8-90341ac1730a) 
 ![qE7CqSW](https://github.com/Kp0LiK/DiplomaProject/assets/75574576/787cbc03-ccee-4910-b0f8-262e925ce625)
