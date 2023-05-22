@@ -20,6 +20,7 @@ public class TutorialSystem : MonoBehaviour
     [SerializeField] private string[] _weaponLines;
     [SerializeField] private string[] _swordLines;
     [SerializeField] private string[] _bowLines;
+    [SerializeField] private string[] _magicLines;
 
     [SerializeField] private string[] _enemyLines;
     [SerializeField] private string[] _afterKillingEnemyLines;
@@ -38,6 +39,7 @@ public class TutorialSystem : MonoBehaviour
     private bool _hasWeapon;
     private bool _hasSword;
     private bool _hasBow;
+    private bool _hasMagic;
 
     private bool _hasEnemy;
     private bool _killedEnemy;
@@ -152,6 +154,16 @@ public class TutorialSystem : MonoBehaviour
         index = 4;
     }
 
+    public void ExplainingMagic()
+    {
+        if (_hasMagic) return;
+        
+        StartCoroutine(BeginTutorial(1f, _magicLines));
+        _hasMagic = true;
+
+        index = 5;
+    }
+
     public void ExplainingEnemy()
     {
         if (_hasEnemy) return;
@@ -179,9 +191,7 @@ public class TutorialSystem : MonoBehaviour
     private void StopExplaining()
     {
         IsExplaining = false;
-        
-        Debug.Log(index);
-        
+
         switch (index)
         {
             case 1: ExplainingWeapon();
@@ -190,7 +200,9 @@ public class TutorialSystem : MonoBehaviour
                 break;
             case 3: ExplainingBow();
                 break;
-            case 4: ExplainingEnemy();
+            case 4: ExplainingMagic();
+                break;
+            case 5: ExplainingEnemy();
                 break;
         }
     }
