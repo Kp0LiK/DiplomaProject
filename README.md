@@ -48,9 +48,9 @@ Marte Stanislav
 We would also like to thank the university and our curator Urmanov Marat. Without them, none of this would have happened. So thank you very much!
 
 ## Other
-Documentation - [Uploading Musa’s Journey A Kazak and Turkic Mythological Adventure.pdf…]()
+Documentation - [Uploading Musa’s Journey A Kazak and Turkic Mythological Adventure.pdf…]
 
-Presentation - [Uploading Suleyman Demirel University _ Musa's Journey A Kazak and Turkic Mythological Adventure_ Zhumekin Rakhat Bakytzhanov Azamat Adil Adambek Ospanova Aigerim Marte Stanislav_ Urmanov Marat_.pdf…]()
+Presentation - [Uploading Suleyman Demirel University _ Musa's Journey A Kazak and Turkic Mythological Adventure_ Zhumekin Rakhat Bakytzhanov Azamat Adil Adambek Ospanova Aigerim Marte Stanislav_ Urmanov Marat_.pdf…]
 
 
 ## Screenshots
