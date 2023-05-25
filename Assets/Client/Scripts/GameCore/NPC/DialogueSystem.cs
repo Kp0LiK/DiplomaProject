@@ -42,11 +42,6 @@ public class DialogueSystem : MonoBehaviour
                 {
                     NextLine();
                 }
-                else
-                {
-                    StopAllCoroutines();
-                    _text.text = _lines[_index];
-                }
             }
         }
     }

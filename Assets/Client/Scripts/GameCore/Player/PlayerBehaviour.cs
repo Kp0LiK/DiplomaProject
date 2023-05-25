@@ -10,54 +10,54 @@ namespace Client
     public class PlayerBehaviour : MonoBehaviour
     {
         [SerializeField] private QuestManager _questManager;
-        private NPC _currentNPC;
+        protected NPC _currentNPC;
 
         [Header("Controller")] [SerializeField]
         private PlayerData _playerData;
 
-        [SerializeField] private float _gravity;
-        [SerializeField] private float _smoothTime;
-        [SerializeField] private float _groundDistance;
-        [SerializeField] private Transform _groundCheck;
-        [SerializeField] private LayerMask _groundMask;
+        [SerializeField] protected float _gravity;
+        [SerializeField] protected float _smoothTime;
+        [SerializeField] protected float _groundDistance;
+        [SerializeField] protected Transform _groundCheck;
+        [SerializeField] protected LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
-        [SerializeField] private Camera _mainCamera;
+        [SerializeField] protected Camera _mainCamera;
 
-        [Header("Weapons")] [SerializeField] private BowWeapon _bow;
-        [SerializeField] private SwordBehaviour _sword;
-        [SerializeField] private KobyzWeapon _kobyz;
-        [SerializeField] private KobyzWeapon _kobyz2;
+        [Header("Weapons")] [SerializeField] protected BowWeapon _bow;
+        [SerializeField] protected SwordBehaviour _sword;
+        [SerializeField] protected KobyzWeapon _kobyz;
+        [SerializeField] protected KobyzWeapon _kobyz2;
         [SerializeField] private List<WeaponsData> _combo;
-        [SerializeField] private Camera _aimCamera;
-        [SerializeField] private GameObject _aimTarget;
+        [SerializeField] protected Camera _aimCamera;
+        [SerializeField] protected GameObject _aimTarget;
 
         private Collider _swordCollider;
 
         private PlayerInventory _playerInventory;
 
-        private CharacterController _characterController;
+        protected CharacterController _characterController;
         private AudioSource _audioSource;
 
-        private float _speed;
+        protected float _speed;
         private float _health;
         private float _stamina;
         private float _mana;
-        private float _smooth;
+        protected float _smooth;
 
-        private bool _isGrounded;
-        private bool _isAim;
-        private bool _isBow;
-        private bool _isSword;
-        private bool _isKobyz;
+        protected bool _isGrounded;
+        protected bool _isAim;
+        protected bool _isBow;
+        protected bool _isSword;
+        protected bool _isKobyz;
 
-        private Vector3 _velocity;
+        protected Vector3 _velocity;
 
         private static readonly int IsAttack = Animator.StringToHash("isAttack");
         private static readonly int IsSwordAttack = Animator.StringToHash("isSwordAttack");
         private static readonly int Speed = Animator.StringToHash("Run");
         private static readonly int IsDie = Animator.StringToHash("isDie");
-        private static readonly int IsAim = Animator.StringToHash("isAim");
-        private static readonly int AimAttack = Animator.StringToHash("AimAttack");
+        protected static readonly int IsAim = Animator.StringToHash("isAim");
+        protected static readonly int AimAttack = Animator.StringToHash("AimAttack");
         private static readonly int Z = Animator.StringToHash("InputZ");
         private static readonly int X = Animator.StringToHash("InputX");
 
@@ -137,7 +137,7 @@ namespace Client
 
         public AudioSource AudioSource => _audioSource;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
@@ -147,7 +147,7 @@ namespace Client
             Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             _sword.gameObject.SetActive(false);
             _bow.gameObject.SetActive(false);
@@ -158,19 +158,19 @@ namespace Client
             _mana = _playerData.Mana;
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             QuestGiver.OnQuestGiven += AddQuest;
             _playerInventory.WeaponChanged += OnWeaponChanged;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             QuestGiver.OnQuestGiven -= AddQuest;
             _playerInventory.WeaponChanged -= OnWeaponChanged;
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (Input.GetKeyDown(KeyCode.E) && _currentNPC)
             {
@@ -300,7 +300,7 @@ namespace Client
             }
         }
 
-        private async void StartStanding()
+        protected async void StartStanding()
         {
             IsStanding = true;
             Animator.SetBool("isStanding", true);
@@ -332,7 +332,7 @@ namespace Client
             }
         }
 
-        private void Move()
+        protected virtual void Move()
         {
             _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
 
@@ -435,31 +435,31 @@ namespace Client
             _characterController.Move(_velocity * Time.deltaTime);
         }
 
-        private void Idle()
+        protected void Idle()
         {
             _speed = 0f;
             Animator.SetFloat(Speed, 0f);
         }
 
-        private void Walk()
+        protected virtual void Walk()
         {
             _speed = _playerData.WalkSpeed;
             Animator.SetFloat(Speed, 0.4f);
         }
 
-        private void Run()
+        protected virtual void Run()
         {
             _speed = _playerData.RunSpeed;
             Animator.SetFloat(Speed, 1f);
         }
 
-        private void AimIdle()
+        protected void AimIdle()
         {
             _speed = 0f;
             Animator.SetFloat(Speed, 0f);
         }
 
-        private void AimWalk()
+        protected void AimWalk()
         {
             var horizontalAnimTime = 0.2f;
             var verticalAnimTime = 0.2f;
