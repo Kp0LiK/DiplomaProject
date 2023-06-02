@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using Client.Scripts.Data.Player;
 using UnityEngine;
 using Zenject;
@@ -11,6 +12,7 @@ namespace Client
         private float _lastClickedTime;
         private float _lastComboEnd;
         private int _comboCounter;
+        private int _comboSound = 1;
 
         [Inject] private  PlayerBehaviour _playerBehaviour;
         private IDamageable _enemy;
@@ -52,11 +54,14 @@ namespace Client
                 if (_comboCounter >= _playerBehaviour.Combo.Count)
                 {
                     _comboCounter = 0;
+                    _comboSound = 1;
                 }
                 if (Time.time - _lastClickedTime >= 1.2f)
                 {
                     _playerBehaviour.Animator.runtimeAnimatorController = _playerBehaviour.Combo[_comboCounter].AnimatorOv;
                     _playerBehaviour.Animator.Play("ComboAttack", 0, 0);
+                    _playerBehaviour.ExecuteComboSound?.Invoke(_comboSound);
+                    _comboSound++;
                     _comboCounter++;
                     _lastClickedTime = Time.time;
                 }
@@ -77,6 +82,7 @@ namespace Client
         {
             Collidable = false;
             _comboCounter = 0;
+            _comboSound = 1;
             _lastComboEnd = Time.time;
         }
     }

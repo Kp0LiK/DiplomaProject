@@ -135,6 +135,8 @@ namespace Client
 
         public event Action<float> ManaChanged;
 
+        public Action<int> ExecuteComboSound;
+
         public AudioSource AudioSource => _audioSource;
 
         protected virtual void Awake()
@@ -162,12 +164,14 @@ namespace Client
         {
             QuestGiver.OnQuestGiven += AddQuest;
             _playerInventory.WeaponChanged += OnWeaponChanged;
+            ExecuteComboSound += PlayComboSound;
         }
 
         protected virtual void OnDisable()
         {
             QuestGiver.OnQuestGiven -= AddQuest;
             _playerInventory.WeaponChanged -= OnWeaponChanged;
+            ExecuteComboSound -= PlayComboSound;
         }
 
         protected virtual void Update()
@@ -204,6 +208,7 @@ namespace Client
                 Animator.SetBool(IsAim, true);
                 _aimCamera.gameObject.SetActive(true);
                 _aimTarget.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(_audioData.OnAim, transform.position);
             }
             
             if (Input.GetMouseButtonUp(1) && _isBow)
@@ -236,6 +241,7 @@ namespace Client
                 Animator.SetBool(IsAim, true);
                 _aimCamera.gameObject.SetActive(true);
                 _aimTarget.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(_audioData.OnAim, transform.position);
             }
 
             if (Input.GetMouseButtonUp(1) && _isKobyz)
@@ -246,7 +252,7 @@ namespace Client
                 _aimTarget.gameObject.SetActive(false);
             }
 
-            if (Input.GetKey(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !_isSword)
             {
                 _isSword = true;
                 _isBow = false;
@@ -259,9 +265,10 @@ namespace Client
                 _bow.gameObject.SetActive(false);
                 _kobyz.gameObject.SetActive(false);
                 _kobyz2.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(_audioData.OnSwordDraw, transform.position);
             }
 
-            if (Input.GetKey(KeyCode.Alpha2))
+            if (Input.GetKey(KeyCode.Alpha2) && !_isBow)
             {
                 _isBow = true;
                 _isSword = false;
@@ -270,9 +277,10 @@ namespace Client
                 _sword.gameObject.SetActive(false);
                 _kobyz.gameObject.SetActive(false);
                 _kobyz2.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(_audioData.OnRangedDraw, transform.position);
             }
 
-            if (Input.GetKey(KeyCode.Alpha3))
+            if (Input.GetKey(KeyCode.Alpha3) & !_isKobyz)
             {
                 _isKobyz = true;
                 _isBow = false;
@@ -282,6 +290,8 @@ namespace Client
 
                 _bow.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(false);
+                
+                AudioSource.PlayClipAtPoint(_audioData.OnRangedDraw, transform.position);
             }
 
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
@@ -305,6 +315,8 @@ namespace Client
             IsStanding = true;
             Animator.SetBool("isStanding", true);
             
+            AudioSource.PlayClipAtPoint(_audioData.OnDodge, transform.position);
+            
             await Task.Delay(700);
             IsStanding = false;
             Animator.SetBool("isStanding", false);
@@ -318,9 +330,11 @@ namespace Client
             {
                 _health = 0;
                 Animator.SetBool(IsDie, true);
+                AudioSource.PlayClipAtPoint(_audioData.OnDie, transform.position);
                 Destroy(gameObject, 5);
             }
 
+            AudioSource.PlayClipAtPoint(_audioData.OnHit, transform.position);
             HealthChanged?.Invoke(_health);
         }
 
@@ -493,17 +507,37 @@ namespace Client
             _questManager.AddQuest(quest);
         }
 
+        private void PlayComboSound(int combo)
+        {
+            switch (combo)
+            {
+                case 1: AudioSource.PlayClipAtPoint(_audioData.OnCombo1, transform.position);
+                    break;
+                case 2: AudioSource.PlayClipAtPoint(_audioData.OnCombo2, transform.position);
+                    break;
+                case 3: AudioSource.PlayClipAtPoint(_audioData.OnCombo3, transform.position);
+                    break;
+            }
+        }
+
 
         [Serializable]
         public class PlayerAudioData
         {
-            public AudioClip OnAttack;
+            public AudioClip OnCombo1;
+            public AudioClip OnCombo2;
+            public AudioClip OnCombo3;
             public AudioClip OnDetect;
             public AudioClip OnUnDetect;
             public AudioClip OnMove;
             public AudioClip OnHeal;
             public AudioClip OnCast;
             public AudioClip OnDie;
+            public AudioClip OnHit;
+            public AudioClip OnSwordDraw;
+            public AudioClip OnRangedDraw;
+            public AudioClip OnDodge;
+            public AudioClip OnAim;
         }
     }
 }

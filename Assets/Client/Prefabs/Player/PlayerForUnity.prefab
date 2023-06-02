@@ -2142,13 +2142,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _audioData:
-    OnAttack: {fileID: 0}
+    OnCombo1: {fileID: 8300000, guid: cf00a2164269ab24e8cb5d12abed1bcb, type: 3}
+    OnCombo2: {fileID: 8300000, guid: e4f329d9fe39e9846b4b0efbbf870e3b, type: 3}
+    OnCombo3: {fileID: 8300000, guid: bd8394075807e5d4f83c1803dc13c1cd, type: 3}
     OnDetect: {fileID: 0}
     OnUnDetect: {fileID: 0}
     OnMove: {fileID: 0}
     OnHeal: {fileID: 0}
     OnCast: {fileID: 0}
-    OnDie: {fileID: 0}
+    OnDie: {fileID: 8300000, guid: 45493f8f6522ed44cbf82039ba9ce2b4, type: 3}
+    OnHit: {fileID: 8300000, guid: 5c7e95a81c44f0c44b22f1b187c3c806, type: 3}
+    OnSwordDraw: {fileID: 8300000, guid: 4ca0688e4564b884b8323a0225da6398, type: 3}
+    OnRangedDraw: {fileID: 8300000, guid: 11d06ced14068ff438bd723fdd7fbb15, type: 3}
+    OnDodge: {fileID: 8300000, guid: 452cbab8741da334492867a1835853f9, type: 3}
+    OnAim: {fileID: 8300000, guid: 95e5b259986db614cb0951ab303f5108, type: 3}
   _mainCamera: {fileID: 0}
   _bow: {fileID: 988142432483721396}
   _sword: {fileID: 8146904284660245926}
