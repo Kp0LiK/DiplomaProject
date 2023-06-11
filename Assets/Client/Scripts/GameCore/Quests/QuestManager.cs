@@ -165,7 +165,8 @@ public class QuestManager : MonoBehaviour
 
     protected virtual void OnQuestCompleted(Quest quest)
     {
-        // Destroy(_questsContent.GetChild(CurrentQuests.IndexOf(quest)).gameObject);
-        _questsContent.GetChild(CurrentQuests.IndexOf(quest)).Find("Checkmark").gameObject.SetActive(true);
+        Destroy(_questsContent.GetChild(CurrentQuests.IndexOf(quest)).gameObject);
+        CurrentQuests.Remove(quest);
+        // _questsContent.GetChild(CurrentQuests.IndexOf(quest)).Find("Checkmark").gameObject.SetActive(true);
     }
 }
