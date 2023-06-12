@@ -9,7 +9,7 @@ public class QuestWindow : MonoBehaviour
     [SerializeField] private Text _descriptionText;
     [SerializeField] private GameObject _goalPrefab;
     [SerializeField] private Transform _goalsContent;
-    [SerializeField] private Text _xpText;
+    [SerializeField] private Text _moneyText;
     private bool _isInitialized;
 
     public void Initialize(Quest quest)
@@ -37,7 +37,7 @@ public class QuestWindow : MonoBehaviour
                 }
             }
 
-            _xpText.text = quest.Reward.XP.ToString();
+            _moneyText.text = quest.Reward.Money.ToString();
             _isInitialized = true;
         }
     }

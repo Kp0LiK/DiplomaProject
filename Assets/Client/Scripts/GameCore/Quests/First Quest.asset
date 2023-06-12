@@ -17,7 +17,7 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 8f4e44c701fc24e0aa0b15876fbed4c4, type: 3}
     Description: This is your first quest!
   Reward:
-    XP: 10
+    Money: 10
   Goals:
   - {fileID: 7167812144974072217}
 --- !u!114 &7167812144974072217

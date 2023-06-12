@@ -20,7 +20,7 @@ namespace Client
                 if (PlayerPrefs.HasKey("Money"))
                     return PlayerPrefs.GetInt("Money");
 
-                PlayerPrefs.SetInt("Money", 500);
+                PlayerPrefs.SetInt("Money", 0);
                 PlayerPrefs.Save();
 
                 return PlayerPrefs.GetInt("Money");

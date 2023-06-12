@@ -1,16 +1,27 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-public class QuestManager : MonoBehaviour
+namespace Client
+{
+    public class QuestManager : MonoBehaviour
 {
     [SerializeField] private GameObject _questPrefab;
     [SerializeField] private Transform _questsContent;
     [SerializeField] private GameObject _questHolder;
 
+
+    private int _money;
+    private GameSession _gameSession;
+
     public List<Quest> CurrentQuests;
+
+    [Inject]
+    public void Constructor(GameSession gameSession)
+    {
+        _gameSession = gameSession;
+    }
 
     private void OnEnable()
     {
@@ -167,6 +178,15 @@ public class QuestManager : MonoBehaviour
     {
         Destroy(_questsContent.GetChild(CurrentQuests.IndexOf(quest)).gameObject);
         CurrentQuests.Remove(quest);
+        _gameSession.Money += quest.Reward.Money;
+        Debug.Log("Money:" + _gameSession.Money);
         // _questsContent.GetChild(CurrentQuests.IndexOf(quest)).Find("Checkmark").gameObject.SetActive(true);
     }
+
+    private void MoneyCounter(float money)
+    {
+        _money += 100;
+    }
+}
+
 }

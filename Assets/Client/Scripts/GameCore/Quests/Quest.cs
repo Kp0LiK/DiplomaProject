@@ -21,7 +21,7 @@ public class Quest : ScriptableObject
     [System.Serializable]
     public struct Stat
     {
-        public float XP;
+        public int Money;
     }
 
     [Header("Reward")] public Stat Reward;

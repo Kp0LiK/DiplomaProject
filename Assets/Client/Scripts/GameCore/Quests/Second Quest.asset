@@ -17,7 +17,7 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: e6411bdc3221b43ddb1a9fa885ef30cc, type: 3}
     Description: This is second quest!
   Reward:
-    XP: 50
+    Money: 20
   Goals:
   - {fileID: 2033335151754424788}
 --- !u!114 &2033335151754424788

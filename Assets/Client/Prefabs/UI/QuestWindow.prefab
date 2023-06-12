@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3243370145791647641}
   - component: {fileID: 3243370145791647642}
   m_Layer: 5
-  m_Name: XP Icon
+  m_Name: Money Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5193186771e11435f8761b7ece8ba3ba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c5616c84b14514750bd5bf1954c6a065, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -396,7 +396,7 @@ MonoBehaviour:
   _descriptionText: {fileID: 3243370146986168402}
   _goalPrefab: {fileID: 4739184192949372885, guid: d82ef3d844e01db40a65ed52d78d065d, type: 3}
   _goalsContent: {fileID: 3243370146068902914}
-  _xpText: {fileID: 3243370146591161691}
+  _moneyText: {fileID: 3243370146591161691}
 --- !u!1 &3243370145887496350
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 3243370146136082427}
   - component: {fileID: 3243370146136082426}
   m_Layer: 5
-  m_Name: XP
+  m_Name: Money
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 3243370146591161690}
   - component: {fileID: 3243370146591161691}
   m_Layer: 5
-  m_Name: XP Value
+  m_Name: Money Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,28 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialQuestManager : QuestManager
+namespace Client
 {
-    [SerializeField] private TutorialSystem _tutorialSystem;
-
-    protected override void Collect(string collectibleName, GameObject collectibleObject)
+    public class TutorialQuestManager : QuestManager
     {
-        List<Quest.QuestGoal> collectGoals = GetCollectGoals();
+        [SerializeField] private TutorialSystem _tutorialSystem;
 
-        foreach (CollectGoal collectGoal in collectGoals)
+        protected override void Collect(string collectibleName, GameObject collectibleObject)
         {
-            if (collectGoal.Collectible == collectibleName)
+            List<Quest.QuestGoal> collectGoals = GetCollectGoals();
+
+            foreach (CollectGoal collectGoal in collectGoals)
             {
-                EventManager.Instance.QueueEvent(new CollectingGameEvent(collectibleName));
-                Destroy(collectibleObject);
-                _tutorialSystem.AfterItemCollected();
+                if (collectGoal.Collectible == collectibleName)
+                {
+                    EventManager.Instance.QueueEvent(new CollectingGameEvent(collectibleName));
+                    Destroy(collectibleObject);
+                    _tutorialSystem.AfterItemCollected();
+                }
             }
         }
-    }
 
-    protected override void OnQuestCompleted(Quest quest)
-    {
-        base.OnQuestCompleted(quest);
-        _tutorialSystem.AfterQuestCompleted();
+        protected override void OnQuestCompleted(Quest quest)
+        {
+            base.OnQuestCompleted(quest);
+            _tutorialSystem.AfterQuestCompleted();
+        }
     }
 }
+
