@@ -103,10 +103,12 @@ namespace Client
                 if (_stamina >= _playerData.Stamina)
                 {
                     _stamina = _playerData.Stamina;
+                    _audioSource.Stop();
                 }
 
                 if (_stamina <= 0)
                 {
+                    _audioSource.PlayOneShot(_audioData.OnStaminaRecovery);
                     _stamina = 0;
                     Walk();
                 }
@@ -136,6 +138,7 @@ namespace Client
         public event Action<float> ManaChanged;
 
         public Action<int> ExecuteComboSound;
+        public Action<bool> ExecuteStaminaRecoveryClip;
 
         public AudioSource AudioSource => _audioSource;
 
@@ -145,6 +148,7 @@ namespace Client
             Animator = GetComponent<Animator>();
             _playerInventory = GetComponent<PlayerInventory>();
             _swordCollider = _sword.gameObject.GetComponent<Collider>();
+            _audioSource = GetComponent<AudioSource>();
 
             Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
@@ -208,7 +212,7 @@ namespace Client
                 Animator.SetBool(IsAim, true);
                 _aimCamera.gameObject.SetActive(true);
                 _aimTarget.gameObject.SetActive(true);
-                AudioSource.PlayClipAtPoint(_audioData.OnAim, transform.position);
+                _audioSource.PlayOneShot(_audioData.OnAim);
             }
             
             if (Input.GetMouseButtonUp(1) && _isBow)
@@ -241,7 +245,7 @@ namespace Client
                 Animator.SetBool(IsAim, true);
                 _aimCamera.gameObject.SetActive(true);
                 _aimTarget.gameObject.SetActive(true);
-                AudioSource.PlayClipAtPoint(_audioData.OnAim, transform.position);
+                _audioSource.PlayOneShot(_audioData.OnAim);
             }
 
             if (Input.GetMouseButtonUp(1) && _isKobyz)
@@ -265,7 +269,7 @@ namespace Client
                 _bow.gameObject.SetActive(false);
                 _kobyz.gameObject.SetActive(false);
                 _kobyz2.gameObject.SetActive(true);
-                AudioSource.PlayClipAtPoint(_audioData.OnSwordDraw, transform.position);
+                _audioSource.PlayOneShot(_audioData.OnSwordDraw);
             }
 
             if (Input.GetKey(KeyCode.Alpha2) && !_isBow)
@@ -277,7 +281,7 @@ namespace Client
                 _sword.gameObject.SetActive(false);
                 _kobyz.gameObject.SetActive(false);
                 _kobyz2.gameObject.SetActive(true);
-                AudioSource.PlayClipAtPoint(_audioData.OnRangedDraw, transform.position);
+                _audioSource.PlayOneShot(_audioData.OnRangedDraw);
             }
 
             if (Input.GetKey(KeyCode.Alpha3) & !_isKobyz)
@@ -291,7 +295,7 @@ namespace Client
                 _bow.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(false);
                 
-                AudioSource.PlayClipAtPoint(_audioData.OnRangedDraw, transform.position);
+                _audioSource.PlayOneShot(_audioData.OnRangedDraw);
             }
 
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
@@ -315,7 +319,7 @@ namespace Client
             IsStanding = true;
             Animator.SetBool("isStanding", true);
             
-            AudioSource.PlayClipAtPoint(_audioData.OnDodge, transform.position);
+            _audioSource.PlayOneShot(_audioData.OnDodge);
             
             await Task.Delay(700);
             IsStanding = false;
@@ -330,11 +334,11 @@ namespace Client
             {
                 _health = 0;
                 Animator.SetBool(IsDie, true);
-                AudioSource.PlayClipAtPoint(_audioData.OnDie, transform.position);
+                _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, 5);
             }
 
-            AudioSource.PlayClipAtPoint(_audioData.OnHit, transform.position);
+            _audioSource.PlayOneShot(_audioData.OnHit);
             HealthChanged?.Invoke(_health);
         }
 
@@ -511,15 +515,14 @@ namespace Client
         {
             switch (combo)
             {
-                case 1: AudioSource.PlayClipAtPoint(_audioData.OnCombo1, transform.position);
+                case 1: _audioSource.PlayOneShot(_audioData.OnCombo1);
                     break;
-                case 2: AudioSource.PlayClipAtPoint(_audioData.OnCombo2, transform.position);
+                case 2: _audioSource.PlayOneShot(_audioData.OnCombo2);
                     break;
-                case 3: AudioSource.PlayClipAtPoint(_audioData.OnCombo3, transform.position);
+                case 3: _audioSource.PlayOneShot(_audioData.OnCombo3);
                     break;
             }
         }
-
 
         [Serializable]
         public class PlayerAudioData
@@ -538,6 +541,7 @@ namespace Client
             public AudioClip OnRangedDraw;
             public AudioClip OnDodge;
             public AudioClip OnAim;
+            public AudioClip OnStaminaRecovery;
         }
     }
 }
