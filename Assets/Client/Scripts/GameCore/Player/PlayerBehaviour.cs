@@ -106,7 +106,7 @@ namespace Client
                     _audioSource.Stop();
                 }
 
-                if (_stamina <= 0)
+                if (_stamina <= 0 && !_audioSource.isPlaying)
                 {
                     _audioSource.PlayOneShot(_audioData.OnStaminaRecovery);
                     _stamina = 0;
