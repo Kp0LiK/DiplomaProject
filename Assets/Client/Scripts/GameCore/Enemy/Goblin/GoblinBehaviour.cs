@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Scripts.Data.Enemy;
-using Client.Scripts.GameCore.Enemy.Golem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +9,7 @@ using UnityEngine.AI;
 namespace Client
 {
     [SelectionBase]
-    public class GolemBehaviour : MonoBehaviour, IEnemySwitchState, IDamageable
+    public class GoblinBehaviour : MonoBehaviour, IEnemySwitchState, IDamageable
     {
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
@@ -44,12 +43,11 @@ namespace Client
         {
             Health = _enemyData.Health;
             _enemyData.IsDied = false;
-            Debug.Log(Health);
 
             _states = new List<BaseEnemyState>
             {
                 new EnemyIdleState(_animator, this),
-                new GolemFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
+                new EnemyFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
                 new SpiderAttackState(_animator, this, _enemyAttackDetector, _enemyData),
                 new EnemyDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent)
             };
@@ -83,7 +81,7 @@ namespace Client
 
         private void OnEntered(PlayerBehaviour arg0)
         {
-            SwitchState<GolemFollowState>();
+            SwitchState<EnemyFollowState>();
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
@@ -98,7 +96,7 @@ namespace Client
 
         private void OnAttackDetectExited()
         {
-            SwitchState<GolemFollowState>();
+            SwitchState<EnemyFollowState>();
         }
 
         public void SwitchState<T>() where T : BaseEnemyState

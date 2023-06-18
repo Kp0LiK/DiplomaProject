@@ -10,7 +10,6 @@ namespace Client
         [SerializeField] private Slider _healthViewer;
         [SerializeField] private Slider _staminaViewer;
         [SerializeField] private Slider _manaViewer;
-        [SerializeField] private Image _fillHealthImage;
 
         private PlayerBehaviour _playerBehaviour;
 

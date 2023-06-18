@@ -328,11 +328,12 @@ namespace Client
 
         public void ApplyDamage(float damage)
         {
-            _health -= damage;
+            Health -= damage;
 
-            if (_health <= 0)
+            if (Health <= 0)
             {
-                _health = 0;
+                
+                Health= 0;
                 Animator.SetBool(IsDie, true);
                 _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, 5);
