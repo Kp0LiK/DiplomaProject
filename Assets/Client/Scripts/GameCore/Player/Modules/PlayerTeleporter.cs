@@ -1,11 +1,12 @@
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Client
 {
     public class PlayerTeleporter : MonoBehaviour
     {
+        [SerializeField] private Material _skyBoxMaterial;
+        
         [SerializeField] private PlayerBehaviour _playerBehaviour;
         
         [SerializeField] private Transform _teleporter;
