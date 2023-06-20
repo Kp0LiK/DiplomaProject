@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Client.Scripts.Data.Player;
 using UnityEngine;
 
 namespace Client
@@ -14,15 +15,18 @@ namespace Client
         [SerializeField] private GameObject _firstLevel;
         [SerializeField] private GameObject _secondLevel;
 
+        private PlayerData _playerData;
+
 
         private async void OnTriggerEnter(Collider other)
         {
             if (!other.gameObject.TryGetComponent(out PlayerBehaviour playerBehaviour)) return;
-            _firstLevel.gameObject.SetActive(false);
             _secondLevel.gameObject.SetActive(true);
             RenderSettings.skybox = _skyBoxMaterial;
-            await Task.Delay(1000);
+            await Task.Delay(3000);
             _playerBehaviour.transform.position = _teleporter.transform.position;
+            await Task.Delay(500);
+            _firstLevel.gameObject.SetActive(false);
         }
     }
 }
