@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0aa7384cdd48f29f98d88b1a2a7c0c, type: 3}
   m_Name: ThirdAttack
   m_EditorClassIdentifier: 
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 25
   <Stamina>k__BackingField: 0
   <AnimatorOv>k__BackingField: {fileID: 22100000, guid: 067e1d6a5e7d2ae4e9b65fe993f6f03c, type: 2}

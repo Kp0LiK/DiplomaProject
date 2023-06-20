@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Client
 {
+    [SelectionBase]
     public class BowWeapon : MonoBehaviour
     {
         [SerializeField] private Arrow _arrowPrefab;

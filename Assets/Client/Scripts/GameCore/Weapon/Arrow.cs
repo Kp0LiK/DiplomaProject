@@ -16,7 +16,6 @@ namespace Client
             if (other.gameObject.TryGetComponent(out IDamageable damageable))
             {
                 damageable.ApplyDamage(_weaponsData.Damage);
-                Debug.Log("Shot!");
                 Destroy(gameObject);
             }
             else
