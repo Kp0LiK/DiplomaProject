@@ -20,6 +20,7 @@ namespace Client
             if (!other.gameObject.TryGetComponent(out PlayerBehaviour playerBehaviour)) return;
             _firstLevel.gameObject.SetActive(false);
             _secondLevel.gameObject.SetActive(true);
+            RenderSettings.skybox = _skyBoxMaterial;
             await Task.Delay(1000);
             _playerBehaviour.transform.position = _teleporter.transform.position;
         }

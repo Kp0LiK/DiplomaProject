@@ -18,6 +18,7 @@ namespace Client
         [SerializeField] protected float _gravity;
         [SerializeField] protected float _smoothTime;
         [SerializeField] protected float _groundDistance;
+        [SerializeField] private float _mouseLookSpeed;
         [SerializeField] protected Transform _groundCheck;
         [SerializeField] protected LayerMask _groundMask;
         [SerializeField] private PlayerAudioData _audioData;
@@ -30,6 +31,8 @@ namespace Client
         [SerializeField] private List<WeaponsData> _combo;
         [SerializeField] protected Camera _aimCamera;
         [SerializeField] protected GameObject _aimTarget;
+
+        [SerializeField] private float _lookXLimit = 45.0f;
 
         private Collider _swordCollider;
 
@@ -64,8 +67,7 @@ namespace Client
         public Animator Animator { get; set; }
 
         public bool IsStanding { get; set; }
-        
-        
+
 
         public List<WeaponsData> Combo
         {
@@ -73,7 +75,7 @@ namespace Client
             set => _combo = value;
         }
 
-        
+
         public float Health
         {
             get => _health;
@@ -114,7 +116,7 @@ namespace Client
                 }
             }
         }
-        
+
         public float Mana
         {
             get => _mana;
@@ -141,6 +143,8 @@ namespace Client
         public Action<bool> ExecuteStaminaRecoveryClip;
 
         public AudioSource AudioSource => _audioSource;
+
+        private float _rotationX;
 
         protected virtual void Awake()
         {
@@ -214,7 +218,7 @@ namespace Client
                 _aimTarget.gameObject.SetActive(true);
                 _audioSource.PlayOneShot(_audioData.OnAim);
             }
-            
+
             if (Input.GetMouseButtonUp(1) && _isBow)
             {
                 _isAim = false;
@@ -294,7 +298,7 @@ namespace Client
 
                 _bow.gameObject.SetActive(false);
                 _sword.gameObject.SetActive(false);
-                
+
                 _audioSource.PlayOneShot(_audioData.OnRangedDraw);
             }
 
@@ -318,9 +322,9 @@ namespace Client
         {
             IsStanding = true;
             Animator.SetBool("isStanding", true);
-            
+
             _audioSource.PlayOneShot(_audioData.OnDodge);
-            
+
             await Task.Delay(700);
             IsStanding = false;
             Animator.SetBool("isStanding", false);
@@ -332,8 +336,7 @@ namespace Client
 
             if (Health <= 0)
             {
-                
-                Health= 0;
+                Health = 0;
                 Animator.SetBool(IsDie, true);
                 _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, 5);
@@ -365,13 +368,13 @@ namespace Client
 
             var direction = transform.right * horizontal + transform.forward * vertical;
 
-            if (direction != Vector3.zero && !Input.GetKey(KeyCode.LeftShift) && _isAim == false)
+            if (direction != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
             {
                 Walk();
             }
             else
             {
-                if (direction != Vector3.zero && Input.GetKey(KeyCode.LeftShift) && _isAim == false)
+                if (direction != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
                 {
                     Run();
                     if (Stamina >= 60f)
@@ -383,13 +386,13 @@ namespace Client
                         Stamina -= 0.5f;
                     }
                 }
-                else if (_isAim == true)
+                else if (_isAim)
                 {
                     AimWalk();
                 }
                 else
                 {
-                    if (direction == Vector3.zero && _isAim == false)
+                    if (direction == Vector3.zero)
                     {
                         Idle();
                     }
@@ -402,8 +405,6 @@ namespace Client
 
             direction = (Vector3.right * horizontal + Vector3.forward * vertical).normalized;
 
-
-            
             if (direction.magnitude >= 0.1f || _characterController.velocity.magnitude > 0.1f)
             {
                 if (_mainCamera != null)
@@ -411,12 +412,17 @@ namespace Client
                     //Player Movement with AimState
                     if (_isAim)
                     {
-                        var eulerAngles = _mainCamera.transform.eulerAngles;
+                        var eulerAngles = _aimCamera.transform.eulerAngles;
                         var targetAngleforAim = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
                                                 eulerAngles.y;
                         transform.rotation = Quaternion.Euler(0f, eulerAngles.y, 0f);
                         var moveDirForAim = Quaternion.Euler(0f, targetAngleforAim, 0f) * Vector3.forward;
-                        _characterController.Move(moveDirForAim.normalized * _speed * Time.deltaTime);
+                        _characterController.Move(moveDirForAim.normalized * (_speed * Time.deltaTime));
+                        
+                        _rotationX += -Input.GetAxis("Mouse Y") * _mouseLookSpeed;
+                        _rotationX = Mathf.Clamp(_rotationX, -_lookXLimit, _lookXLimit);
+                        _aimCamera.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+                        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X"), 0);
                     }
                     //Player Movement without AimState
                     else
@@ -428,7 +434,7 @@ namespace Client
                         transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                         var moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                        _characterController.Move(moveDir.normalized * _speed * Time.deltaTime);
+                        _characterController.Move(moveDir.normalized * (_speed * Time.deltaTime));
                     }
                 }
             }
@@ -437,14 +443,10 @@ namespace Client
                 //Look for camera, when Player AimIdle
                 if (_isAim)
                 {
-                    if (_mainCamera != null)
-                    {
-                        var lookPos = _mainCamera.transform.position - transform.position;
-                        lookPos.y = 0;
-                        var rotation = Quaternion.LookRotation(-lookPos);
-                        // поворачиваем по оси Y
-                        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-                    }
+                    _rotationX += -Input.GetAxis("Mouse Y") * _mouseLookSpeed;
+                    _rotationX = Mathf.Clamp(_rotationX, -_lookXLimit, _lookXLimit);
+                    _aimCamera.transform.localRotation = Quaternion.Euler(_rotationX, 0, 0);
+                    transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X"), 0);
                 }
             }
 
@@ -460,13 +462,13 @@ namespace Client
             Animator.SetFloat(Speed, 0f);
         }
 
-        protected virtual void Walk()
+        protected void Walk()
         {
             _speed = _playerData.WalkSpeed;
             Animator.SetFloat(Speed, 0.4f);
         }
 
-        protected virtual void Run()
+        protected void Run()
         {
             _speed = _playerData.RunSpeed;
             Animator.SetFloat(Speed, 1f);
@@ -516,11 +518,14 @@ namespace Client
         {
             switch (combo)
             {
-                case 1: _audioSource.PlayOneShot(_audioData.OnCombo1);
+                case 1:
+                    _audioSource.PlayOneShot(_audioData.OnCombo1);
                     break;
-                case 2: _audioSource.PlayOneShot(_audioData.OnCombo2);
+                case 2:
+                    _audioSource.PlayOneShot(_audioData.OnCombo2);
                     break;
-                case 3: _audioSource.PlayOneShot(_audioData.OnCombo3);
+                case 3:
+                    _audioSource.PlayOneShot(_audioData.OnCombo3);
                     break;
             }
         }

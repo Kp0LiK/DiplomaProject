@@ -9,6 +9,9 @@ TagManager:
   - Climb
   - Fly
   - Animal
+  - FxTemporaire
+  - Water
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Arrow
-  - 
+  - Environment
   - 
   - 
   - 
