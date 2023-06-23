@@ -5,12 +5,21 @@ using Object = System.Object;
 
 namespace Client
 {
+    public enum GameStateType
+    {
+        InMenu,
+        InGame,
+        InPause,
+        InLoose
+    }
     public class GameSession : MonoBehaviour
     {
         [SerializeField] private AudioMixer _audioMixer;
 
         public AudioMixer AudioMixer => _audioMixer;
-    
+        
+        public GameStateType GameState { get; private set; }
+
         private int _money;
 
         public int Money
@@ -35,7 +44,8 @@ namespace Client
         }
 
         public event Action <int> MoneyChanged;
-    
+        public event Action<GameStateType> GameStateChanged;
+
         public PlayerSetting PlayerSetting { get; private set; }
 
         private void Awake()
@@ -52,6 +62,12 @@ namespace Client
             {
                 if (ReferenceEquals(component, null)) Debug.LogError($"Some Components has a problem in Game Session");
             }
+        }
+        
+        public void ChangeGameState(GameStateType gameStateType)
+        {
+            GameState = gameStateType;
+            GameStateChanged?.Invoke(gameStateType);
         }
     }
 }

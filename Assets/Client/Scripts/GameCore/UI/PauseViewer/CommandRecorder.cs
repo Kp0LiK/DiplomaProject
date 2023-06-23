@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommandRecorder : MonoBehaviour
+namespace Client
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CommandRecorder : MonoBehaviour
     {
-        
-    }
+        private readonly Stack<BaseCommand> _baseCommands = new Stack<BaseCommand>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        public void Record(BaseCommand baseCommand)
+        {
+            _baseCommands.Push(baseCommand);
+            baseCommand.Execute();
+        }
+
+        public void Rewind()
+        {
+            if (_baseCommands.Count == 0)
+                return;
+
+            var action = _baseCommands.Pop();
+            action.Undo();
+        }
+
+        public void ActionReset() => _baseCommands.Clear();
+    }   
 }

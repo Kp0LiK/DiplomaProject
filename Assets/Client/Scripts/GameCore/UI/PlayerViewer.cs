@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,13 +11,32 @@ namespace Client
         [SerializeField] private Slider _healthViewer;
         [SerializeField] private Slider _staminaViewer;
         [SerializeField] private Slider _manaViewer;
+        
+        [SerializeField] private Canvas _inGameMenu;
 
         private PlayerBehaviour _playerBehaviour;
+        private CommandRecorder _commandRecorder;
+        private BaseCommand _inGameMenuCommand;
+
 
         [Inject]
-        public void Constructor(PlayerBehaviour playerBehaviour)
+        public void Constructor(PlayerBehaviour playerBehaviour, CommandRecorder commandRecorder)
         {
             _playerBehaviour = playerBehaviour;
+            _commandRecorder = commandRecorder;
+        }
+
+        private void Awake()
+        {
+            _inGameMenuCommand = new InGameMenuCommand(_inGameMenu, GetComponent<Canvas>());
+        }
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                OnPauseButton();
+            }
         }
 
         private void OnEnable()
@@ -59,5 +79,8 @@ namespace Client
                 //todo HealSystem
             }
         }
+        
+        private void OnPauseButton() => _commandRecorder.Record(_inGameMenuCommand);
+
     }
 }
