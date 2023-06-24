@@ -302,7 +302,7 @@ namespace Client
                 _audioSource.PlayOneShot(_audioData.OnRangedDraw);
             }
 
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space) && IsStanding == false)
             {
                 StartStanding();
             }
@@ -322,10 +322,9 @@ namespace Client
         {
             IsStanding = true;
             Animator.SetBool("isStanding", true);
-
             _audioSource.PlayOneShot(_audioData.OnDodge);
 
-            await Task.Delay(700);
+            await Task.Delay(800);
             IsStanding = false;
             Animator.SetBool("isStanding", false);
         }
