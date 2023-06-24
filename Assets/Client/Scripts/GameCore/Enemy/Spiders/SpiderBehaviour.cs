@@ -25,6 +25,7 @@ namespace Client
         private EnemyAttackDetector _enemyAttackDetector;
         private PlayerBehaviour _target;
         private Animator _animator;
+        private Target _questTarget;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -42,6 +43,7 @@ namespace Client
             _patrolPointDetector = GetComponentInChildren<EnemyPatrolPointDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _questTarget = GetComponent<Target>();
         }
 
         private void Start()
@@ -140,6 +142,7 @@ namespace Client
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 OnDeath?.Invoke();
+                _questTarget.Die();
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }

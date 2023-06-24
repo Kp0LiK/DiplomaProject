@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be355d019cfe3bd4ca4dfaf050fdfc67, type: 3}
+  m_Name: Collect Mushrooms
+  m_EditorClassIdentifier: 
+  Information:
+    Name: Room for Shrooms
+    Icon: {fileID: 21300000, guid: a92c0687f473b4427ba6de7fd7cc9bff, type: 3}
+    Description: Find 10 mushrooms!
+  Reward:
+    Money: 70
+  Goals:
+  - {fileID: 2449938380803833463}
+--- !u!114 &2449938380803833463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9446dc9274518146884b252b5c83d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RequiredAmount: 10
+  GoalCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  _collectible: Mushroom

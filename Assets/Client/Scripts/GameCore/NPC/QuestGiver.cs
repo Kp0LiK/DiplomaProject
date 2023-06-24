@@ -23,6 +23,10 @@ public class QuestGiver : NPC
 
     protected void GiveQuest()
     {
-        OnQuestGiven?.Invoke(quest);
+        if (quest)
+        {
+            OnQuestGiven?.Invoke(quest);
+            quest = null;
+        }
     }
 }

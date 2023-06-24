@@ -269,6 +269,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.49, z: 0}
+--- !u!114 &4335104760513030808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2241846295174814359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb168a6ef0c24e40824a204cdab997d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Golem
 --- !u!114 &4608654214291150857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,3 +318,16 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8958201755447887024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2241846295174814359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb168a6ef0c24e40824a204cdab997d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Golem

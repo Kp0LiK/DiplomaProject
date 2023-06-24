@@ -934,6 +934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1852346966368221959}
   - component: {fileID: 1852346966377427119}
+  - component: {fileID: -896776561311862450}
   m_Layer: 0
   m_Name: GoldBoarPBR
   m_TagString: Untagged
@@ -978,6 +979,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &-896776561311862450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852346966367957931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb168a6ef0c24e40824a204cdab997d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Small Dragon
 --- !u!1 &1852346966367958201
 GameObject:
   m_ObjectHideFlags: 0
