@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 85cf0b004bc4a654b9e501efcce47902, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.5784518, g: 0.61573404, b: 0.6087278, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1931,7 +1931,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065373285}
-  m_LocalRotation: {x: 0.06983015, y: -0.00000003565623, z: 0.000000002495973, w: 0.9975589}
+  m_LocalRotation: {x: 0.06983014, y: 0.000000034071782, z: -0.0000000023850595, w: 0.9975589}
   m_LocalPosition: {x: 0, y: 2.5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2179,7 +2179,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -2326,15 +2326,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5932022999226506809, guid: a2105070c89fb8e47b1b4ed2ec6daccc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.06983015
+      value: 0.06983014
       objectReference: {fileID: 0}
     - target: {fileID: 5932022999226506809, guid: a2105070c89fb8e47b1b4ed2ec6daccc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000018228524
+      value: 0.000000016644481
       objectReference: {fileID: 0}
     - target: {fileID: 5932022999226506809, guid: a2105070c89fb8e47b1b4ed2ec6daccc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000012760157
+      value: -0.000000001165131
       objectReference: {fileID: 0}
     - target: {fileID: 5932022999306353675, guid: a2105070c89fb8e47b1b4ed2ec6daccc, type: 3}
       propertyPath: m_Name
@@ -2690,7 +2690,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc65a59f8146c544ae95ec62c01fd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerViewer: {fileID: 0}
   _playerBehaviour: {fileID: 2666568696901976676}
+  _commandRecorder: {fileID: 0}
+  _losePanel: {fileID: 0}
+  _gameSession: {fileID: 0}
 --- !u!114 &1739372103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5310,6 +5314,7 @@ MonoBehaviour:
   _gravity: -9.18
   _smoothTime: 0.3
   _groundDistance: 1
+  _mouseLookSpeed: 0
   _groundCheck: {fileID: 1791190808}
   _groundMask:
     serializedVersion: 2
@@ -5341,6 +5346,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6df6c0d1070909a42bb94f85b7998518, type: 2}
   _aimCamera: {fileID: 1874005966}
   _aimTarget: {fileID: 7858481}
+  _lookXLimit: 45
 --- !u!82 &2666568696901976677
 AudioSource:
   m_ObjectHideFlags: 0
