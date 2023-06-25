@@ -1033,6 +1033,7 @@ GameObject:
   - component: {fileID: 3752509493451978299}
   - component: {fileID: 6669847140917090043}
   - component: {fileID: 3749284551397610384}
+  - component: {fileID: -2580975036949890171}
   m_Layer: 0
   m_Name: RedBoarPBR
   m_TagString: Untagged
@@ -1144,6 +1145,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: a6968f035f7e25a44b3ff004ada45efb, type: 2}
   _deathDuration: 2
+--- !u!114 &-2580975036949890171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215822912344148163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bb168a6ef0c24e40824a204cdab997d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Small Dragon
 --- !u!1 &5215822912344150547
 GameObject:
   m_ObjectHideFlags: 0
