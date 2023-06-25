@@ -13,6 +13,7 @@ namespace Client
     {
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
+        [SerializeField] private GoblinAudioData _audioData;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -21,6 +22,7 @@ namespace Client
         private EnemyAttackDetector _enemyAttackDetector;
         private PlayerBehaviour _target;
         private Animator _animator;
+        private AudioSource _audioSource;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -37,6 +39,7 @@ namespace Client
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -82,6 +85,7 @@ namespace Client
         private void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<EnemyFollowState>();
+            _audioSource.PlayOneShot(_audioData.OnDetect);
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
@@ -92,6 +96,7 @@ namespace Client
         private void OnSpiderAttackDetect()
         {
             SwitchState<SpiderAttackState>();
+            _audioSource.PlayOneShot(_audioData.OnHit);
         }
 
         private void OnAttackDetectExited()
@@ -120,6 +125,7 @@ namespace Client
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
+                _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
@@ -137,6 +143,14 @@ namespace Client
             if (ReferenceEquals(gameObject, null))
                 return;
             //todo DamageAnimation
+        }
+        
+        [Serializable]
+        public class GoblinAudioData
+        {
+            public AudioClip OnDetect;
+            public AudioClip OnHit;
+            public AudioClip OnDie;
         }
     }
 }

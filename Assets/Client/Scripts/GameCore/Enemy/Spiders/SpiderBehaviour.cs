@@ -6,6 +6,7 @@ using ModestTree;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Client
 {
@@ -15,6 +16,7 @@ namespace Client
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
         [SerializeField] private PatrolPoint[] _patrolPoints;
+        [SerializeField] private SpiderAudioData _audioData;
 
         public event Action<float> HealthChanged;
         public static Action OnDeath;
@@ -26,6 +28,7 @@ namespace Client
         private PlayerBehaviour _target;
         private Animator _animator;
         private Target _questTarget;
+        private AudioSource _audioSource;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -44,6 +47,7 @@ namespace Client
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _questTarget = GetComponent<Target>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -70,7 +74,7 @@ namespace Client
         {
             _playerDetector.Entered += OnEntered;
             _playerDetector.DetectExited += OnDetectExited;
-            
+
             _patrolPointDetector.Entered += OnPatrolPointEntered;
 
             _enemyAttackDetector.Entered += OnSpiderAttackDetect;
@@ -81,7 +85,7 @@ namespace Client
         {
             _playerDetector.Entered -= OnEntered;
             _playerDetector.DetectExited -= OnDetectExited;
-            
+
             _patrolPointDetector.Entered -= OnPatrolPointEntered;
 
             _enemyAttackDetector.Entered -= OnSpiderAttackDetect;
@@ -93,11 +97,13 @@ namespace Client
         private void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<EnemyFollowState>();
+            _audioSource.PlayOneShot(_audioData.OnDetect);
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
         {
             SwitchState<EnemyPatrolState>();
+            _audioSource.PlayOneShot(_audioData.OnUnDetect);
         }
 
         private void OnPatrolPointEntered(PatrolPoint patrolPoint)
@@ -113,6 +119,7 @@ namespace Client
         private void OnSpiderAttackDetect()
         {
             SwitchState<SpiderAttackState>();
+            _audioSource.PlayOneShot(_audioData.OnHit[Random.Range(0, 3)]);
         }
 
         private void OnAttackDetectExited()
@@ -136,20 +143,20 @@ namespace Client
         public void ApplyDamage(float damage)
         {
             Health -= damage;
-                
+
             if (Health <= 0)
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 OnDeath?.Invoke();
                 _questTarget.Die();
+                _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
-            
+
             if (_enemyData.IsDied)
             {
-                
             }
 
             HealthChanged?.Invoke(Health);
@@ -160,6 +167,15 @@ namespace Client
             if (ReferenceEquals(gameObject, null))
                 return;
             //todo DamageAnimation
+        }
+
+        [Serializable]
+        public class SpiderAudioData
+        {
+            public AudioClip OnDetect;
+            public AudioClip OnUnDetect;
+            public AudioClip[] OnHit;
+            public AudioClip OnDie;
         }
     }
 }
