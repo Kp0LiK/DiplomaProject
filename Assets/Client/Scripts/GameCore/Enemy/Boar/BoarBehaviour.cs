@@ -14,6 +14,7 @@ namespace Client
     {
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
+        [SerializeField] private BoarAudioData _audioData;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -22,6 +23,7 @@ namespace Client
         private EnemyAttackDetector _enemyAttackDetector;
         private PlayerBehaviour _target;
         private Animator _animator;
+        private AudioSource _audioSource;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -38,6 +40,7 @@ namespace Client
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -84,15 +87,18 @@ namespace Client
         private void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<BoarFollowState>();
+            _audioSource.PlayOneShot(_audioData.OnDetect);
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
         {
             SwitchState<EnemyIdleState>();
+            _audioSource.PlayOneShot(_audioData.OnUnDetect);
         }
 
         private void OnSpiderAttackDetect()
         {
+            _audioSource.PlayOneShot(_audioData.OnHit);
             SwitchState<BoarAttackState>();
             if (Health <= _enemyData.Health / 2)
             {
@@ -126,6 +132,7 @@ namespace Client
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
+                _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
@@ -143,6 +150,15 @@ namespace Client
             if (ReferenceEquals(gameObject, null))
                 return;
             //todo DamageAnimation
+        }
+        
+        [Serializable]
+        public class BoarAudioData
+        {
+            public AudioClip OnDetect;
+            public AudioClip OnUnDetect;
+            public AudioClip OnHit;
+            public AudioClip OnDie;
         }
     }
 }
