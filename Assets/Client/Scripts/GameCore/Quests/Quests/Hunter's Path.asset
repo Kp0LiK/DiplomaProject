@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be355d019cfe3bd4ca4dfaf050fdfc67, type: 3}
+  m_Name: Hunter's Path
+  m_EditorClassIdentifier: 
+  Information:
+    Name: Hunter's Path
+    Icon: {fileID: 21300000, guid: 3c17ecb30cfea446a96f5d18fc830bbc, type: 3}
+    Description: Slay some beasts.
+  Reward:
+    Money: 700
+  Goals:
+  - {fileID: 2185492714244243028}
+  - {fileID: 1039175039472898470}
+--- !u!114 &1039175039472898470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3ac68ec5cc5274aa7b1ab18759735a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RequiredAmount: 10
+  GoalCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  _target: Spider
+--- !u!114 &2185492714244243028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3ac68ec5cc5274aa7b1ab18759735a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RequiredAmount: 10
+  GoalCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  _target: Goblin
