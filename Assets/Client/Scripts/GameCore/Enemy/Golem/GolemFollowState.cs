@@ -37,7 +37,7 @@ namespace Client.Scripts.GameCore.Enemy.Golem
         public override void Stop()
         {
             Animation.SetFloat(Run, 0f);
-            _navMeshAgent.isStopped = true;
+            //_navMeshAgent.isStopped = true;
         }
 
         public override async Task Action()
