@@ -25,6 +25,7 @@ namespace Client
         private Animator _animator;
         private AudioSource _audioSource;
         private string _name;
+        private bool _isDead;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -127,12 +128,13 @@ namespace Client
         {
             Health -= damage;
 
-            if (Health <= 0)
+            if (Health <= 0 && !_isDead)
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 _audioSource.PlayOneShot(_audioData.OnDie);
                 BossHPViewer.OnBossDeath?.Invoke();
+                _isDead = true;
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }

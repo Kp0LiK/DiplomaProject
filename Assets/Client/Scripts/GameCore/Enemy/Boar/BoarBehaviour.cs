@@ -24,6 +24,8 @@ namespace Client
         private PlayerBehaviour _target;
         private Animator _animator;
         private AudioSource _audioSource;
+        private bool _isDead;
+        private Target _questTarget;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -41,6 +43,7 @@ namespace Client
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _audioSource = GetComponent<AudioSource>();
+            _questTarget = GetComponent<Target>();
         }
 
         private void Start()
@@ -128,11 +131,13 @@ namespace Client
         {
             Health -= damage;
 
-            if (Health <= 0)
+            if (Health <= 0 && !_isDead)
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
+                _questTarget.Die();
                 _audioSource.PlayOneShot(_audioData.OnDie);
+                _isDead = true;
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }

@@ -856,10 +856,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: d1c3ec692fa6c8644b60b2bca9d2646f, type: 2}
-  _deathDuration: 3
+  _deathDuration: 10
   _scale: {fileID: 1482275901442800173}
   _audioData:
     OnEnter: {fileID: 8300000, guid: 31a7cca4c6cc7ff42a0ec74852cfe6dc, type: 3}
+    OnTrigger: {fileID: 8300000, guid: 20d53ddc88ea28444b775caef21aaf21, type: 3}
     OnHit: {fileID: 8300000, guid: ab5d3105c075a744c857c854c368c3c9, type: 3}
     OnDie: {fileID: 8300000, guid: e37ec5224c3439348834ebec1a02e8c8, type: 3}
     OnTaunt: {fileID: 8300000, guid: 2b26bec256a5dc74f993fedf90355f76, type: 3}

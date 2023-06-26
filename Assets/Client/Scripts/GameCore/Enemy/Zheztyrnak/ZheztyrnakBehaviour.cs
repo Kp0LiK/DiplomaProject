@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Client.Scripts.Data.Enemy;
 using Client.Scripts.GameCore.Enemy.Golem;
 using DG.Tweening;
@@ -36,6 +37,7 @@ namespace Client
         private List<BaseEnemyState> _states;
 
         private int _attackCounter = 0;
+        private bool _isDie;
         public BaseEnemyState CurrentState { get; private set; }
         public PlayerBehaviour Target => _target;
 
@@ -93,10 +95,15 @@ namespace Client
 
         private void OnDestroy() => CurrentState.Stop();
 
-        private void OnEntered(PlayerBehaviour arg0)
+        private async void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<ZheztyrnakDistantAttackState>();
             BossHPViewer.OnBossEnter?.Invoke(_name);
+            
+            _audioSource.PlayOneShot(_audioData.OnTrigger);
+            Time.timeScale = 0.05f;
+            await Task.Delay(10000);
+            Time.timeScale = 1;
             _audioSource.PlayOneShot(_audioData.OnEnter);
         }
 
@@ -148,14 +155,15 @@ namespace Client
                 _scaledTwice = true;
             }
 
-            if (Health <= 0)
+            if (Health <= 0 && !_isDie)
             {
+                _isDie = true;
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 _audioSource.PlayOneShot(_audioData.OnDie);
                 BossHPViewer.OnBossDeath?.Invoke();
+                _scale.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 7f);
                 Destroy(gameObject, _deathDuration);
-                //_enemyData.IsDied = true;
             }
 
             if (_enemyData.IsDied)
@@ -177,6 +185,7 @@ namespace Client
         public class ZheztyrnakAudioData
         {
             public AudioClip OnEnter;
+            public AudioClip OnTrigger;
             public AudioClip OnHit;
             public AudioClip OnDie;
             public AudioClip OnTaunt;
