@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 5
   <StopDistance>k__BackingField: 4
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 500
   <Damage>k__BackingField: 10
   <IsDied>k__BackingField: 0

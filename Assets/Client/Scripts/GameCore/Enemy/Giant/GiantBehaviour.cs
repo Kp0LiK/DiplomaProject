@@ -55,7 +55,6 @@ namespace Client
             _states = new List<BaseEnemyState>
             {
                 new EnemyIdleState(_animator, this),
-                //new GiantIdleState(_animator, this),
                 new GiantFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData, this),
                 new GiantAttackState(_animator, this, _enemyAttackDetector, _enemyData, this),
                 new EnemyDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent)
