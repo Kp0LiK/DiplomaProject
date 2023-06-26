@@ -856,12 +856,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: d1c3ec692fa6c8644b60b2bca9d2646f, type: 2}
-  _deathDuration: 2
+  _deathDuration: 10
   _scale: {fileID: 1482275901442800173}
   _audioData:
     OnEnter: {fileID: 8300000, guid: 31a7cca4c6cc7ff42a0ec74852cfe6dc, type: 3}
+    OnTrigger: {fileID: 8300000, guid: 20d53ddc88ea28444b775caef21aaf21, type: 3}
     OnHit: {fileID: 8300000, guid: ab5d3105c075a744c857c854c368c3c9, type: 3}
-    OnDie: {fileID: 8300000, guid: e555cbf28bf35b54fa6a545b9f5d0b08, type: 3}
+    OnDie: {fileID: 8300000, guid: e37ec5224c3439348834ebec1a02e8c8, type: 3}
+    OnTaunt: {fileID: 8300000, guid: 2b26bec256a5dc74f993fedf90355f76, type: 3}
+    OnTaunt2: {fileID: 8300000, guid: 14126cc2dbea616409bdb2c670c24e2d, type: 3}
 --- !u!82 &2201538376503945070
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1241,8 +1244,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1752871972685357014}
-  - component: {fileID: 1752871972685357015}
   - component: {fileID: 1752871972685357016}
+  - component: {fileID: 872218680122345676}
   m_Layer: 0
   m_Name: DistanceDetector
   m_TagString: Untagged
@@ -1264,20 +1267,6 @@ Transform:
   m_Father: {fileID: 2295088379667079319}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1752871972685357015
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1752871972685357013}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 12
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1752871972685357016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1290,6 +1279,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ef0b1842bea534481211793f6b0a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &872218680122345676
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752871972685357013}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1934328032964440854
 GameObject:
   m_ObjectHideFlags: 0

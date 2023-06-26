@@ -45,6 +45,7 @@ namespace Client
         private float _health;
         private float _stamina;
         private float _mana;
+        private bool _isDie;
         protected float _smooth;
 
         protected bool _isGrounded;
@@ -329,18 +330,20 @@ namespace Client
             Animator.SetBool("isStanding", false);
         }
 
-        public async void ApplyDamage(float damage)
+        public void ApplyDamage(float damage)
         {
             Health -= damage;
 
-            if (Health <= 0)
+            if (Health <= 0 && !_isDie)
             {
+                _isDie = true;
                 Health = 0;
                 Animator.SetBool(IsDie, true);
                 _audioSource.PlayOneShot(_audioData.OnDie);
-                Destroy(_audioSource);
+                Destroy(gameObject, 5f);
             }
 
+            if (_isDie) return;
             _audioSource.PlayOneShot(_audioData.OnHit);
             HealthChanged?.Invoke(_health);
         }

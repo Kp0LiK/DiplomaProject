@@ -46,7 +46,7 @@ namespace Client.Scripts.GameCore.Enemy.Golem
         {
             while (true)
             {
-                await UniTask.Delay(10);
+                await UniTask.Delay(2000);
                 
                 if (ReferenceEquals(_playerDetector.PlayerTarget, null))
                     return;

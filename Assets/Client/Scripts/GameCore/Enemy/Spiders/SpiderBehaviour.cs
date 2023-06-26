@@ -29,6 +29,7 @@ namespace Client
         private Animator _animator;
         private Target _questTarget;
         private AudioSource _audioSource;
+        private bool _isDead;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -144,13 +145,14 @@ namespace Client
         {
             Health -= damage;
 
-            if (Health <= 0)
+            if (Health <= 0 && !_isDead)
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 OnDeath?.Invoke();
                 _questTarget.Die();
                 _audioSource.PlayOneShot(_audioData.OnDie);
+                _isDead = true;
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }

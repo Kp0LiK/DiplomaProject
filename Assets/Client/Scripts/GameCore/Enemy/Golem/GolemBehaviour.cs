@@ -24,6 +24,8 @@ namespace Client
         private PlayerBehaviour _target;
         private Animator _animator;
         private AudioSource _audioSource;
+        private string _name;
+        private bool _isDead;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -41,11 +43,13 @@ namespace Client
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _audioSource = GetComponent<AudioSource>();
+            _name = "Golem";
         }
 
         private void Start()
         {
             Health = _enemyData.Health;
+            BossHPViewer.OnHealthInitialized?.Invoke(Health);
             _enemyData.IsDied = false;
             Debug.Log(Health);
 
@@ -87,6 +91,7 @@ namespace Client
         private void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<GolemFollowState>();
+            BossHPViewer.OnBossEnter?.Invoke(_name);
             _audioSource.PlayOneShot(_audioData.OnDetect);
         }
 
@@ -123,11 +128,13 @@ namespace Client
         {
             Health -= damage;
                 
-            if (Health <= 0)
+            if (Health <= 0 && !_isDead)
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 _audioSource.PlayOneShot(_audioData.OnDie);
+                BossHPViewer.OnBossDeath?.Invoke();
+                _isDead = true;
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
@@ -138,6 +145,7 @@ namespace Client
             }
 
             HealthChanged?.Invoke(Health);
+            BossHPViewer.OnHealthChanged?.Invoke(Health);
         }
 
         private void SpiderDamageAnimation()
