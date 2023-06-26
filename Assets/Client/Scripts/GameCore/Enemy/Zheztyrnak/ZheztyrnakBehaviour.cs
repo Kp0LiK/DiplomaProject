@@ -17,6 +17,7 @@ namespace Client
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
         [SerializeField] private GameObject _scale;
+        [SerializeField] private ZheztyrnakAudioData _audioData;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -25,6 +26,7 @@ namespace Client
         private EnemyAttackDetector _enemyAttackDetector;
         private PlayerBehaviour _target;
         private Animator _animator;
+        private AudioSource _audioSource;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -43,6 +45,7 @@ namespace Client
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _audioSource = _audioSource.GetComponent<AudioSource>();
         }
 
         private void Start()
@@ -88,6 +91,7 @@ namespace Client
         private void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<ZheztyrnakDistantAttackState>();
+            _audioSource.PlayOneShot(_audioData.OnEnter);
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
@@ -98,6 +102,7 @@ namespace Client
         private void OnSpiderAttackDetect()
         {
             SwitchState<ZheztyrnakAttackState>();
+            _audioSource.PlayOneShot(_audioData.OnHit);
             _attackCounter++;
         }
 
@@ -137,6 +142,7 @@ namespace Client
             {
                 Health = 0;
                 SwitchState<EnemyDeathState>();
+                _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
@@ -153,6 +159,14 @@ namespace Client
             if (ReferenceEquals(gameObject, null))
                 return;
             //todo DamageAnimation
+        }
+        
+        [Serializable]
+        public class ZheztyrnakAudioData
+        {
+            public AudioClip OnEnter;
+            public AudioClip OnHit;
+            public AudioClip OnDie;
         }
     }
 }

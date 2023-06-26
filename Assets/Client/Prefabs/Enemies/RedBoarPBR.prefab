@@ -1145,6 +1145,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: a6968f035f7e25a44b3ff004ada45efb, type: 2}
   _deathDuration: 2
+  _audioData:
+    OnDetect: {fileID: 8300000, guid: bc42cc40baf115542bf637588024ccab, type: 3}
+    OnUnDetect: {fileID: 8300000, guid: a2606b4ca2109c342bd8143ac324990a, type: 3}
+    OnHit: {fileID: 8300000, guid: ac5bef77ab528f64ab153b0f9f53adc5, type: 3}
+    OnDie: {fileID: 8300000, guid: def34691644250f459d072b17c28090a, type: 3}
 --- !u!114 &-2580975036949890171
 MonoBehaviour:
   m_ObjectHideFlags: 0
