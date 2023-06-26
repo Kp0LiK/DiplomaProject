@@ -27,6 +27,9 @@ namespace Client
         private PlayerBehaviour _target;
         private Animator _animator;
         private AudioSource _audioSource;
+        private string _name;
+        private bool _scaledOnce;
+        private bool _scaledTwice;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -45,12 +48,14 @@ namespace Client
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _audioSource = _audioSource.GetComponent<AudioSource>();
+            _audioSource = GetComponent<AudioSource>();
+            _name = "Zheztyrnak";
         }
 
         private void Start()
         {
             Health = _enemyData.Health;
+            BossHPViewer.OnHealthInitialized?.Invoke(Health);
             _enemyData.IsDied = false;
 
             _states = new List<BaseEnemyState>
@@ -91,6 +96,7 @@ namespace Client
         private void OnEntered(PlayerBehaviour arg0)
         {
             SwitchState<ZheztyrnakDistantAttackState>();
+            BossHPViewer.OnBossEnter?.Invoke(_name);
             _audioSource.PlayOneShot(_audioData.OnEnter);
         }
 
@@ -128,14 +134,18 @@ namespace Client
         {
             Health -= damage;
 
-            if (Health <= 70f)
+            if (Health <= 70f && !_scaledOnce)
             {
                 _scale.transform.DOScale(new Vector3(2f, 2f, 2f), 3f);
+                _audioSource.PlayOneShot(_audioData.OnTaunt);
+                _scaledOnce = true;
             }
 
-            if (Health <= _enemyData.Health / 2f)
+            if (Health <= _enemyData.Health / 2f && !_scaledTwice)
             {
                 _scale.transform.DOScale(new Vector3(2.5f, 2.5f, 2.5f), 3f);
+                _audioSource.PlayOneShot(_audioData.OnTaunt2);
+                _scaledTwice = true;
             }
 
             if (Health <= 0)
@@ -143,6 +153,7 @@ namespace Client
                 Health = 0;
                 SwitchState<EnemyDeathState>();
                 _audioSource.PlayOneShot(_audioData.OnDie);
+                BossHPViewer.OnBossDeath?.Invoke();
                 Destroy(gameObject, _deathDuration);
                 //_enemyData.IsDied = true;
             }
@@ -152,6 +163,7 @@ namespace Client
             }
 
             HealthChanged?.Invoke(Health);
+            BossHPViewer.OnHealthChanged?.Invoke(Health);
         }
 
         private void SpiderDamageAnimation()
@@ -167,6 +179,8 @@ namespace Client
             public AudioClip OnEnter;
             public AudioClip OnHit;
             public AudioClip OnDie;
+            public AudioClip OnTaunt;
+            public AudioClip OnTaunt2;
         }
     }
 }

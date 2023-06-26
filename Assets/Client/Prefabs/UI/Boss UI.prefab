@@ -120,6 +120,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6694232164211149352}
+  - component: {fileID: 4169886655788386375}
+  - component: {fileID: 2185124484679239561}
   m_Layer: 5
   m_Name: Boss UI
   m_TagString: Untagged
@@ -148,6 +150,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4169886655788386375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703754808901376013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f41a0973d8e2d48a3d9516fed1c0aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &2185124484679239561
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703754808901376013}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2833781099866178194
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,8 +208,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22, y: 435}
-  m_SizeDelta: {x: 989.9592, y: 215.7565}
+  m_AnchoredPosition: {x: 22, y: 465.2163}
+  m_SizeDelta: {x: 989.9592, y: 155.3238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6373327608323219020
 CanvasRenderer:
@@ -215,7 +241,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 30600461d5c22f641bf3b384d0ca6ca1, type: 3}
-    m_FontSize: 110
+    m_FontSize: 90
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -338,8 +364,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.001, y: 338.92358}
-  m_SizeDelta: {x: 895.8804, y: 42.1695}
+  m_AnchoredPosition: {x: 22.001, y: 390.0475}
+  m_SizeDelta: {x: 895.8804, y: 42.3642}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9069939380619133153
 MonoBehaviour:
@@ -380,7 +406,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 8543073802703507416}
   m_FillRect: {fileID: 6844727106162668837}
   m_HandleRect: {fileID: 691568043649768490}
