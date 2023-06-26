@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -19,11 +20,11 @@ public class SceneLoader : MonoBehaviour
         await _image.DOFade(0, 0.5f).AsyncWaitForCompletion();
     }
 
-    public async void LoadSceneAsync(string scene)
+    public async Task LoadSceneAsync(string scene)
     {
         _canvas.sortingOrder = 10;
         await _image.DOFade(1, 0.5f).AsyncWaitForCompletion();
-        await SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
+        await SceneManager.LoadSceneAsync(scene);
         await _image.DOFade(0, 0.5f).AsyncWaitForCompletion();
         _canvas.sortingOrder = 0;
     }

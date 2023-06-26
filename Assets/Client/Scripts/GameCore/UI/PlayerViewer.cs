@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,10 +14,12 @@ namespace Client
         [SerializeField] private Slider _manaViewer;
         
         [SerializeField] private Canvas _inGameMenu;
+        [SerializeField] private Canvas _inGameLose;
 
         private PlayerBehaviour _playerBehaviour;
         private CommandRecorder _commandRecorder;
-        private BaseCommand _inGameMenuCommand;
+        public BaseCommand _inGameMenuCommand;
+        public BaseCommand _inGameLoseCommand;
 
 
         [Inject]
@@ -29,6 +32,7 @@ namespace Client
         private void Awake()
         {
             _inGameMenuCommand = new InGameMenuCommand(_inGameMenu, GetComponent<Canvas>());
+            _inGameLoseCommand = new InGameMenuCommand(_inGameLose, GetComponent<Canvas>());
         }
 
         private void Update()
@@ -53,13 +57,15 @@ namespace Client
             _playerBehaviour.ManaChanged -= OnManaChanged;
         }
 
-        private void OnHealthChanged(float health)
+        private async void OnHealthChanged(float health)
         {
             _healthViewer.DOValue(health, 0.5f);
-            // if (health <= 0)
-            // {
-            //     _fillHealthImage.DOFade(0, 0.5f);
-            // }
+            if (health <= 0)
+            {
+                await Task.Delay(4500);
+                _playerBehaviour.gameObject.SetActive(false);
+                OnLoseButton();
+            }
         }
 
         private void OnStaminaChanged(float energy)
@@ -81,6 +87,7 @@ namespace Client
         }
         
         private void OnPauseButton() => _commandRecorder.Record(_inGameMenuCommand);
+        private void OnLoseButton() => _commandRecorder.Record(_inGameLoseCommand);
 
     }
 }

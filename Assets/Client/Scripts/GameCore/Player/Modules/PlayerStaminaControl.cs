@@ -57,7 +57,7 @@ namespace Client
         {
             if (value < 100)
             {
-                _healthRoutine = StartCoroutine(HealthRestore(value));
+               // _healthRoutine = StartCoroutine(HealthRestore(value));
             }
             else if (value >= 100)
             {
