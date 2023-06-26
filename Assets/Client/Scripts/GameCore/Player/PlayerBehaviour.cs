@@ -329,7 +329,7 @@ namespace Client
             Animator.SetBool("isStanding", false);
         }
 
-        public void ApplyDamage(float damage)
+        public async void ApplyDamage(float damage)
         {
             Health -= damage;
 
@@ -338,7 +338,7 @@ namespace Client
                 Health = 0;
                 Animator.SetBool(IsDie, true);
                 _audioSource.PlayOneShot(_audioData.OnDie);
-                Destroy(gameObject, 5);
+                Destroy(_audioSource);
             }
 
             _audioSource.PlayOneShot(_audioData.OnHit);

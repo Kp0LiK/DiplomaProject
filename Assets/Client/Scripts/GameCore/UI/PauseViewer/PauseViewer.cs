@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -16,9 +17,14 @@ namespace Client
         [SerializeField, BoxGroup("Buttons")] private Button _exitYesButton;
         [SerializeField, BoxGroup("Buttons")] private Button _exitNoButton;
 
-        [SerializeField, BoxGroup("Transform")] private Transform _settingButtonTransform;
-        [SerializeField, BoxGroup("Transform")] private Transform _helpButtonTransform;
-        [SerializeField, BoxGroup("Transform")] private Transform _exitButtonTransform;
+        [SerializeField, BoxGroup("Transform")]
+        private Transform _settingButtonTransform;
+
+        [SerializeField, BoxGroup("Transform")]
+        private Transform _helpButtonTransform;
+
+        [SerializeField, BoxGroup("Transform")]
+        private Transform _exitButtonTransform;
 
         [SerializeField, BoxGroup("Panels")] private GameObject _settingPanel;
         [SerializeField, BoxGroup("Panels")] private GameObject _helpPanel;
@@ -27,7 +33,7 @@ namespace Client
         private CommandRecorder _commandRecorder;
         private GameSession _gameSession;
         private SceneLoader _sceneLoader;
-        
+
         private const float AnimationDuration = 0.3f;
         private bool _isAnimating = false;
 
@@ -41,13 +47,14 @@ namespace Client
 
         private void Start() => gameObject.SetActive(false);
 
+
         private void OnEnable()
         {
             _continueButton.onClick.AddListener(OnContinueButton);
             _settingButton.onClick.AddListener(OnSettingButton);
             _helpButton.onClick.AddListener(OnHelpButton);
             _exitMenuButton.onClick.AddListener(OnMainMenuButton);
-            
+
             _exitYesButton.onClick.AddListener(OnExitYesButton);
             _exitNoButton.onClick.AddListener(OnExitNoButton);
         }
@@ -58,7 +65,7 @@ namespace Client
             _settingButton.onClick.RemoveListener(OnSettingButton);
             _helpButton.onClick.RemoveListener(OnHelpButton);
             _exitMenuButton.onClick.RemoveListener(OnMainMenuButton);
-            
+
             _exitYesButton.onClick.RemoveListener(OnExitYesButton);
             _exitNoButton.onClick.RemoveListener(OnExitNoButton);
         }
@@ -85,15 +92,15 @@ namespace Client
         {
             if (_isAnimating)
                 return;
-            
+
             _isAnimating = true;
-            
+
             float newPivotX = 0f;
             float oldPivotX = 0.5f;
             SetButtonPivotX(_settingButtonTransform, newPivotX);
             SetButtonPivotX(_helpButtonTransform, oldPivotX);
             SetButtonPivotX(_exitButtonTransform, oldPivotX);
-            
+
             StartCoroutine(AnimateButtons(_settingButtonTransform, new Vector3(1.2f, 1.2f, 1f)));
             StartCoroutine(AnimateButtons(_helpButtonTransform, new Vector3(1f, 1f, 1f)));
             StartCoroutine(AnimateButtons(_exitButtonTransform, new Vector3(1f, 1f, 1f)));
@@ -107,15 +114,15 @@ namespace Client
         {
             if (_isAnimating)
                 return;
-            
+
             _isAnimating = true;
-            
+
             float newPivotX = 0f;
             float oldPivotX = 0.5f;
             SetButtonPivotX(_helpButtonTransform, newPivotX);
             SetButtonPivotX(_exitButtonTransform, oldPivotX);
             SetButtonPivotX(_settingButtonTransform, oldPivotX);
-            
+
             StartCoroutine(AnimateButtons(_helpButtonTransform, new Vector3(1.2f, 1.2f, 1f)));
             StartCoroutine(AnimateButtons(_settingButtonTransform, new Vector3(1f, 1f, 1f)));
             StartCoroutine(AnimateButtons(_exitButtonTransform, new Vector3(1f, 1f, 1f)));
@@ -129,9 +136,9 @@ namespace Client
         {
             if (_isAnimating)
                 return;
-            
+
             _isAnimating = true;
-            
+
             float newPivotX = 0f;
             float oldPivotX = 0.5f;
             SetButtonPivotX(_exitButtonTransform, newPivotX);
@@ -159,7 +166,7 @@ namespace Client
             _settingPanel.gameObject.SetActive(false);
             _helpPanel.gameObject.SetActive(false);
         }
-        
+
         private IEnumerator AnimateButtons(Transform buttonTransform, Vector3 targetScale)
         {
             Vector3 initialScale = buttonTransform.localScale;
@@ -170,19 +177,19 @@ namespace Client
             {
                 float t = elapsedTime / animationTime;
                 Vector3 newScale = Vector3.Lerp(initialScale, targetScale, t);
-                
+
                 buttonTransform.localScale = newScale;
-                
+
                 elapsedTime += Time.unscaledDeltaTime;
 
                 yield return null;
             }
-            
+
             buttonTransform.localScale = targetScale;
 
             _isAnimating = false;
         }
-        
+
         private void SetButtonPivotX(Transform buttonTransform, float pivotX)
         {
             RectTransform buttonRectTransform = buttonTransform.GetComponent<RectTransform>();
