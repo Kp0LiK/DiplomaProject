@@ -89,6 +89,7 @@ namespace Client
         {
             SwitchState<EnemyFollowState>();
             _audioSource.PlayOneShot(_audioData.OnDetect);
+            PlayerBehaviour.OnEncounter?.Invoke();
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)

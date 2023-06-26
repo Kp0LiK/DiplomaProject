@@ -4041,9 +4041,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 3243370145809135798, guid: 3f4d42d10c9e5c94ea91c6febbbedd7e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3243370146068902914, guid: 3f4d42d10c9e5c94ea91c6febbbedd7e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -290.4478
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f4d42d10c9e5c94ea91c6febbbedd7e, type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Collect Wood
   m_EditorClassIdentifier: 
   Information:
-    Name: Lumberjack's Struggle
+    Name: Lumberjack
     Icon: {fileID: 21300000, guid: 89ed2057ad8c34694b37f215a7f8484c, type: 3}
     Description: Collect 5 wood.
   Reward:

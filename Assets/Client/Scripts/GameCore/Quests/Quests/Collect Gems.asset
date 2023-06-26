@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Collect Gems
   m_EditorClassIdentifier: 
   Information:
-    Name: Treasure Hunting
+    Name: Treasure Hunt
     Icon: {fileID: 21300000, guid: 6283e42aeda234c33a78c0dae5a3fe11, type: 3}
     Description: Collect 10 gems.
   Reward:

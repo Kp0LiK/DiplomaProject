@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Client;
 using UnityEngine;
 
 public class QuestGiver : NPC
@@ -26,6 +27,7 @@ public class QuestGiver : NPC
         if (quest)
         {
             OnQuestGiven?.Invoke(quest);
+            PlayerBehaviour.OnQuestAccept?.Invoke();
             quest = null;
         }
     }

@@ -91,6 +91,7 @@ namespace Client
         {
             SwitchState<BoarFollowState>();
             _audioSource.PlayOneShot(_audioData.OnDetect);
+            PlayerBehaviour.OnEncounter?.Invoke();
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)

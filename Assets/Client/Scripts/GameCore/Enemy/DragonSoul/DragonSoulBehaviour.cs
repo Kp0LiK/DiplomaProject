@@ -14,7 +14,7 @@ namespace Client
     {
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
-        [SerializeField] private BoarAudioData _audioData;
+        [SerializeField] private DragonSoulAudioData _audioData;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -94,8 +94,11 @@ namespace Client
             if (Health <= _enemyData.Health / 2)
             {
                 SwitchState<DragonSoulFlyState>();
+                _audioSource.PlayOneShot(_audioData.OnFly);
             }
             _audioSource.PlayOneShot(_audioData.OnDetect);
+            
+            PlayerBehaviour.OnEncounter?.Invoke();
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
@@ -119,6 +122,7 @@ namespace Client
             SwitchState<DragonSoulFollowState>();
             if (Health <= _enemyData.Health / 2)
             {
+                _audioSource.PlayOneShot(_audioData.OnFly);
                 SwitchState<DragonSoulFlyState>();
             }
         }
@@ -167,11 +171,12 @@ namespace Client
         }
         
         [Serializable]
-        public class BoarAudioData
+        public class DragonSoulAudioData
         {
             public AudioClip OnDetect;
             public AudioClip OnUnDetect;
             public AudioClip OnHit;
+            public AudioClip OnFly;
             public AudioClip OnDie;
         }
     }

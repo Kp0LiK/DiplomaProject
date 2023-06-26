@@ -2147,11 +2147,6 @@ MonoBehaviour:
     OnCombo1: {fileID: 8300000, guid: cf00a2164269ab24e8cb5d12abed1bcb, type: 3}
     OnCombo2: {fileID: 8300000, guid: e4f329d9fe39e9846b4b0efbbf870e3b, type: 3}
     OnCombo3: {fileID: 8300000, guid: bd8394075807e5d4f83c1803dc13c1cd, type: 3}
-    OnDetect: {fileID: 0}
-    OnUnDetect: {fileID: 0}
-    OnMove: {fileID: 0}
-    OnHeal: {fileID: 0}
-    OnCast: {fileID: 0}
     OnDie: {fileID: 8300000, guid: 45493f8f6522ed44cbf82039ba9ce2b4, type: 3}
     OnHit: {fileID: 8300000, guid: 5c7e95a81c44f0c44b22f1b187c3c806, type: 3}
     OnSwordDraw: {fileID: 8300000, guid: 4ca0688e4564b884b8323a0225da6398, type: 3}
@@ -2159,6 +2154,21 @@ MonoBehaviour:
     OnDodge: {fileID: 8300000, guid: 452cbab8741da334492867a1835853f9, type: 3}
     OnAim: {fileID: 8300000, guid: 95e5b259986db614cb0951ab303f5108, type: 3}
     OnStaminaRecovery: {fileID: 8300000, guid: e92695e65889f5346a34e7f122ecd5ec, type: 3}
+    OnEncounter:
+    - {fileID: 8300000, guid: ebd4145c7a1a14b418809ecd5a5f682e, type: 3}
+    - {fileID: 8300000, guid: 17fd26caceaa13f48b0cd86dfe1887c7, type: 3}
+    - {fileID: 8300000, guid: e705f66357328a84880e5fcb5064e5ba, type: 3}
+    OnQuestAccept:
+    - {fileID: 8300000, guid: 2f7a0ce4470528849ac635ba7782baa9, type: 3}
+    - {fileID: 8300000, guid: b5cb8320385a2d94c9b31c9d042def3a, type: 3}
+    - {fileID: 8300000, guid: 24461bb0acdb9704ca5d9a0edeadc000, type: 3}
+    - {fileID: 8300000, guid: 780b03b2bd059934eb58e629bba8861f, type: 3}
+    - {fileID: 8300000, guid: d2faa7e648ab1714f979deeef44a86b2, type: 3}
+    ManySpiders: {fileID: 8300000, guid: 59d7da4e63bdd4c4c93fa8aa909a4a2a, type: 3}
+    ConfusingRoad: {fileID: 8300000, guid: 6e283b7f45aaea241bbb636893e21315, type: 3}
+    Goblins: {fileID: 8300000, guid: 10de2cb652b064b49a8bc5d5cdfc3ac3, type: 3}
+    BigDragon: {fileID: 8300000, guid: 76ac0646a88d15b4883e29f9924d72ac, type: 3}
+    Guardian: {fileID: 8300000, guid: d3a3636c808e3f64b8e286753464aaa4, type: 3}
   _mainCamera: {fileID: 0}
   _bow: {fileID: 988142432483721396}
   _sword: {fileID: 8146904284660245926}

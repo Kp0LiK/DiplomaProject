@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Client.Scripts.Data.Player;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Client
 {
@@ -143,6 +144,15 @@ namespace Client
         public Action<int> ExecuteComboSound;
         public Action<bool> ExecuteStaminaRecoveryClip;
 
+        public static Action OnEncounter;
+        public static Action OnQuestAccept;
+
+        public static Action OnManySpiders;
+        public static Action OnGoblins;
+        public static Action OnConfusingRoad;
+        public static Action OnBigDragon;
+        public static Action OnGuardian;
+
         public AudioSource AudioSource => _audioSource;
 
         private float _rotationX;
@@ -174,6 +184,15 @@ namespace Client
             QuestGiver.OnQuestGiven += AddQuest;
             _playerInventory.WeaponChanged += OnWeaponChanged;
             ExecuteComboSound += PlayComboSound;
+            
+            OnEncounter += PlayEncounterSound;
+            OnQuestAccept += PlayQuestAcceptSound;
+            
+            OnManySpiders += PlayManySpidersSound;
+            OnGoblins += PlayGoblinsSound;
+            OnConfusingRoad += PlayConfusingRoadSound;
+            OnBigDragon += PlayBigDragonSound;
+            OnGuardian += PlayGuardianSound;
         }
 
         protected virtual void OnDisable()
@@ -181,6 +200,15 @@ namespace Client
             QuestGiver.OnQuestGiven -= AddQuest;
             _playerInventory.WeaponChanged -= OnWeaponChanged;
             ExecuteComboSound -= PlayComboSound;
+            
+            OnEncounter -= PlayEncounterSound;
+            OnQuestAccept -= PlayQuestAcceptSound;
+            
+            OnManySpiders -= PlayManySpidersSound;
+            OnGoblins -= PlayGoblinsSound;
+            OnConfusingRoad -= PlayConfusingRoadSound;
+            OnBigDragon -= PlayBigDragonSound;
+            OnGuardian -= PlayGuardianSound;
         }
 
         protected virtual void Update()
@@ -532,17 +560,50 @@ namespace Client
             }
         }
 
+        private void PlayEncounterSound()
+        {
+            if (Random.Range(0, 100) <= 20)
+            {
+                _audioSource.PlayOneShot(_audioData.OnEncounter[Random.Range(0, 3)]);
+            }
+        }
+
+        private void PlayQuestAcceptSound()
+        {
+            _audioSource.PlayOneShot(_audioData.OnQuestAccept[Random.Range(0, 5)]);
+        }
+
+        private void PlayManySpidersSound()
+        {
+            _audioSource.PlayOneShot(_audioData.ManySpiders);
+        }
+
+        private void PlayGoblinsSound()
+        {
+            _audioSource.PlayOneShot(_audioData.Goblins);
+        }
+
+        private void PlayConfusingRoadSound()
+        {
+            _audioSource.PlayOneShot(_audioData.ConfusingRoad);
+        }
+
+        private void PlayBigDragonSound()
+        {
+            _audioSource.PlayOneShot(_audioData.BigDragon);
+        }
+
+        private void PlayGuardianSound()
+        {
+            _audioSource.PlayOneShot(_audioData.Guardian);
+        }
+
         [Serializable]
         public class PlayerAudioData
         {
             public AudioClip OnCombo1;
             public AudioClip OnCombo2;
             public AudioClip OnCombo3;
-            public AudioClip OnDetect;
-            public AudioClip OnUnDetect;
-            public AudioClip OnMove;
-            public AudioClip OnHeal;
-            public AudioClip OnCast;
             public AudioClip OnDie;
             public AudioClip OnHit;
             public AudioClip OnSwordDraw;
@@ -550,6 +611,13 @@ namespace Client
             public AudioClip OnDodge;
             public AudioClip OnAim;
             public AudioClip OnStaminaRecovery;
+            public AudioClip[] OnEncounter;
+            public AudioClip[] OnQuestAccept;
+            public AudioClip ManySpiders;
+            public AudioClip ConfusingRoad;
+            public AudioClip Goblins;
+            public AudioClip BigDragon;
+            public AudioClip Guardian;
         }
     }
 }

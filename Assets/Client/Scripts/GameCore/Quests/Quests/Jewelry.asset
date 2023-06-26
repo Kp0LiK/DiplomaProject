@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: Jewelry
   m_EditorClassIdentifier: 
   Information:
-    Name: Questionable Jewelry
+    Name: Jewelry..?
     Icon: {fileID: 21300000, guid: e79a89c643e05434fa4099c84af754ac, type: 3}
     Description: Collect jewelry parts.
   Reward:
