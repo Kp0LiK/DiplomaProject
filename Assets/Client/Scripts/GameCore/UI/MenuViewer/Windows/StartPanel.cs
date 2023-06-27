@@ -30,7 +30,7 @@ namespace Client
 
         private void OnYesButtonClick()
         {
-            _sceneLoader.LoadSceneAsync("GameScene");
+            _sceneLoader.LoadSceneAsync("FullGame");
         }
         
         private void OnNoButtonClick()
