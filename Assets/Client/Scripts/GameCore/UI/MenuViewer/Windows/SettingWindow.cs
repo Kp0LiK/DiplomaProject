@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -8,6 +9,9 @@ namespace Client
     {
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _effectSlider;
+        
+        [SerializeField] private StartPanel _startPanel;
+        [SerializeField] private ExitPanel _exitPanel;
 
         [SerializeField] private Button[] _buttons;
 
@@ -20,6 +24,12 @@ namespace Client
         {
             _effectSlider.value = 100f;
             _musicSlider.value = 100f;
+        }
+
+        private void Update()
+        {
+            _startPanel.gameObject.SetActive(false);
+            _exitPanel.gameObject.SetActive(false);
         }
 
 

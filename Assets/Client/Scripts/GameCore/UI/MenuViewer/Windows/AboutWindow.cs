@@ -1,19 +1,16 @@
+using System;
 using UnityEngine;
 
 namespace Client
 {
     public class AboutWindow : BaseWindow
     {
-        // Start is called before the first frame update
-        void Start()
+        [SerializeField] private StartPanel _startPanel;
+        [SerializeField] private ExitPanel _exitPanel;
+        private void Update()
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            _startPanel.gameObject.SetActive(false);
+            _exitPanel.gameObject.SetActive(false);
         }
     }
 }

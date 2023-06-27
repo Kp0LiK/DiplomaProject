@@ -10,13 +10,10 @@ namespace Client
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private Button[] _buttons;
-        private SceneLoader _sceneLoader;
 
-        [Inject]
-        public void Constructor(SceneLoader sceneLoader)
-        {
-            _sceneLoader = sceneLoader;
-        }
+        [SerializeField] private StartPanel _startPanel;
+        [SerializeField] private ExitPanel _exitPanel;
+        
 
         protected override void OnEnable()
         {
@@ -24,7 +21,7 @@ namespace Client
                 Manager.OpenWindow<SettingWindow>,
                 Manager.OpenWindow<AboutWindow>
             );
-            
+
             _startButton.onClick.AddListener(OnPressStartButton);
             _exitButton.onClick.AddListener(OnPressExitButton);
         }
@@ -46,12 +43,14 @@ namespace Client
 
         private void OnPressStartButton()
         {
-            _sceneLoader.LoadSceneAsync("TutorialScene");
+            _startPanel.gameObject.SetActive(true);
+            _exitPanel.gameObject.SetActive(false);
         }
 
-        private static void OnPressExitButton()
+        private void OnPressExitButton()
         {
-            Application.Quit();
+            _exitPanel.gameObject.SetActive(true);
+            _startPanel.gameObject.SetActive(false);
         }
     }
 }

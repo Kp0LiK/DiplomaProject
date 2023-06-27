@@ -1,18 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 
-public class StartPanel : MonoBehaviour
+namespace Client
 {
-    // Start is called before the first frame update
-    void Start()
+    public class StartPanel : MonoBehaviour
     {
+        [SerializeField] private Button _yesButton;
+        [SerializeField] private Button _noButton;
+
+        private SceneLoader _sceneLoader;
+
+        [Inject]
+        public void Constructor(SceneLoader sceneLoader)
+        {
+            _sceneLoader = sceneLoader;
+        }
+        private void OnEnable()
+        {
+            _yesButton.onClick.AddListener(OnYesButtonClick);
+            _noButton.onClick.AddListener(OnNoButtonClick);
+        }
+
+        private void OnDisable()
+        {
+            _yesButton.onClick.RemoveListener(OnYesButtonClick);
+            _noButton.onClick.RemoveListener(OnNoButtonClick);
+        }
+
+        private void OnYesButtonClick()
+        {
+            _sceneLoader.LoadSceneAsync("GameScene");
+        }
         
+        private void OnNoButtonClick()
+        {
+            _sceneLoader.LoadSceneAsync("TutorialScene");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

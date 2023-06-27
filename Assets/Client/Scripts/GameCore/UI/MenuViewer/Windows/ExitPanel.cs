@@ -1,18 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class EqitPanel : MonoBehaviour
+namespace Client
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ExitPanel : MonoBehaviour
     {
+        [SerializeField] private Button _yesButton;
+        [SerializeField] private Button _noButton;
+        private void OnEnable()
+        {
+            _yesButton.onClick.AddListener(OnYesButtonClick);
+            _noButton.onClick.AddListener(OnNoButtonClick);
+        }
+
+        private void OnDisable()
+        {
+            _yesButton.onClick.RemoveListener(OnYesButtonClick);
+            _noButton.onClick.RemoveListener(OnNoButtonClick);
+        }
+
+        private void OnYesButtonClick()
+        {
+            Application.Quit();
+        }
         
+        private void OnNoButtonClick()
+        {
+            gameObject.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
