@@ -54,6 +54,7 @@ namespace Client
         protected bool _isBow;
         protected bool _isSword;
         protected bool _isKobyz;
+        private bool _isBeingAttacked;
 
         protected Vector3 _velocity;
 
@@ -69,6 +70,12 @@ namespace Client
         public Animator Animator { get; set; }
 
         public bool IsStanding { get; set; }
+
+        public bool IsBeingAttacked
+        {
+            get => _isBeingAttacked;
+            set => _isBeingAttacked = value;
+        }
 
 
         public List<WeaponsData> Combo
@@ -167,9 +174,10 @@ namespace Client
 
             Physics.IgnoreCollision(_swordCollider, GetComponent<Collider>());
         }
-
         protected virtual void Start()
         {
+            _kobyz.gameObject.SetActive(false);
+            _kobyz2.gameObject.SetActive(false);
             _sword.gameObject.SetActive(false);
             _bow.gameObject.SetActive(false);
             _playerData.IsDied = false;
@@ -213,6 +221,7 @@ namespace Client
 
         protected virtual void Update()
         {
+            IsBeingAttacked = false;
             if (Input.GetKeyDown(KeyCode.E) && _currentNPC)
             {
                 if (_currentNPC.Interactable)
@@ -398,13 +407,13 @@ namespace Client
 
             var direction = transform.right * horizontal + transform.forward * vertical;
 
-            if (direction != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
+            if (direction != Vector3.zero && !Input.GetKey(KeyCode.LeftShift) || Stamina <= 0)
             {
                 Walk();
             }
             else
             {
-                if (direction != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
+                if (direction != Vector3.zero && Input.GetKey(KeyCode.LeftShift) && Stamina > 0)
                 {
                     Run();
                     if (Stamina >= 60f)
