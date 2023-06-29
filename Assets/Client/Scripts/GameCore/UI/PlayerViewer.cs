@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,10 +10,18 @@ namespace Client
 {
     public class PlayerViewer : MonoBehaviour
     {
-        [SerializeField] private Slider _healthViewer;
-        [SerializeField] private Slider _staminaViewer;
-        [SerializeField] private Slider _manaViewer;
+        [SerializeField, BoxGroup("Sliders")] private Slider _healthViewer;
+        [SerializeField, BoxGroup("Sliders")] private Slider _staminaViewer;
+        [SerializeField, BoxGroup("Sliders")] private Slider _manaViewer;
         
+        [SerializeField, BoxGroup("Images")] private Image _healthImage;
+        [SerializeField, BoxGroup("Images")] private Image _manaImage;
+        [SerializeField, BoxGroup("Images")] private Image _energyImage;
+        
+        [SerializeField, BoxGroup("Sprites")] private Sprite[] _healthSprites;
+        [SerializeField, BoxGroup("Sprites")] private Sprite[] _manaSprites;
+        [SerializeField, BoxGroup("Sprites")] private Sprite[] _energySprites;
+
         [SerializeField] private Canvas _inGameMenu;
         [SerializeField] private Canvas _inGameLose;
 
@@ -60,6 +69,9 @@ namespace Client
         private async void OnHealthChanged(float health)
         {
             _healthViewer.DOValue(health, 0.5f);
+            int spriteIndex = Mathf.Clamp((int)(health / 20f), 0, _healthSprites.Length - 1);
+            _healthImage.sprite = _healthSprites[spriteIndex];
+            
             if (health <= 0)
             {
                 await Task.Delay(4500);
@@ -71,6 +83,8 @@ namespace Client
         private void OnStaminaChanged(float energy)
         {
             _staminaViewer.DOValue(energy, 0.5f);
+            int spriteIndex = Mathf.Clamp((int)(energy / 20f), 0, _energySprites.Length - 1);
+            _energyImage.sprite = _energySprites[spriteIndex];
             if (energy <= 0)
             {
                 //todo HealSystem
@@ -80,6 +94,8 @@ namespace Client
         private void OnManaChanged(float mana)
         {
             _manaViewer.DOValue(mana, 0.5f);
+            int spriteIndex = Mathf.Clamp((int)(mana / 20f), 0, _manaSprites.Length - 1);
+            _manaImage.sprite = _manaSprites[spriteIndex];
             if (mana <= 0)
             {
                 //todo HealSystem

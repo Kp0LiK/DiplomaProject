@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Client
 {
-    [RequireComponent(typeof(PlayerBehaviour))]
-    public class PlayerStaminaControl : MonoBehaviour
+        [RequireComponent(typeof(PlayerBehaviour))]
+    public class PlayerModulesController : MonoBehaviour
     {
         [SerializeField] private GameObject _healBuff;
         [SerializeField] private GameObject _healBuffAura;
-        
+
         [SerializeField] private float _restoreDelay;
         [SerializeField] private float _restoreManaDelay;
         [SerializeField] private float _multiplayer;
         [SerializeField] private float _manaMultiplayer;
-        
+
         private PlayerBehaviour _player;
 
         private Coroutine _healthRoutine;
@@ -22,22 +22,18 @@ namespace Client
         private WaitForSeconds _delay;
         private WaitForSeconds _manaDelay;
 
-        private WaitForEndOfFrame _forEndOfFrame;
-
         private void Awake()
         {
-            _forEndOfFrame = new WaitForEndOfFrame();
             _delay = new WaitForSeconds(_restoreDelay);
             _manaDelay = new WaitForSeconds(_restoreManaDelay);
             _player = GetComponent<PlayerBehaviour>();
         }
-        
+
         private void Start()
         {
             _healBuff.SetActive(false);
             _healBuffAura.SetActive(false);
         }
-
 
         private void OnEnable()
         {
@@ -55,90 +51,72 @@ namespace Client
 
         private void OnHealthChange(float value)
         {
-            if (value < 100)
+            if (value < 100 && ReferenceEquals(_healthRoutine, null))
             {
-               // _healthRoutine = StartCoroutine(HealthRestore(value));
+                _healthRoutine = StartCoroutine(HealthRestore());
             }
             else if (value >= 100)
             {
+                StopCoroutine(_healthRoutine);
+                _healthRoutine = null;
                 _healBuff.SetActive(false);
                 _healBuffAura.SetActive(false);
             }
-            else
-            {
-                if (ReferenceEquals(_healthRoutine, null))
-                    return;
-                StopCoroutine(_healthRoutine);
-                _healthRoutine = null;
-            }
         }
+
         private void OnStaminaChange(float value)
         {
-            if (value < 100)
+            if (value < 100 && ReferenceEquals(_restoreRoutine, null))
             {
-                _restoreRoutine = StartCoroutine(StaminaRestore(value));
+                _restoreRoutine = StartCoroutine(StaminaRestore());
             }
-            else
+            else if (value >= 100)
             {
-                if (ReferenceEquals(_restoreRoutine, null))
-                    return;
-
                 StopCoroutine(_restoreRoutine);
                 _restoreRoutine = null;
             }
         }
-        
+
         private void OnManaChanged(float value)
         {
-            if (value < 100)
-                _restoreManaRoutine = StartCoroutine(ManaRestore(value));
-            else
+            if (value < 100 && ReferenceEquals(_restoreManaRoutine, null))
             {
-                if (ReferenceEquals(_restoreManaRoutine, null))
-                    return;
-
+                _restoreManaRoutine = StartCoroutine(ManaRestore());
+            }
+            else if (value >= 100)
+            {
                 StopCoroutine(_restoreManaRoutine);
                 _restoreManaRoutine = null;
             }
         }
 
-
-        private IEnumerator HealthRestore(float currentValue)
+        private IEnumerator HealthRestore()
         {
-            if (currentValue >= 100)
+            while (_player.Health < 100)
             {
-                StopCoroutine(_healthRoutine);
-                yield return _forEndOfFrame;
+                yield return _delay;
+                _healBuff.SetActive(true);
+                _healBuffAura.SetActive(true);
+                _player.Health += _multiplayer;
             }
-            yield return _delay;
-            _healBuff.SetActive(true);
-            _healBuffAura.SetActive(true);
-            _player.Health += _multiplayer;
         }
 
-        private IEnumerator StaminaRestore(float currentValue)
+        private IEnumerator StaminaRestore()
         {
-            if (currentValue >= 100)
+            while (_player.Stamina < 100)
             {
-                StopCoroutine(_restoreRoutine);
-                yield return _forEndOfFrame;
+                yield return _delay;
+                _player.Stamina += _multiplayer;
             }
-            
-            yield return _delay;
-            _player.Stamina += _multiplayer;
         }
-        
-        private IEnumerator ManaRestore(float currentValue)
+
+        private IEnumerator ManaRestore()
         {
-            if (currentValue >= 100)
+            while (_player.Mana < 100)
             {
-                StopCoroutine(_restoreManaRoutine);
-                yield return _forEndOfFrame;
+                yield return _manaDelay;
+                _player.Mana += _manaMultiplayer;
             }
-            
-            yield return _manaDelay;
-            _player.Mana += _manaMultiplayer;
         }
-        
     }
 }

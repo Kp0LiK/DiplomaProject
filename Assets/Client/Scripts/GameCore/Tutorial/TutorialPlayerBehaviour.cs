@@ -29,6 +29,14 @@ namespace Client
             TutorialSystem.SetPlayerInteraction -= SetInteraction;
         }
 
+        // protected override void Start()
+        // {
+        //     _kobyz.gameObject.SetActive(false);
+        //     _kobyz2.gameObject.SetActive(false);
+        //     _sword.gameObject.SetActive(false);
+        //     _bow.gameObject.SetActive(false);
+        // }
+
         protected override void Update()
         {
             if (Input.GetKeyDown(KeyCode.E) && _currentNPC && _canInteract)

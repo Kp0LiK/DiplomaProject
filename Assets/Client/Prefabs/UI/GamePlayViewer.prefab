@@ -761,6 +761,30 @@ MonoBehaviour:
   _healthViewer: {fileID: 757681718046801541}
   _staminaViewer: {fileID: 6505394474729342628}
   _manaViewer: {fileID: 6830005037585565181}
+  _healthImage: {fileID: 954348650851871535}
+  _manaImage: {fileID: 5103184402008404979}
+  _energyImage: {fileID: 3249120633728501674}
+  _healthSprites:
+  - {fileID: 21300000, guid: 6493c63082bac5a4ba7f1ba3b363a360, type: 3}
+  - {fileID: 21300000, guid: aceec520e65da6942b5f71c6225fc362, type: 3}
+  - {fileID: 21300000, guid: df568a5048013bb4baf62fcc2c343395, type: 3}
+  - {fileID: 21300000, guid: b4425138a6948334faaeef7004ade3e0, type: 3}
+  - {fileID: 21300000, guid: d87a506e772992a4587ec79c5f4de4fd, type: 3}
+  - {fileID: 21300000, guid: 9cdd2ac8a18c7f949a30624d9ccb1756, type: 3}
+  _manaSprites:
+  - {fileID: 21300000, guid: 798cbc2754f43e74bb5503393d3bcd78, type: 3}
+  - {fileID: 21300000, guid: 59b0cfafb7de3414b823378670e05169, type: 3}
+  - {fileID: 21300000, guid: aa7de929a6ba0404eacb121286e20504, type: 3}
+  - {fileID: 21300000, guid: aca5b6555bc888243b5395dd12f27ad0, type: 3}
+  - {fileID: 21300000, guid: 7416bea1f4e6dc44a810b3d2cad260ed, type: 3}
+  - {fileID: 21300000, guid: 68edc3d438388144b8d14ab55304002f, type: 3}
+  _energySprites:
+  - {fileID: 21300000, guid: 89ca0311e036f1547ac759af136e55a1, type: 3}
+  - {fileID: 21300000, guid: ec35699526bfedf4996b5368fe46555d, type: 3}
+  - {fileID: 21300000, guid: e5d5bd2d50e484940a542af0365b9d24, type: 3}
+  - {fileID: 21300000, guid: 1cc5f97cd799b2f4994d1347e35f790e, type: 3}
+  - {fileID: 21300000, guid: 5c726bf5c3e80ee4f9aba6f42af0c742, type: 3}
+  - {fileID: 21300000, guid: b4733e642d216004ab076a5d573f5985, type: 3}
   _inGameMenu: {fileID: 0}
   _inGameLose: {fileID: 0}
 --- !u!1 &757681718896466868
@@ -1761,7 +1785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.26179504, y: 4.0443}
+  m_AnchoredPosition: {x: -0.22065735, y: 2.123001}
   m_SizeDelta: {x: 417.915, y: 73.531}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &781375225167769335
@@ -2375,7 +2399,7 @@ GameObject:
   - component: {fileID: 270825409986696276}
   - component: {fileID: 954348650851871535}
   m_Layer: 5
-  m_Name: Image
+  m_Name: HealImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3939,6 +3963,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8114893247359071422, guid: 4c15e0dfc26b2634590b55d7114d9414, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000076293945
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c15e0dfc26b2634590b55d7114d9414, type: 3}
 --- !u!224 &8799532206558657645 stripped
@@ -4047,7 +4075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3243370146068902914, guid: 3f4d42d10c9e5c94ea91c6febbbedd7e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -290.4478
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f4d42d10c9e5c94ea91c6febbbedd7e, type: 3}
