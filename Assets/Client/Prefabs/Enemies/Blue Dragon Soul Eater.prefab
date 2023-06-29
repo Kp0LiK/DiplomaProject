@@ -1741,6 +1741,7 @@ MonoBehaviour:
     OnHit: {fileID: 8300000, guid: 79a3f0bb46cb0d34bbdd020e431b5a85, type: 3}
     OnFly: {fileID: 8300000, guid: 88fcaee125e7de048937d58b8a0d1cb7, type: 3}
     OnDie: {fileID: 8300000, guid: ec6dce9925c8a6249984624d4eebe657, type: 3}
+  _fireballPrefab: {fileID: -1311497529566448282, guid: cdc6072f584ba0f4b9f9e03bb8081312, type: 3}
 --- !u!195 &1768703200
 NavMeshAgent:
   m_ObjectHideFlags: 0

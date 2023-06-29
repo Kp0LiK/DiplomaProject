@@ -9,13 +9,13 @@ namespace Client
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private WeaponsData _weaponsData;
-        [SerializeField] private ParticleSystem _collisionPrefab;
-        [SerializeField] private AudioClip _collisionSound;
+        [SerializeField] protected WeaponsData _weaponsData;
+        [SerializeField] protected ParticleSystem _collisionPrefab;
+        [SerializeField] protected AudioClip _collisionSound;
 
         public Rigidbody Rigidbody => _rigidbody;
 
-        private void OnCollisionEnter(Collision other)
+        protected virtual void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.TryGetComponent(out IDamageable damageable))
             {

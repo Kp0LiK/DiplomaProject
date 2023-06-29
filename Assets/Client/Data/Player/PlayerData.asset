@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <WalkSpeed>k__BackingField: 6
   <RunSpeed>k__BackingField: 15
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 100000
   <Stamina>k__BackingField: 100
   <Mana>k__BackingField: 100
   <Damage>k__BackingField: 10

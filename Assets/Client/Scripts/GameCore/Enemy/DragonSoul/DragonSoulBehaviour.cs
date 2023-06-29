@@ -15,6 +15,7 @@ namespace Client
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
         [SerializeField] private DragonSoulAudioData _audioData;
+        [SerializeField] private EnemyProjectile _fireballPrefab;
 
         public event Action<float> HealthChanged;
         public float Health { get; private set; }
@@ -57,7 +58,7 @@ namespace Client
                 new DragonSoulFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
                 new DragonSoulFlyState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
                 new DragonSoulAttackState(_animator, this, _enemyAttackDetector, _enemyData, this),
-                new DragonSoulFlyAttackState(_animator, this, _enemyAttackDetector, _enemyData),
+                new DragonSoulFlyAttackState(_animator, this, _enemyAttackDetector, _enemyData, _fireballPrefab),
                 new EnemyDeathState(_animator, this, _playerDetector, _enemyAttackDetector, _navMeshAgent)
             };
 
