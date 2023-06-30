@@ -10,11 +10,11 @@ using UnityEngine.AI;
 namespace Client
 {
     [SelectionBase]
-    public class DragonSoulBehaviour : MonoBehaviour, IEnemySwitchState, IDamageable
+    public class DragonTerrorBehaviour : MonoBehaviour, IEnemySwitchState, IDamageable
     {
         [SerializeField, Required] private EnemyData _enemyData;
         [SerializeField] private float _deathDuration = 2f;
-        [SerializeField] private DragonSoulAudioData _audioData;
+        [SerializeField] private DragonTerrorAudioData _audioData;
         [SerializeField] private EnemyProjectile _fireballPrefab;
 
         public event Action<float> HealthChanged;
@@ -23,9 +23,7 @@ namespace Client
         private EnemyAttackDetector _enemyAttackDetector;
         private PlayerBehaviour _target;
         private Animator _animator;
-        private AudioSource _audioSource;
         private bool _isDead;
-        private Target _questTarget;
 
         private NavMeshAgent _navMeshAgent;
         private Rigidbody _rigidbody;
@@ -42,8 +40,6 @@ namespace Client
             _playerDetector = GetComponentInChildren<EnemyPlayerDetector>();
             _enemyAttackDetector = GetComponentInChildren<EnemyAttackDetector>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _audioSource = GetComponent<AudioSource>();
-            _questTarget = GetComponent<Target>();
         }
 
         private void Start()
@@ -56,9 +52,8 @@ namespace Client
                 new EnemyIdleState(_animator, this),
                 new DragonSoulFollowState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
                 new DragonSoulFlyState(_animator, this, _navMeshAgent, _playerDetector, _enemyData),
-                new DragonSoulAttackState(_animator, this, _enemyAttackDetector, _enemyData,
-                    this, () => Instantiate(_fireballPrefab),
-                    projectile => Destroy(projectile.gameObject, 2f)),
+                new DragonTerrorAttackState(_animator, this, _enemyAttackDetector, _enemyData,
+                    this),
                 new DragonSoulFlyAttackState(_animator, this, _enemyAttackDetector, _enemyData,
                     () => Instantiate(_fireballPrefab),
                     projectile => Destroy(projectile.gameObject, 2f)),
@@ -98,24 +93,24 @@ namespace Client
             if (Health <= _enemyData.Health / 2)
             {
                 SwitchState<DragonSoulFlyState>();
-                _audioSource.PlayOneShot(_audioData.OnFly);
+                //_audioSource.PlayOneShot(_audioData.OnFly);
             }
 
-            _audioSource.PlayOneShot(_audioData.OnDetect);
+            //_audioSource.PlayOneShot(_audioData.OnDetect);
 
-            PlayerBehaviour.OnEncounter?.Invoke();
+            //PlayerBehaviour.OnEncounter?.Invoke();
         }
 
         private void OnDetectExited(PlayerBehaviour arg0)
         {
             SwitchState<EnemyIdleState>();
-            _audioSource.PlayOneShot(_audioData.OnUnDetect);
+            //_audioSource.PlayOneShot(_audioData.OnUnDetect);
         }
 
         private void OnSpiderAttackDetect()
         {
-            _audioSource.PlayOneShot(_audioData.OnHit);
-            SwitchState<DragonSoulAttackState>();
+            //_audioSource.PlayOneShot(_audioData.OnHit);
+            SwitchState<DragonTerrorAttackState>();
             if (Health <= _enemyData.Health / 2)
             {
                 SwitchState<DragonSoulFlyAttackState>();
@@ -127,7 +122,7 @@ namespace Client
             SwitchState<DragonSoulFollowState>();
             if (Health <= _enemyData.Health / 2)
             {
-                _audioSource.PlayOneShot(_audioData.OnFly);
+                //_audioSource.PlayOneShot(_audioData.OnFly);
                 SwitchState<DragonSoulFlyState>();
             }
         }
@@ -159,8 +154,6 @@ namespace Client
                 _isDead = true;
 
                 SwitchState<EnemyDeathState>();
-                _questTarget.Die();
-                _audioSource.PlayOneShot(_audioData.OnDie);
                 Destroy(gameObject, _deathDuration);
                 _enemyData.IsDied = true;
             }
@@ -170,7 +163,7 @@ namespace Client
 
 
         [Serializable]
-        public class DragonSoulAudioData
+        public class DragonTerrorAudioData
         {
             public AudioClip OnDetect;
             public AudioClip OnUnDetect;

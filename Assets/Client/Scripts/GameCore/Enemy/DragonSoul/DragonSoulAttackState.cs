@@ -1,6 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using Client.Scripts.Data.Enemy;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Client
 {
@@ -10,16 +12,23 @@ namespace Client
         private readonly EnemyData _enemyData;
 
         private DragonSoulBehaviour _dragonSoulBehaviour;
+        private readonly Func<EnemyProjectile> _projectileFactory;
+        private readonly Action<EnemyProjectile> _projectileDestroyCallback;
         private static readonly int IsBasicAttack = Animator.StringToHash("IsBasicAttack");
         private static readonly int IsFireballAttack = Animator.StringToHash("IsFireballAttack");
 
+        private bool _fireballAttack;
+
         public DragonSoulAttackState(Animator animation, IEnemySwitchState enemySwitchState,
-            EnemyAttackDetector enemyAttackDetector, EnemyData enemyData, DragonSoulBehaviour dragonSoulBehaviour
+            EnemyAttackDetector enemyAttackDetector, EnemyData enemyData, DragonSoulBehaviour dragonSoulBehaviour,
+            Func<EnemyProjectile> projectileFactory, Action<EnemyProjectile> projectileDestroyCallback
         ) : base(animation, enemySwitchState)
         {
             _enemyAttackDetector = enemyAttackDetector;
             _enemyData = enemyData;
             _dragonSoulBehaviour = dragonSoulBehaviour;
+            _projectileFactory = projectileFactory;
+            _projectileDestroyCallback = projectileDestroyCallback;
         }
 
         public override void Start()
@@ -30,9 +39,11 @@ namespace Client
             {
                 case 0:
                     Animation.SetBool(IsBasicAttack, true);
+                    _fireballAttack = false;
                     break;
                 case 1:
                     Animation.SetBool(IsFireballAttack, true);
+                    _fireballAttack = true;
                     break;
             }
         }
@@ -45,9 +56,13 @@ namespace Client
 
         public override async Task Action()
         {
+            EnemyProjectile projectile = null;
             while (true)
             {
-                await Task.Delay(1300);
+                await Task.Delay(1000);
+                
+                Vector3 position = _enemyAttackDetector.transform.position;
+
 
                 if (_enemyData.IsDied)
                     return;
@@ -55,15 +70,26 @@ namespace Client
                 if (_enemyAttackDetector.enabled != true) continue;
                 if (!ReferenceEquals(_enemyAttackDetector.PlayerTarget, null))
                 {
-                    if (_enemyAttackDetector.PlayerTarget.gameObject.TryGetComponent
-                            (out PlayerBehaviour playerBehaviour) &&
-                        _enemyAttackDetector.PlayerTarget.IsStanding == false)
+                    if (_fireballAttack)
                     {
-                        _enemyAttackDetector.PlayerTarget.ApplyDamage(_enemyData.Damage);
-                        if (_dragonSoulBehaviour.Health <= _enemyData.Health / 1.5f)
+                        if (_enemyAttackDetector.PlayerTarget.gameObject.TryGetComponent<PlayerBehaviour>(out _)
+                            && _enemyAttackDetector.PlayerTarget.IsStanding == false)
                         {
+                            projectile = _projectileFactory.Invoke();
+                            projectile.transform.position = new Vector3(position.x, position.y + 2.8f, position.z +3f);
+                            projectile.transform.rotation = _enemyAttackDetector.transform.rotation;
                             _enemyAttackDetector.PlayerTarget.ApplyDamage(_enemyData.Damage * 2f);
                         }
+
+                        if (projectile != null)
+                        {
+                            projectile.Rigidbody.velocity = _enemyAttackDetector.transform.forward * 5f;
+                            _projectileDestroyCallback?.Invoke(projectile);
+                        }
+                    }
+                    else
+                    {
+                        _enemyAttackDetector.PlayerTarget.ApplyDamage(_enemyData.Damage);
                     }
                 }
                 else

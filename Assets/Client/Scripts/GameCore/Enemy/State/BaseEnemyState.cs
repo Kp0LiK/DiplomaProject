@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Client
 {
-    public abstract class BaseEnemyState: MonoBehaviour
+    public abstract class BaseEnemyState
     {
         protected readonly Animator Animation;
         public readonly IEnemySwitchState EnemySwitchState;

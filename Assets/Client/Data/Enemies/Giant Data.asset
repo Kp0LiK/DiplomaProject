@@ -15,5 +15,5 @@ MonoBehaviour:
   <Speed>k__BackingField: 3
   <StopDistance>k__BackingField: 2.2
   <Health>k__BackingField: 750
-  <Damage>k__BackingField: 5
+  <Damage>k__BackingField: 25
   <IsDied>k__BackingField: 0

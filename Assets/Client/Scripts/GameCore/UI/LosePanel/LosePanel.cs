@@ -41,7 +41,7 @@ namespace Client
         
         private void OnResetButton()
         {
-            Time.timeScale = 1;
+            _commandRecorder.Rewind();
             _sceneLoader.LoadSceneAsync("Menu");
         }
 

@@ -2,27 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Client;
+using Client.Scripts.Data.Enemy;
 using UnityEngine;
 
-public class EnemyProjectile : Projectile
+namespace Client
 {
-    protected override void OnCollisionEnter(Collision other)
+    public class EnemyProjectile : MonoBehaviour
     {
-        Instantiate(_collisionPrefab, transform.position, transform.rotation);
-        AudioSource.PlayClipAtPoint(_collisionSound, gameObject.transform.position);
-        Destroy(gameObject, 3);
+        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private EnemyData _projectileData;
+        [SerializeField] private ParticleSystem _collisionPrefab;
+        [SerializeField] private AudioClip _collisionSound;
 
-        Rigidbody.isKinematic = true;
-    }
+        public Rigidbody Rigidbody => _rigidbody;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.TryGetComponent(out PlayerBehaviour playerBehaviour))
+        private void OnCollisionEnter(Collision other)
         {
-            Debug.Log("Player hit!");
-            playerBehaviour.ApplyDamage(_weaponsData.Damage);
+            if (other.gameObject.TryGetComponent(out PlayerBehaviour player))
+            {
+                player.ApplyDamage(_projectileData.Damage);
+            }
+
             Instantiate(_collisionPrefab, transform.position, transform.rotation);
-            AudioSource.PlayClipAtPoint(_collisionSound, gameObject.transform.position);
+            AudioSource.PlayClipAtPoint(_collisionSound, transform.position);
             Destroy(gameObject);
         }
     }

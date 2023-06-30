@@ -11,8 +11,10 @@ namespace Client
 
         [SerializeField] private float _restoreDelay;
         [SerializeField] private float _restoreManaDelay;
+        [SerializeField] private float _restoreStaminaDelay;
         [SerializeField] private float _multiplayer;
         [SerializeField] private float _manaMultiplayer;
+        [SerializeField] private float _staminaMultiplayer;
 
         private PlayerBehaviour _player;
 
@@ -21,11 +23,13 @@ namespace Client
         private Coroutine _restoreManaRoutine;
         private WaitForSeconds _delay;
         private WaitForSeconds _manaDelay;
+        private WaitForSeconds _staminaDelay;
 
         private void Awake()
         {
             _delay = new WaitForSeconds(_restoreDelay);
             _manaDelay = new WaitForSeconds(_restoreManaDelay);
+            _staminaDelay = new WaitForSeconds(_restoreStaminaDelay);
             _player = GetComponent<PlayerBehaviour>();
         }
 
@@ -51,7 +55,7 @@ namespace Client
 
         private void OnHealthChange(float value)
         {
-            if (value < 100 && ReferenceEquals(_healthRoutine, null))
+            if (value < 50 && ReferenceEquals(_healthRoutine, null))
             {
                 _healthRoutine = StartCoroutine(HealthRestore());
             }
@@ -94,9 +98,11 @@ namespace Client
         {
             while (_player.Health < 100)
             {
-                yield return _delay;
                 _healBuff.SetActive(true);
                 _healBuffAura.SetActive(true);
+                yield return _delay;
+                _healBuff.SetActive(false);
+                _healBuffAura.SetActive(false);
                 _player.Health += _multiplayer;
             }
         }
@@ -105,8 +111,8 @@ namespace Client
         {
             while (_player.Stamina < 100)
             {
-                yield return _delay;
-                _player.Stamina += _multiplayer;
+                yield return _staminaDelay;
+                _player.Stamina += _staminaMultiplayer;
             }
         }
 

@@ -2095,7 +2095,6 @@ GameObject:
   - component: {fileID: 1463101403}
   - component: {fileID: 1463101404}
   - component: {fileID: -4605984031602851115}
-  - component: {fileID: 8990429779120645549}
   m_Layer: 3
   m_Name: PlayerForUnity
   m_TagString: Untagged
@@ -2261,10 +2260,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healBuff: {fileID: 1399491476172757213}
   _healBuffAura: {fileID: 5394012556395899613}
-  _restoreDelay: 7
-  _restoreManaDelay: 3
-  _multiplayer: 5
-  _manaMultiplayer: 20
+  _restoreDelay: 3
+  _restoreManaDelay: 1
+  _restoreStaminaDelay: 6
+  _multiplayer: 10
+  _manaMultiplayer: 10
+  _staminaMultiplayer: 20
 --- !u!114 &2120406180386048496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2413,20 +2414,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!136 &8990429779120645549
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666568697298789682}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2686669897643466235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,7 +2813,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4129658893633472601}
-  m_LocalRotation: {x: -0.00060229684, y: 0.013655162, z: 0.07192018, w: 0.9973167}
+  m_LocalRotation: {x: -0.0006022969, y: 0.013655162, z: 0.07192019, w: 0.9973167}
   m_LocalPosition: {x: 0.11168797, y: 0.0028061338, z: -0.09370968}
   m_LocalScale: {x: 0.99999964, y: 1, z: 0.9999997}
   m_Children:
